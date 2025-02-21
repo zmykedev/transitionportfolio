@@ -132,6 +132,53 @@ export default function App() {
     );
   };
 
+  function SmoothScrollWithLight() {
+    const containerRef = useRef(null);
+    const lightRef = useRef(null);
+
+    useEffect(() => {
+      // Instancia de Lenis para scroll suave
+      const lenis = new Lenis({
+        lerp: 0.1, // Suavidad del scroll
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+      requestAnimationFrame(raf);
+
+      return () => lenis.destroy();
+    }, []);
+
+    useEffect(() => {
+      const handleMouseMove = (event: MouseEvent) => {
+        if (lightRef.current) {
+          const light = lightRef.current as HTMLDivElement;
+          // Actualizar la posición directamente con CSS para evitar el retraso del estado
+          light.style.transform = `translate(${event.clientX - 80}px, ${event.clientY - 80}px)`;
+        }
+      };
+
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
+    return (
+      <div ref={containerRef} className="relative h-[200vh] bg-black">
+        {/* Efecto de luz */}
+        <div
+          ref={lightRef}
+          className="absolute w-40 h-40 bg-yellow-200 rounded-full opacity-50 pointer-events-none blur-3xl transition-transform duration-[50ms] ease-out"
+        />
+        <div className="text-white flex justify-center items-center h-screen">
+          <h1 className="text-4xl font-bold">Lenis + Light Effect</h1>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <main ref={container} className="relative h-[200vh] ">
       {/* Primera sección */}
@@ -208,6 +255,7 @@ export default function App() {
       </Section2>
       {/* Tercera sección */}
       <Section3 />
+      <SmoothScrollWithLight />
     </main>
   );
 }
