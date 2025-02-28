@@ -137,18 +137,12 @@ export default function App() {
     const lightRef = useRef(null);
 
     useEffect(() => {
-      // Instancia de Lenis para scroll suave
-      const lenis = new Lenis({
-        lerp: 0.1, // Suavidad del scroll
-        smoothWheel: true,
-      });
-
-      function raf(time: number) {
+      const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+      const raf = (time: number) => {
         lenis.raf(time);
         requestAnimationFrame(raf);
-      }
+      };
       requestAnimationFrame(raf);
-
       return () => lenis.destroy();
     }, []);
 
@@ -156,8 +150,27 @@ export default function App() {
       const handleMouseMove = (event: MouseEvent) => {
         if (lightRef.current) {
           const light = lightRef.current as HTMLDivElement;
-          // Actualizar la posición directamente con CSS para evitar el retraso del estado
           light.style.transform = `translate(${event.clientX - 80}px, ${event.clientY - 80}px)`;
+
+          // Actualizar opacidad de elementos reveladores
+          const revealElements = document.querySelectorAll(".light-reveal");
+          revealElements.forEach((element) => {
+            const el = element as HTMLElement;
+            const rect = el.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Calcular distancia al cursor
+            const distance = Math.hypot(
+              event.clientX - centerX,
+              event.clientY - centerY
+            );
+
+            // Ajustar opacidad basado en la proximidad
+            const maxDistance = 250;
+            const opacity = Math.max(0, 1 - distance / maxDistance);
+            el.style.opacity = opacity.toString();
+          });
         }
       };
 
@@ -166,15 +179,25 @@ export default function App() {
     }, []);
 
     return (
-      <div ref={containerRef} className="relative h-[200vh] bg-black">
-        {/* Efecto de luz */}
+      <div ref={containerRef} className="relative h-[100vh] bg-black">
         <div
           ref={lightRef}
           className="absolute w-40 h-40 bg-yellow-200 rounded-full opacity-50 pointer-events-none blur-3xl transition-transform duration-[50ms] ease-out"
         />
+        <span className="flex justify-center pt-40 light-reveal ">
+          How i made the light effect?
+        </span>
+        <div className="light-reveal absolute top-1/4 left-1/4 w-20 h-20 bg-red-500 rounded-full opacity-0 transition-opacity duration-300" />
+
         <div className="text-white flex justify-center items-center h-screen">
-          <h1 className="text-4xl font-bold">Lenis + Light Effect</h1>
+          <h1 className="text-4xl font-bold text-black hover:text-white">
+            Lenis + Light Effect
+          </h1>{" "}
+          <div className="light-reveal absolute top-1/2 left-3/4 w-20 h-20 bg-blue-500 rounded-full opacity-0 transition-opacity duration-300" />
         </div>
+
+        {/* Elementos que se revelan con la luz */}
+        <div className="light-reveal absolute bottom-1/4 right-1/4 w-20 h-20 bg-green-500 rounded-full opacity-0 transition-opacity duration-300" />
       </div>
     );
   }
