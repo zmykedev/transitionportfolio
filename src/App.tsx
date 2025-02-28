@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Section } from "./components/ui/section";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
