@@ -101,7 +101,7 @@ export default function App() {
         <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden w-full">
           <motion.div
             style={{ x }}
-            className="flex gap-8 px-8 py-12 overflow-x-auto snap-x snap-mandatory scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-300"
+            className="flex gap-8 px-8 py-12 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-300"
           >
             {projects.map((project) => (
               <div
