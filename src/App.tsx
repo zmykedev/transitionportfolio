@@ -319,7 +319,7 @@ export default function App() {
                 </motion.a>
 
                 <motion.a
-                  href="/cv.pdf"
+                  href="/src/assets/CVMaikolZapata.pdf"
                   download
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -330,7 +330,7 @@ export default function App() {
                 </motion.a>
 
                 <motion.a
-                  href="https://calendly.com/myke"
+                  href="https://calendly.com/zmaikol399"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
