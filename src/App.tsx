@@ -8,6 +8,7 @@ import { Typewriter } from "react-simple-typewriter";
 import { FileDown, Linkedin, Calendar } from "lucide-react";
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+  const isDesktop = useMediaQuery({ query: "(min-width: 769px)" });
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -365,7 +366,7 @@ export default function App() {
         </Section2>
         {/* Tercera sección */}
         <Section3 />
-        <SmoothScrollWithLight />
+        {isDesktop && <SmoothScrollWithLight />}
       </main>
     </>
   );
