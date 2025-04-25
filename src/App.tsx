@@ -5,13 +5,7 @@ import Lenis from "lenis";
 import { useMediaQuery } from "react-responsive";
 import { Typewriter } from "react-simple-typewriter";
 
-import {
-  FileDown,
-  Linkedin,
-  Calendar,
-  Phone,
-  ExternalLink,
-} from "lucide-react";
+import { FileDown, Linkedin, Calendar } from "lucide-react";
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -265,7 +259,6 @@ export default function App() {
                     words={[
                       "React Developer",
                       "Bug Killer",
-                      "Figma Component Creator",
                       "Tailwind CSS Dynamic",
                       "State Management Master",
                       "Framer Motion Lover",
@@ -289,23 +282,6 @@ export default function App() {
               </h1>
 
               <motion.div className="flex flex-wrap justify-center gap-4 mt-6">
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-2 bg-yellow-400 text-blue-900 font-semibold rounded-lg hover:bg-yellow-300"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Ver más
-                </motion.button>
-
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600"
-                >
-                  Ver mis proyectos
-                </motion.button>
-
                 <motion.a
                   href="https://www.linkedin.com/in/mzapatadvlpr/"
                   target="_blank"
@@ -340,22 +316,7 @@ export default function App() {
                   <Calendar className="w-4 h-4" />
                   Agendar reunión
                 </motion.a>
-
-                <motion.a
-                  href="tel:+123456789"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600"
-                >
-                  <Phone className="w-4 h-4" />
-                  Llamarme
-                </motion.a>
               </motion.div>
-              <a href="#contacto" className="mt-4 text-blue-100 underline">
-                ¿Tienes un proyecto en mente? Contáctame
-              </a>
             </div>
           </motion.div>
         </Section1>
