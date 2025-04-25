@@ -4,7 +4,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
 import { useMediaQuery } from "react-responsive";
 import { Typewriter } from "react-simple-typewriter";
-import { Island } from "./components/ui/hero";
 
 import {
   FileDown,
@@ -12,7 +11,6 @@ import {
   Calendar,
   Phone,
   ExternalLink,
-  ArrowDown,
 } from "lucide-react";
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
