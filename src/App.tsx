@@ -3,7 +3,17 @@ import { Section } from "./components/ui/section";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
 import { useMediaQuery } from "react-responsive";
+import { Typewriter } from "react-simple-typewriter";
+import { Island } from "./components/ui/hero";
 
+import {
+  FileDown,
+  Linkedin,
+  Calendar,
+  Phone,
+  ExternalLink,
+  ArrowDown,
+} from "lucide-react";
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
 
@@ -179,106 +189,225 @@ export default function App() {
     }, []);
 
     return (
-      <div ref={containerRef} className="relative h-[100vh] bg-black">
+      <div
+        ref={containerRef}
+        className="relative h-[100vh] bg-black overflow-hidden"
+      >
+        {/* Luz principal que sigue el mouse */}
         <div
           ref={lightRef}
           className="absolute w-40 h-40 bg-yellow-200 rounded-full opacity-50 pointer-events-none blur-3xl transition-transform duration-[50ms] ease-out"
         />
-        <span className="flex justify-center pt-40 light-reveal ">
-          How i made the light effect?
+
+        {/* Texto principal */}
+        <span className="flex justify-center pt-40 light-reveal text-white text-xl font-semibold">
+          How I made the light effect?
         </span>
-        <div className="light-reveal absolute top-1/4 left-1/4 w-20 h-20 bg-red-500 rounded-full opacity-0 transition-opacity duration-300" />
 
         <div className="text-white flex justify-center items-center h-screen">
           <h1 className="text-4xl font-bold text-black hover:text-white">
             Lenis + Light Effect
-          </h1>{" "}
-          <div className="light-reveal absolute top-1/2 left-3/4 w-20 h-20 bg-blue-500 rounded-full opacity-0 transition-opacity duration-300" />
+          </h1>
         </div>
 
-        {/* Elementos que se revelan con la luz */}
-        <div className="light-reveal absolute bottom-1/4 right-1/4 w-20 h-20 bg-green-500 rounded-full opacity-0 transition-opacity duration-300" />
+        {/* Muchos elementos light-reveal aleatorios */}
+        {Array.from({ length: 200 }).map((_, i) => {
+          const top = `${Math.floor(Math.random() * 100)}%`;
+          const left = `${Math.floor(Math.random() * 100)}%`;
+          const size = `${Math.floor(Math.random() * 24) + 8}px`; // entre 8px y 32px
+          const colors = [
+            "bg-red-500",
+            "bg-blue-500",
+            "bg-green-500",
+            "bg-pink-500",
+            "bg-purple-500",
+            "bg-orange-500",
+            "bg-cyan-500",
+            "bg-yellow-500",
+            "bg-rose-500",
+            "bg-lime-500",
+            "bg-fuchsia-500",
+          ];
+          const color = colors[Math.floor(Math.random() * colors.length)];
+
+          return (
+            <div
+              key={`light-${i}`}
+              className={`light-reveal absolute rounded-full opacity-0 transition-opacity duration-300 ${color}`}
+              style={{
+                top,
+                left,
+                width: size,
+                height: size,
+              }}
+            />
+          );
+        })}
       </div>
     );
   }
 
   return (
-    <main ref={container} className="relative h-[200vh] ">
-      {/* Primera sección */}
-      <Section1>
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <div className="text-center flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-blue-300 text-white">
-            <h1 className="text-4xl md:text-6xl font-bold">
-              Hola, soy <span className="text-yellow-400">Myke</span>
-            </h1>
-            <p className="mt-4 text-lg md:text-xl">
-              Software Engineer especializado en desarrollo Frontend con React.
-            </p>
-            <div className="flex gap-4 mt-6">
-              <button className="px-6 py-2 bg-yellow-400 text-blue-900 font-semibold rounded-lg hover:bg-yellow-300">
-                Ver más
-              </button>
-              <button className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600">
-                Ver mis proyectos
-              </button>
+    <>
+      <main ref={container} className="relative h-[200vh] ">
+        {/* Primera sección */}
+        <Section1>
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1 }}
+          >
+            <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-blue-300 text-white">
+              <h1 className=" text-4xl md:text-6xl font-bold">
+                Hola, soy <span className="text-yellow-400">Myke</span>
+                <h1>
+                  {" "}
+                  <Typewriter
+                    words={[
+                      "React Developer",
+                      "Bug Killer",
+                      "Figma Component Creator",
+                      "Tailwind CSS Dynamic",
+                      "State Management Master",
+                      "Framer Motion Lover",
+                      "Pixel Perfect UI",
+                      "Frontend Architect",
+                      "TypeScript Addict",
+                      "Design System Engineer",
+                      "Component-Driven Development",
+                      "Lenis Smooth Scroller",
+                      "Reusable Code Advocate",
+                      "UI Performance Obsessed",
+                      "Headless UI Fan",
+                    ]}
+                    loop={true}
+                    cursor
+                    cursorStyle="_"
+                    typeSpeed={70}
+                    deleteSpeed={50}
+                  />
+                </h1>
+              </h1>
+
+              <motion.div className="flex flex-wrap justify-center gap-4 mt-6">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-yellow-400 text-blue-900 font-semibold rounded-lg hover:bg-yellow-300"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Ver más
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600"
+                >
+                  Ver mis proyectos
+                </motion.button>
+
+                <motion.a
+                  href="https://www.linkedin.com/in/mzapatadvlpr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700"
+                >
+                  <Linkedin className="w-4 h-4" />
+                  LinkedIn
+                </motion.a>
+
+                <motion.a
+                  href="/cv.pdf"
+                  download
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg hover:bg-gray-700"
+                >
+                  <FileDown className="w-4 h-4" />
+                  Descargar CV
+                </motion.a>
+
+                <motion.a
+                  href="https://calendly.com/myke"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-purple-500 text-white font-semibold rounded-lg hover:bg-purple-600"
+                >
+                  <Calendar className="w-4 h-4" />
+                  Agendar reunión
+                </motion.a>
+
+                <motion.a
+                  href="tel:+123456789"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-6 py-2 bg-red-500 text-white font-semibold rounded-lg hover:bg-red-600"
+                >
+                  <Phone className="w-4 h-4" />
+                  Llamarme
+                </motion.a>
+              </motion.div>
+              <a href="#contacto" className="mt-4 text-blue-100 underline">
+                ¿Tienes un proyecto en mente? Contáctame
+              </a>
             </div>
-            <a href="#contacto" className="mt-4 text-blue-100 underline">
-              ¿Tienes un proyecto en mente? Contáctame
-            </a>
-          </div>
-        </motion.div>
-      </Section1>
-
-      {/* Segunda sección */}
-      <Section2>
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl p-8"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Tarjeta 3D 1 */}
-          <motion.div className="group relative bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
-            <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
-              🌟 Experiencia
-            </h3>
-            <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
-              Más de 4 años desarrollando aplicaciones escalables con
-              tecnologías modernas como React y Next.js.
-            </p>
           </motion.div>
+        </Section1>
 
-          {/* Tarjeta 3D 2 */}
-          <motion.div className="group relative bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
-            <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
-              🚀 Especialización
-            </h3>
-            <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
-              Desarrollo frontend con foco en accesibilidad, rendimiento y
-              experiencia del usuario.
-            </p>
-          </motion.div>
+        {/* Segunda sección */}
+        <Section2>
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl p-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            {/* Tarjeta 3D 1 */}
+            <motion.div className="group relative bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
+              <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
+                🌟 Experiencia
+              </h3>
+              <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
+                Más de 4 años desarrollando aplicaciones escalables con
+                tecnologías modernas como React y Next.js.
+              </p>
+            </motion.div>
 
-          {/* Tarjeta 3D 3 */}
-          <motion.div className="group relative bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
-            <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
-              🛠️ Habilidades
-            </h3>
-            <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
-              Integración de APIs REST y GraphQL, y desarrollo de interfaces
-              modernas con TypeScript y Tailwind CSS.
-            </p>
+            {/* Tarjeta 3D 2 */}
+            <motion.div className="group relative bg-gradient-to-r from-pink-500 via-red-500 to-orange-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
+              <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
+                🚀 Especialización
+              </h3>
+              <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
+                Desarrollo frontend con foco en accesibilidad, rendimiento y
+                experiencia del usuario.
+              </p>
+            </motion.div>
+
+            {/* Tarjeta 3D 3 */}
+            <motion.div className="group relative bg-gradient-to-r from-green-500 via-teal-500 to-blue-500 rounded-3xl p-6 shadow-2xl cursor-pointer transform transition-transform duration-500 hover:scale-105 hover:rotate-3">
+              <h3 className="text-2xl font-extrabold mb-4 text-center group-hover:text-yellow-300">
+                🛠️ Habilidades
+              </h3>
+              <p className="text-sm text-white text-center leading-relaxed group-hover:text-yellow-100">
+                Integración de APIs REST y GraphQL, y desarrollo de interfaces
+                modernas con TypeScript y Tailwind CSS.
+              </p>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      </Section2>
-      {/* Tercera sección */}
-      <Section3 />
-      <SmoothScrollWithLight />
-    </main>
+        </Section2>
+        {/* Tercera sección */}
+        <Section3 />
+        <SmoothScrollWithLight />
+      </main>
+    </>
   );
 }
