@@ -1,5 +1,5 @@
 import { useEffect, useRef, useMemo } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll } from "framer-motion";
 import Lenis from "lenis";
 import { useMediaQuery } from "react-responsive";
 
@@ -11,7 +11,6 @@ import { TypewriterText } from "./components/ui/TypewriterText";
 
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-  const isDesktop = useMediaQuery({ query: "(min-width: 769px)" });
 
   useEffect(() => {
     const lenis = new Lenis();
