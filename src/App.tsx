@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react";
-import { Section } from "./components/ui/section";
+import { useEffect, useRef, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Lenis from "lenis";
 import { useMediaQuery } from "react-responsive";
-import { Typewriter } from "react-simple-typewriter";
 
 import { FileDown, Linkedin, Calendar } from "lucide-react";
+import { Section1 } from "./components/ui/section1";
+import { Section2 } from "./components/ui/section2";
+import { Section3 } from "./components/ui/section3";
+import { TypewriterText } from "./components/ui/TypewriterText";
+
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 769px)" });
@@ -24,32 +27,6 @@ export default function App() {
     target: container,
     offset: ["start start", "end end"],
   });
-
-  const Section1 = ({ children }: { children: React.ReactNode }) => {
-    const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
-    const rotate = useTransform(scrollYProgress, [0, 1], [0, -5]);
-    return (
-      <Section
-        style={{ scale, rotate }}
-        className="bg-gradient-to-b from-blue-500 to-blue-300 h-screen sticky top-0 flex flex-col justify-center items-center text-white"
-      >
-        {children}{" "}
-      </Section>
-    );
-  };
-
-  const Section2 = ({ children }: { children: React.ReactNode }) => {
-    const scale = useTransform(scrollYProgress, [0, 1], [0.8, 1]);
-    const rotate = useTransform(scrollYProgress, [0, 1], [-5, 0]);
-    return (
-      <Section
-        style={{ scale, rotate }}
-        className="bg-gradient-to-b from-red-400 to-red-600 h-screen sticky top-0 flex flex-col justify-center items-center text-white"
-      >
-        {children}{" "}
-      </Section>
-    );
-  };
 
   const projects = [
     {
@@ -82,169 +59,32 @@ export default function App() {
     },
   ];
 
-  const Section3 = () => {
-    const targetRef = useRef<HTMLDivElement | null>(null);
 
-    const { scrollYProgress } = useScroll({
-      target: targetRef,
-      offset: ["start start", "end end"],
-    });
 
-    const x = useTransform(
-      scrollYProgress,
-      [0, isMobile ? 0.6 : 0.8],
-      ["60%", "-35%"]
-    );
+  const typewriterWords = useMemo(() => [
+    "React Developer",
+    "Bug Killer",
+    "Tailwind CSS Dynamic",
+    "State Management Master",
+    "Framer Motion Lover",
+    "Pixel Perfect UI",
+    "Frontend Architect",
+    "TypeScript Addict",
+    "Design System Engineer",
+    "Component-Driven Development",
+    "Lenis Smooth Scroller",
+    "Reusable Code Advocate",
+    "UI Performance Obsessed",
+    "Headless UI Fan",
+  ], []);
 
-    return (
-      <Section
-        ref={targetRef}
-        className="bg-gradient-to-b from-green-400 to-teal-600 relative h-[1000vh] text-white"
-      >
-        <div className="sticky top-0 h-screen flex flex-col justify-center items-center overflow-hidden w-full">
-          <motion.div
-            style={{ x }}
-            className="flex gap-8 px-8 py-12 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-green-600 scrollbar-track-green-300"
-          >
-            {projects.map((project) => (
-              <div
-                key={project.id}
-                className="group relative w-[280px] md:w-[320px] lg:w-[360px] h-[400px] bg-gradient-to-br from-white to-gray-100 text-black rounded-3xl shadow-2xl p-6 hover:scale-105 transition-transform snap-start"
-              >
-                <h3 className="text-2xl font-bold text-center text-teal-700 group-hover:text-teal-500">
-                  {project.title}
-                </h3>
-                <p className="mt-4 text-sm text-gray-700 text-justify leading-1">
-                  {project.description}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3 justify-center">
-                  {project.tech.map((tech) => (
-                    <span
-                      key={tech}
-                      className="bg-teal-200 text-teal-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm"
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </Section>
-    );
-  };
 
-  function SmoothScrollWithLight() {
-    const containerRef = useRef(null);
-    const lightRef = useRef(null);
-
-    useEffect(() => {
-      const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-      const raf = (time: number) => {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-      };
-      requestAnimationFrame(raf);
-      return () => lenis.destroy();
-    }, []);
-
-    useEffect(() => {
-      const handleMouseMove = (event: MouseEvent) => {
-        if (lightRef.current) {
-          const light = lightRef.current as HTMLDivElement;
-          light.style.transform = `translate(${event.clientX - 80}px, ${event.clientY - 80}px)`;
-
-          // Actualizar opacidad de elementos reveladores
-          const revealElements = document.querySelectorAll(".light-reveal");
-          revealElements.forEach((element) => {
-            const el = element as HTMLElement;
-            const rect = el.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            // Calcular distancia al cursor
-            const distance = Math.hypot(
-              event.clientX - centerX,
-              event.clientY - centerY
-            );
-
-            // Ajustar opacidad basado en la proximidad
-            const maxDistance = 250;
-            const opacity = Math.max(0, 1 - distance / maxDistance);
-            el.style.opacity = opacity.toString();
-          });
-        }
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
-
-    return (
-      <div
-        ref={containerRef}
-        className="relative h-[100vh] bg-black overflow-hidden"
-      >
-        {/* Luz principal que sigue el mouse */}
-        <div
-          ref={lightRef}
-          className="absolute w-40 h-40 bg-yellow-200 rounded-full opacity-50 pointer-events-none blur-3xl transition-transform duration-[50ms] ease-out"
-        />
-
-        {/* Texto principal */}
-        <span className="flex justify-center pt-40 light-reveal text-white text-xl font-semibold">
-          How I made the light effect?
-        </span>
-
-        <div className="text-white flex justify-center items-center h-screen">
-          <h1 className="text-4xl font-bold text-black hover:text-white">
-            Lenis + Light Effect
-          </h1>
-        </div>
-
-        {/* Muchos elementos light-reveal aleatorios */}
-        {Array.from({ length: 200 }).map((_, i) => {
-          const top = `${Math.floor(Math.random() * 100)}%`;
-          const left = `${Math.floor(Math.random() * 100)}%`;
-          const size = `${Math.floor(Math.random() * 24) + 8}px`; // entre 8px y 32px
-          const colors = [
-            "bg-red-500",
-            "bg-blue-500",
-            "bg-green-500",
-            "bg-pink-500",
-            "bg-purple-500",
-            "bg-orange-500",
-            "bg-cyan-500",
-            "bg-yellow-500",
-            "bg-rose-500",
-            "bg-lime-500",
-            "bg-fuchsia-500",
-          ];
-          const color = colors[Math.floor(Math.random() * colors.length)];
-
-          return (
-            <div
-              key={`light-${i}`}
-              className={`light-reveal absolute rounded-full opacity-0 transition-opacity duration-300 ${color}`}
-              style={{
-                top,
-                left,
-                width: size,
-                height: size,
-              }}
-            />
-          );
-        })}
-      </div>
-    );
-  }
 
   return (
-    <>
+    
       <main ref={container} className="relative h-[200vh] ">
         {/* Primera sección */}
-        <Section1>
+        <Section1 scrollYProgress={scrollYProgress}>
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 50 }}
@@ -252,35 +92,17 @@ export default function App() {
             transition={{ duration: 1 }}
           >
             <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-blue-500 to-blue-300 text-white">
-              <h1 className=" text-4xl md:text-6xl font-bold">
-                Hola, soy <span className="text-yellow-400">Myke</span>
-                <h1>
-                  {" "}
-                  <Typewriter
-                    words={[
-                      "React Developer",
-                      "Bug Killer",
-                      "Tailwind CSS Dynamic",
-                      "State Management Master",
-                      "Framer Motion Lover",
-                      "Pixel Perfect UI",
-                      "Frontend Architect",
-                      "TypeScript Addict",
-                      "Design System Engineer",
-                      "Component-Driven Development",
-                      "Lenis Smooth Scroller",
-                      "Reusable Code Advocate",
-                      "UI Performance Obsessed",
-                      "Headless UI Fan",
-                    ]}
-                    loop={true}
-                    cursor
-                    cursorStyle="_"
-                    typeSpeed={70}
-                    deleteSpeed={50}
-                  />
+            
+          
+                <h1 className="text-4xl md:text-6xl font-bold">
+                  <div className="flex flex-col">
+                  Hola, soy <span className="text-yellow-400">Myke</span>
+
+                  <TypewriterText words={typewriterWords} className="flex-row ml-2" />
+                  </div>
                 </h1>
-              </h1>
+
+
 
               <motion.div className="flex flex-wrap justify-center gap-4 mt-6">
                 <motion.a
@@ -323,7 +145,7 @@ export default function App() {
         </Section1>
 
         {/* Segunda sección */}
-        <Section2>
+        <Section2 scrollYProgress={scrollYProgress}>
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl p-8"
             initial={{ opacity: 0 }}
@@ -365,9 +187,9 @@ export default function App() {
           </motion.div>
         </Section2>
         {/* Tercera sección */}
-        <Section3 />
-        {isDesktop && <SmoothScrollWithLight />}
+        <Section3 isMobile={isMobile} projects={projects} />
+   
       </main>
-    </>
+    
   );
 }
