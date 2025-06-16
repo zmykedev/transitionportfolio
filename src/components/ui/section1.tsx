@@ -1,9 +1,9 @@
 import { Section } from "./section";
 import { useTransform } from "framer-motion";
-import { useScroll } from "framer-motion";
 import React from "react";
+import type { MotionValue } from "framer-motion";
 
-export function Section1({ children, scrollYProgress }: { children: React.ReactNode; scrollYProgress: any }) {
+export function Section1({ children, scrollYProgress }: { children: React.ReactNode; scrollYProgress: MotionValue<number> }) {
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.8]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, -5]);
   return (

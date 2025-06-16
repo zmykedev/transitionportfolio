@@ -1,8 +1,15 @@
 import { Section } from "./section";
 import { motion, useScroll, useTransform } from "framer-motion";
-import React, { useRef } from "react";
+import  { useRef } from "react";
 
-export function Section3({ isMobile, projects }: { isMobile: boolean; projects: any[] }) {
+type Project = {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+};
+
+export function Section3({ isMobile, projects }: { isMobile: boolean; projects: Project[] }) {
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
