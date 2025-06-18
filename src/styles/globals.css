@@ -76,3 +76,46 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom Cursor Styles */
+* {
+  cursor: none !important;
+}
+
+/* Ocultar cursor por defecto en elementos específicos */
+a, button, [role="button"], .cursor-pointer {
+  cursor: none !important;
+}
+
+/* Smooth scrolling para mejor experiencia con cursor personalizado */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animación del cursor parpadeante para TypewriterText */
+@keyframes blink-caret {
+  0%, 50% {
+    border-color: transparent;
+  }
+  51%, 100% {
+    border-color: #fb923c; /* orange-400 */
+  }
+}
+
+.animate-blink-caret {
+  animation: blink-caret 1s infinite;
+}
+
+/* Efectos adicionales para el cursor personalizado */
+@keyframes cursor-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.cursor-pulse {
+  animation: cursor-pulse 2s infinite;
+}

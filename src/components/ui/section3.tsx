@@ -1,15 +1,12 @@
 import { Section } from "./section";
 import { motion, useScroll, useTransform } from "framer-motion";
 import  { useRef } from "react";
+import { useTranslation } from "../../lib/useTranslation";
 
-type Project = {
-  id: number;
-  title: string;
-  description: string;
-  tech: string[];
-};
-
-export function Section3({ isMobile, projects }: { isMobile: boolean; projects: Project[] }) {
+export function Section3({ isMobile }: { isMobile: boolean }) {
+  const { t } = useTranslation();
+  const projects = t.projects.items;
+  
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: targetRef,
@@ -30,7 +27,8 @@ export function Section3({ isMobile, projects }: { isMobile: boolean; projects: 
           {projects.map((project) => (
             <div
               key={project.id}
-              className="group relative w-[280px] md:w-[320px] lg:w-[360px] h-[400px] bg-gradient-to-br from-white to-gray-100 text-black rounded-3xl shadow-2xl p-6 hover:scale-105 transition-transform snap-start"
+              data-cursor-text={`Explore ${project.title}`}
+              className="group relative w-[280px] md:w-[320px] lg:w-[360px] h-[400px] bg-gradient-to-br from-white to-gray-100 text-black rounded-3xl shadow-2xl p-6 hover:scale-105 transition-transform snap-start cursor-pointer"
             >
               <h3 className="text-2xl font-bold text-center text-teal-700 group-hover:text-teal-500">
                 {project.title}
@@ -47,6 +45,17 @@ export function Section3({ isMobile, projects }: { isMobile: boolean; projects: 
                     {tech}
                   </span>
                 ))}
+              </div>
+              <div className="flex justify-center mt-4">
+                <a
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor-text="Visit Live Demo"
+                  className="inline-block bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
+                >
+                  {t.projects.viewProject}
+                </a>
               </div>
             </div>
           ))}
