@@ -1,18 +1,10 @@
 import { Section } from "./section";
 import { motion, MotionValue, useTransform } from "framer-motion";
-import React, { useMemo, useCallback } from "react";
 import { useTranslation } from "../../lib/useTranslation";
 import { 
-  Code2, 
   Rocket, 
   Wrench, 
   Star,
-  Zap,
-  Globe,
-  Database,
-  Palette,
-  Settings,
-  Terminal
 } from "lucide-react";
 
 export function Section2({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
