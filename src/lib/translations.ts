@@ -4,9 +4,17 @@ export const translations = {
     hero: {
       greeting: "Hola, soy",
       name: "Myke",
+      github: "Ver GitHub",
       linkedin: "LinkedIn",
       downloadCV: "Descargar CV",
-      scheduleCall: "Agendar reunión"
+      scheduleCall: "Agendar reunión",
+      backgroundText: "DEV",
+      floatingTags: {
+        experience: "4+ Años",
+        expertise: "Experto React",
+        availability: "Disponible Ya",
+        remote: "Trabajo Remoto"
+      }
     },
     
     // TypewriterText
@@ -75,9 +83,17 @@ export const translations = {
     hero: {
       greeting: "Hi, I'm",
       name: "Myke",
+      github: "View GitHub",
       linkedin: "LinkedIn",
       downloadCV: "Download CV",
-      scheduleCall: "Schedule Meeting"
+      scheduleCall: "Schedule Meeting",
+      backgroundText: "DEV",
+      floatingTags: {
+        experience: "4+ Years",
+        expertise: "React Expert",
+        availability: "Available Now",
+        remote: "Remote Ready"
+      }
     },
     
     // TypewriterText

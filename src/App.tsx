@@ -8,7 +8,6 @@ import { Section2 } from "./components/ui/section2";
 import { Section3 } from "./components/ui/section3";
 import { LanguageProvider } from "./components/ui/LanguageProvider";
 import { LanguageSwitcher } from "./components/ui/LanguageSwitcher";
-import { CustomCursor } from "./components/ui/CustomCursor";
 
 export default function App() {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -30,8 +29,6 @@ export default function App() {
 
   return (
     <LanguageProvider initialLanguage="es">
-      {/* Solo mostrar cursor personalizado en desktop */}
-      {!isMobile && <CustomCursor />}
       <LanguageSwitcher />
       <main ref={container} className="relative h-[200vh] ">
         {/* Primera sección */}

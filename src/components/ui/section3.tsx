@@ -27,8 +27,7 @@ export function Section3({ isMobile }: { isMobile: boolean }) {
           {projects.map((project) => (
             <div
               key={project.id}
-              data-cursor-text={`Explore ${project.title}`}
-              className="group relative w-[280px] md:w-[320px] lg:w-[360px] h-[400px] bg-gradient-to-br from-white to-gray-100 text-black rounded-3xl shadow-2xl p-6 hover:scale-105 transition-transform snap-start cursor-pointer"
+              className="group relative w-[280px] md:w-[320px] lg:w-[360px] h-[400px] bg-gradient-to-br from-white to-gray-100 text-black rounded-3xl shadow-2xl p-6 hover:scale-105 transition-transform snap-start"
             >
               <h3 className="text-2xl font-bold text-center text-teal-700 group-hover:text-teal-500">
                 {project.title}
@@ -51,7 +50,6 @@ export function Section3({ isMobile }: { isMobile: boolean }) {
                   href={project.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  data-cursor-text="Visit Live Demo"
                   className="inline-block bg-teal-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors"
                 >
                   {t.projects.viewProject}
