@@ -1,6 +1,5 @@
 import { Section } from "./section";
 import { motion, MotionValue, useTransform } from "framer-motion";
-import React from "react";
 import { useTranslation } from "../../lib/useTranslation";
 
 export function Section2({ scrollYProgress }: { scrollYProgress: MotionValue<number> }) {
