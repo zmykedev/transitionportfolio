@@ -1,19 +1,15 @@
 import { useEffect, useRef } from "react";
-import { useMediaQuery } from "react-responsive";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { Hero } from "./components/Hero";
-import { About } from "./components/About";
-import { Projects } from "./components/Projects";
-import { Contact } from "./components/Contact";
+
 
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const appRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

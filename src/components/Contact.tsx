@@ -1,11 +1,9 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   Mail,
   Phone,
   MapPin,
-  Download,
   Send,
   Github,
   Linkedin,
@@ -76,7 +74,7 @@ export function Contact() {
       // Efecto de ondas de sonido para los contact items
       const createSoundWaves = () => {
         const contactItems = document.querySelectorAll('.contact-item');
-        contactItems.forEach((item, index) => {
+        contactItems.forEach((item) => {
           // Crear ondas de sonido
           for (let i = 0; i < 3; i++) {
             const wave = document.createElement('div');
@@ -409,20 +407,6 @@ export function Contact() {
     }
   ];
 
-  const socialLinks = [
-    {
-      icon: Github,
-      href: "https://github.com/zmykedev",
-      label: "GitHub",
-      color: "gray"
-    },
-    {
-      icon: Linkedin,
-      href: "https://www.linkedin.com/in/mzapatadvlpr/",
-      label: "LinkedIn",
-      color: "blue"
-    }
-  ];
 
   return (
     <section 
@@ -451,7 +435,7 @@ export function Contact() {
               Let's Connect
             </h3>
             
-            {contactInfo.map((info, index) => (
+            {contactInfo.map((info) => (
               <div
                 key={info.label}
                 className="contact-item group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-500 cursor-pointer transform-gpu"

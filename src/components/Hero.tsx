@@ -205,7 +205,7 @@ export function Hero() {
 
       // Typing animation for VS Code
       const codeLines = document.querySelectorAll('.typing-line');
-      codeLines.forEach((line, index) => {
+      codeLines.forEach((line) => {
         // Show code immediately instead of typing animation
         gsap.set(line, { opacity: 1 });
       });
@@ -317,7 +317,7 @@ export function Hero() {
 
           {/* Action Buttons */}
           <div ref={buttonsRef} className="flex flex-wrap gap-3 sm:gap-4 justify-center xl:justify-start">
-            {socialLinks.map((link, index) => (
+            {socialLinks.map((link) => (
               <a
                 key={link.label}
                 href={link.href}

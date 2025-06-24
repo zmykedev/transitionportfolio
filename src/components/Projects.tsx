@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { 
   Github, 
   ExternalLink, 
@@ -73,7 +72,7 @@ export function Projects() {
       // Efecto de energía para las project cards
       const createEnergyEffect = () => {
         const cards = document.querySelectorAll('.project-card');
-        cards.forEach((card, index) => {
+        cards.forEach((card) => {
           // Crear líneas de energía
           for (let i = 0; i < 5; i++) {
             const energyLine = document.createElement('div');
@@ -338,7 +337,7 @@ export function Projects() {
 
         {/* Projects Grid */}
         <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {t.projects.items.map((project, index) => (
+          {t.projects.items.map((project) => (
             <div
               key={project.id}
               className="project-card group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-500 cursor-pointer transform-gpu"

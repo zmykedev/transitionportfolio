@@ -1,6 +1,5 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTranslation } from "../lib/useTranslation";
 import { 
   Rocket, 
@@ -245,7 +244,7 @@ export function About() {
       gsap.fromTo(".skill-progress",
         { width: 0 },
         {
-          width: (i, target) => target.dataset.progress + "%",
+          width: (_i, target) => target.dataset.progress + "%",
           duration: 2,
           ease: "power2.out",
           scrollTrigger: {
@@ -348,7 +347,7 @@ export function About() {
 
         {/* About Cards */}
         <div className="about-cards grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          {aboutCards.map((card, index) => (
+          {aboutCards.map((card) => (
             <div
               key={card.title}
               className={`about-card group relative bg-gradient-to-br from-${card.color}-600/20 to-${card.color}-800/20 backdrop-blur-lg rounded-2xl p-8 border border-${card.color}-500/20 hover:border-${card.color}-400/40 transition-all duration-500 hover:scale-105 transform-gpu`}
@@ -379,7 +378,7 @@ export function About() {
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {skills.map((skill, index) => (
+            {skills.map((skill) => (
               <div key={skill.name} className="skill-item">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
