@@ -5,8 +5,6 @@ import {
   Phone,
   MapPin,
   Send,
-  Github,
-  Linkedin,
   MessageCircle,
   Zap
 } from "lucide-react";
