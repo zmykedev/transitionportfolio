@@ -22,7 +22,7 @@ export const translations = {
         lineEnding: "LF",
         functionName: "obtenerEstiloBoton",
         paramIndex: "índice",
-        paramIsStepEnabled: "esPasoHabilitado"
+        paramIsStepEnabled: "habilitado"
       },
       floatingTags: {
         experience: "4+ Años",
@@ -122,7 +122,7 @@ export const translations = {
         lineEnding: "LF",
         functionName: "getButtonStyle",
         paramIndex: "index",
-        paramIsStepEnabled: "isStepEnabled"
+        paramIsStepEnabled: "enabled"
       },
       floatingTags: {
         experience: "4+ Years",
@@ -222,7 +222,7 @@ export const translations = {
         lineEnding: "LF",
         functionName: "obterEstiloBotao",
         paramIndex: "indice",
-        paramIsStepEnabled: "passoHabilitado"
+        paramIsStepEnabled: "habilitado"
       },
       floatingTags: {
         experience: "4+ Anos",
@@ -322,7 +322,7 @@ export const translations = {
         lineEnding: "LF",
         functionName: "obtenirStyleBouton",
         paramIndex: "indice",
-        paramIsStepEnabled: "etapeActivee"
+        paramIsStepEnabled: "activee"
       },
       floatingTags: {
         experience: "4+ Ans",

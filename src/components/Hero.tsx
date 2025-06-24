@@ -285,7 +285,7 @@ export function Hero() {
       </div>
 
       {/* Main Content - Responsive Grid Layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-2 items-center">
         
         {/* Left Side - Content */}
         <div ref={textRef} className="text-center xl:text-left order-2 xl:order-1">
