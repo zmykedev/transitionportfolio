@@ -1,6 +1,6 @@
 import React from 'react';
-import { LanguageContext, useLanguageProvider } from '../../lib/useTranslation';
-import type { Language } from '../../lib/translations';
+import { LanguageContext, useLanguageProvider } from '../lib/useTranslation';
+import type { Language } from '../lib/translations';
 
 interface LanguageProviderProps {
   children: React.ReactNode;
