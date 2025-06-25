@@ -5,7 +5,7 @@ import { translations, Language } from './translations';
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: typeof translations.es;
+  t: (typeof translations)[Language];
 }
 
 export const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -19,7 +19,7 @@ export const useTranslation = () => {
       t: translations.es,
       language: 'es' as Language,
       setLanguage: (_lang: Language) => {
-        // No-op when no context provider
+        console.warn('setLanguage called without LanguageProvider context');
       },
     };
   }

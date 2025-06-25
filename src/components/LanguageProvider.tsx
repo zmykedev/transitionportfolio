@@ -17,5 +17,4 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
     <LanguageContext.Provider value={languageProvider}>
       {children}
     </LanguageContext.Provider>
-  );
-}; 
+  );}; 
