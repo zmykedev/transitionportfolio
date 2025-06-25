@@ -9,7 +9,7 @@ export const translations = {
       downloadCV: "Descargar CV",
       scheduleCall: "Agendar reunión",
       backgroundText: "DEV",
-      location: "Desarrollador de Software basado en Chile",
+      location: "Desarrollador de Software en Santiago, Chile",
       description: "Apasionado por crear soluciones digitales innovadoras y convertir ideas en realidad a través de código limpio y eficiente. Especializado en tecnologías web modernas y diseño de experiencia de usuario.",
       whatsapp: "WhatsApp",
       vsCode: {
@@ -17,18 +17,42 @@ export const translations = {
         description: "Obtiene el estilo para el botón.",
         author: "MykeDev",
         language: "TypeScript",
-        lineNumber: "Ln 20, Col 1",
+        lineNumber: "Ln 23, Col 1",
         encoding: "UTF-8",
         lineEnding: "LF",
         functionName: "obtenerEstiloBoton",
         paramIndex: "índice",
-        paramIsStepEnabled: "habilitado"
+        paramIsStepEnabled: "habilitado",
+        // Estados
+        initializing: "Inicializando...",
+        ready: "Listo",
+        // Tooltips
+        closeTooltip: "Cerrar VS Code",
+        openTooltip: "Abrir VS Code",
+        // Comentarios del código
+        buttonIndexComment: "El índice del botón",
+        stepEnabledComment: "Si el paso está habilitado",
+        cssClassesComment: "Clases CSS del botón"
       },
       floatingTags: {
         experience: "4+ Años",
         expertise: "Experto React",
         availability: "Disponible Ya",
         remote: "Trabajo Remoto"
+      },
+      // Panel de Performance
+      performance: {
+        title: "Monitor de Rendimiento",
+        currentFps: "FPS Actual",
+        avgFps: "FPS Promedio",
+        activeAnimations: "Animaciones Activas",
+        domElements: "Elementos DOM",
+        debugShortcut: "Presiona Ctrl+Shift+P para info de debug",
+        checkPerformance: "Verificar Rendimiento",
+        advancedAnalysis: "Análisis Avanzado",
+        optimizationComparison: "Comparación de Optimización",
+        captureBaseline: "Capturar Línea Base",
+        compareOptimized: "Comparar Optimizado"
       }
     },
     
@@ -109,7 +133,7 @@ export const translations = {
       downloadCV: "Download CV",
       scheduleCall: "Schedule Meeting",
       backgroundText: "DEV",
-      location: "Software Developer based in Chile",
+      location: "Software Developer based in Santiago, Chile",
       description: "Passionate about creating innovative digital solutions and turning ideas into reality through clean and efficient code. Specialized in modern web technologies and user experience design.",
       whatsapp: "WhatsApp",
       vsCode: {
@@ -117,18 +141,42 @@ export const translations = {
         description: "Get style for button.",
         author: "MykeDev",
         language: "TypeScript",
-        lineNumber: "Ln 20, Col 1",
+        lineNumber: "Ln 23, Col 1",
         encoding: "UTF-8",
         lineEnding: "LF",
         functionName: "getButtonStyle",
         paramIndex: "index",
-        paramIsStepEnabled: "enabled"
+        paramIsStepEnabled: "enabled",
+        // Estados
+        initializing: "Initializing...",
+        ready: "Ready",
+        // Tooltips
+        closeTooltip: "Close VS Code",
+        openTooltip: "Open VS Code",
+        // Comentarios del código
+        buttonIndexComment: "Button index",
+        stepEnabledComment: "Whether step is enabled",
+        cssClassesComment: "Button CSS classes"
       },
       floatingTags: {
         experience: "4+ Years",
         expertise: "React Expert",
         availability: "Available Now",
         remote: "Remote Ready"
+      },
+      // Panel de Performance
+      performance: {
+        title: "Performance Monitor",
+        currentFps: "Current FPS",
+        avgFps: "Avg FPS",
+        activeAnimations: "Active Animations",
+        domElements: "DOM Elements",
+        debugShortcut: "Press Ctrl+Shift+P for debug info",
+        checkPerformance: "Check Performance",
+        advancedAnalysis: "Advanced Analysis",
+        optimizationComparison: "Optimization Comparison",
+        captureBaseline: "Capture Baseline",
+        compareOptimized: "Compare Optimized"
       }
     },
     
@@ -209,7 +257,7 @@ export const translations = {
       downloadCV: "Baixar CV",
       scheduleCall: "Agendar Reunião",
       backgroundText: "DEV",
-      location: "Desenvolvedor de Software baseado no Chile",
+      location: "Desenvolvedor de Software em Santiago, Chile",
       description: "Apaixonado por criar soluções digitais inovadoras e transformar ideias em realidade através de código limpo e eficiente. Especializado em tecnologias web modernas e design de experiência do usuário.",
       whatsapp: "WhatsApp",
       vsCode: {
@@ -217,7 +265,7 @@ export const translations = {
         description: "Obtém o estilo para o botão.",
         author: "MykeDev",
         language: "TypeScript",
-        lineNumber: "Ln 20, Col 1",
+        lineNumber: "Ln 23, Col 1",
         encoding: "UTF-8",
         lineEnding: "LF",
         functionName: "obterEstiloBotao",
@@ -309,7 +357,7 @@ export const translations = {
       downloadCV: "Télécharger CV",
       scheduleCall: "Planifier Réunion",
       backgroundText: "DEV",
-      location: "Développeur de logiciels basé en Chine",
+      location: "Développeur de logiciels basé à Santiago, Chili",
       description: "Passionné par la création de solutions digitales innovantes et la transformation d'idées en réalité grâce au code propre et efficace. Spécialisé dans les technologies web modernes et le design d'expérience utilisateur.",
       whatsapp: "WhatsApp",
       vsCode: {
@@ -317,7 +365,7 @@ export const translations = {
         description: "Obtenir le style du bouton.",
         author: "MykeDev",
         language: "TypeScript",
-        lineNumber: "Ln 20, Col 1",
+        lineNumber: "Ln 23, Col 1",
         encoding: "UTF-8",
         lineEnding: "LF",
         functionName: "obtenirStyleBouton",

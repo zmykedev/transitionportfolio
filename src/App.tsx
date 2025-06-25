@@ -80,12 +80,6 @@ export default function App() {
         
         {/* Hero Section */}
         <Hero />
-        
-        
-        {/* About Section */}
-        <MyStack />
-
-    
       </div>
     </LanguageProvider>
   );

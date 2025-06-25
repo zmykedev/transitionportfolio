@@ -120,16 +120,16 @@ export function About() {
     const ctx = gsap.context(() => {
       // Simple entrance animation
       gsap.from(".tech-card", {
-        opacity: 0,
+            opacity: 0,
         y: 30,
         duration: 0.6,
         stagger: 0.1,
         ease: "power2.out",
-        scrollTrigger: {
+          scrollTrigger: {
           trigger: ".tech-grid",
-          start: "top 80%",
-          end: "bottom 20%",
-          toggleActions: "play none none reverse"
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse"
         }
       });
 

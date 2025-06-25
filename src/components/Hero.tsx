@@ -184,11 +184,40 @@ export function Hero() {
     
     if (!isVSCodeOpen) {
       setIsVSCodeOpen(true);
+
+          // VS Code window - estado inicial
+      gsap.set(".vscode-window", {
+        scale: 0,
+        opacity: 0,
+        x: 200,
+        y: -500
+      });
       
-      // Animación con efecto bounce
+       // Obtener posición inicial del botón para la animación automática
+       const buttonRect = vsCodeIconRef.current?.getBoundingClientRect();
+       const vsCodeWindow = vsCodeRef.current;
+       const vsCodeRect = vsCodeWindow?.getBoundingClientRect();
+       
+       if (buttonRect && vsCodeWindow && vsCodeRect) {
+         // Calcular la posición relativa del botón respecto a la ventana
+         const deltaX = buttonRect.left - vsCodeRect.left;
+         const deltaY = buttonRect.top - vsCodeRect.top;
+         
+         // Establecer posición inicial en el botón
+         gsap.set(vsCodeWindow, {
+           scale: 0,
+           opacity: 0,
+           x: deltaX,
+           y: deltaY,
+           transformOrigin: "center center"
+         });
+       }
+      
+      // Animación desde el botón hacia la posición final
       gsap.to(vsCodeRef.current, {
         scale: 1,
         opacity: 1,
+        x: 0,
         y: 0,
         duration: 0.8,
         ease: "back.out(1.7)",
@@ -202,7 +231,28 @@ export function Hero() {
               opacity: 1,
               duration: 0.1,
               delay: index * 0.2,
-              ease: "none"
+              ease: "none",
+              onComplete: () => {
+                if (index === codeLines.length - 1) {
+                  // Mostrar cursor y comenzar parpadeo después de terminar el código
+                  gsap.to('.cursor-blink', {
+                    opacity: 1,
+                    duration: 0.1,
+                    delay: 0.5,
+                    onComplete: () => {
+                      // Iniciar animación de parpadeo
+                      gsap.to('.cursor-blink', {
+                        opacity: 0,
+                        duration: 1,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.inOut",
+                        onStart: () => performanceMonitor.trackAnimation()
+                      });
+                    }
+                  });
+                }
+              }
             });
           });
           endTracking();
@@ -217,6 +267,10 @@ export function Hero() {
     if (isVSCodeOpen) {
       setIsVSCodeOpen(false);
       
+      // Detener y ocultar cursor
+      gsap.killTweensOf('.cursor-blink');
+      gsap.set('.cursor-blink', { opacity: 0 });
+      
       // Primero ocultar las líneas de código
       const codeLines = document.querySelectorAll('.code-line');
       codeLines.forEach((line, index) => {
@@ -227,12 +281,17 @@ export function Hero() {
           ease: "none"
         });
       });
+
       
-      // Luego cerrar la ventana
+      
+      
+      
+      // Luego cerrar la ventana hacia el botón
       gsap.to(vsCodeRef.current, {
         scale: 0,
         opacity: 0,
-        y: 20,
+        x: -500,
+        y: 200,
         duration: 0.5,
         delay: 0.3,
         ease: "back.in(1.7)",
@@ -256,17 +315,19 @@ export function Hero() {
     // Animación del hero-location (greeting + name) - optimizada
     gsap.from(".hero-location", {
       opacity: 0,
-      y: -100,
-      duration: 0.6,
+      y: -400,
+      duration: 1.4,
       ease: "power2.out",
+      stagger: 0.2,
       onStart: () => performanceMonitor.trackAnimation()
     });
 
     // Animación del hero-description - optimizada
     gsap.from(".hero-description", {
       opacity: 0,
-      x: 100,
-      duration: 0.6,
+      y: -100,
+      x: -400,
+      duration: 1.4,
       ease: "power2.out",
       delay: 0.2,
       onStart: () => performanceMonitor.trackAnimation()
@@ -275,10 +336,11 @@ export function Hero() {
     // Animación de botones sociales - optimizada
     gsap.from(".social-buttons", {
       opacity: 0,
-      y: 50,
-      duration: 0.6,
-      ease: "power2.out",
-      delay: 0.4,
+      y: 400,
+      scale: 0.5,
+      duration: 2.8,
+      delay: 0.2,
+      ease: "bounce.out",
       onStart: () => performanceMonitor.trackAnimation()
     });
 
@@ -286,7 +348,8 @@ export function Hero() {
     gsap.set(".vscode-window", {
       scale: 0,
       opacity: 0,
-      y: 20
+      x: 200,
+      y: 200
     });
 
     // Ocultar líneas de código inicialmente
@@ -294,14 +357,42 @@ export function Hero() {
       opacity: 0
     });
 
+    // Detener cualquier animación del cursor y ocultarlo siempre al cambiar idioma
+    gsap.killTweensOf(".cursor-blink");
+    gsap.set(".cursor-blink", {
+      opacity: 0
+    });
+
     // Abrir VS Code automáticamente después de un delay
     gsap.delayedCall(.2, () => {
       setIsVSCodeOpen(true);
+      
+      // Obtener posición inicial del botón para la animación automática
+      const buttonRect = vsCodeIconRef.current?.getBoundingClientRect();
+      const vsCodeWindow = vsCodeRef.current;
+      const vsCodeRect = vsCodeWindow?.getBoundingClientRect();
+      
+      if (buttonRect && vsCodeWindow && vsCodeRect) {
+        // Calcular la posición relativa del botón respecto a la ventana
+        const deltaX = buttonRect.left - vsCodeRect.left;
+        const deltaY = buttonRect.top - vsCodeRect.top;
+        
+        // Establecer posición inicial en el botón
+        gsap.set(vsCodeWindow, {
+          scale: 0,
+          opacity: 0,
+          x: deltaX,
+          y: deltaY,
+          transformOrigin: "center center"
+        });
+      }
+      
       gsap.to(".vscode-window", {
         scale: 1,
         opacity: 1,
+        x: 0,
         y: 0,
-        duration: 0.8,
+        duration: 0.6,
         ease: "back.out(1.7)",
         onStart: () => performanceMonitor.trackAnimation(),
         onComplete: () => {
@@ -311,9 +402,29 @@ export function Hero() {
             gsap.set(line, { opacity: 0 });
             gsap.to(line, {
               opacity: 1,
-              duration: 0.1,
-              delay: index * 0.2,
-              ease: "none"
+              duration: .4,
+              delay: index * 0.090,
+              ease: "none",
+              onComplete: () => {
+                if (index === codeLines.length - 1) {
+                  // Mostrar cursor y comenzar parpadeo después de terminar el código
+                  gsap.to('.cursor-blink', {
+                    opacity: 1,
+                    duration: 0.2,
+                    onComplete: () => {
+                      // Iniciar animación de parpadeo
+                      gsap.to('.cursor-blink', {
+                        opacity: 0,
+                        duration: 1,
+                        repeat: -1,
+                        yoyo: true,
+                        ease: "power1.inOut",
+                        onStart: () => performanceMonitor.trackAnimation()
+                      });
+                    }
+                  });
+                }
+              }
             });
           });
         }
@@ -345,17 +456,6 @@ export function Hero() {
     // Efecto de ondas con delay
     gsap.delayedCall(1, createWaveEffect);
 
-    // Blinking cursor animation - optimizado
-    gsap.to('.cursor-blink', {
-      opacity: 0,
-      duration: 1,
-      repeat: -1,
-      yoyo: true,
-      ease: "power1.inOut",
-      delay: 1,
-      onStart: () => performanceMonitor.trackAnimation()
-    });
-
     endTracking();
 
   }, { 
@@ -366,7 +466,7 @@ export function Hero() {
   return (
     <section 
       ref={heroRef}
-      className="min-h-screen flex items-center relative overflow-hidden px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16"
+      className="h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8"
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">
@@ -474,6 +574,24 @@ export function Hero() {
               <span className="relative z-10 hidden sm:inline">{t.hero.whatsapp}</span>
               <span className="relative z-10 sm:hidden">WhatsApp</span>
             </a>
+
+            {/* VSCode */}
+            <button
+              ref={vsCodeIconRef}
+              onClick={toggleVSCode}
+              className={`group relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl sm:rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transform-gpu overflow-hidden text-sm sm:text-base ${
+                isVSCodeOpen 
+                  ? 'shadow-lg ' 
+                  : ''
+              }`}
+              title={isVSCodeOpen ? t.hero.vsCode.closeTooltip : t.hero.vsCode.openTooltip}
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21.29 4.1L18.37 1.18C18.17 0.98 17.89 0.87 17.6 0.87C17.31 0.87 17.03 0.98 16.83 1.18L2.71 15.3C2.31 15.7 2.31 16.33 2.71 16.73L5.63 19.65C5.83 19.85 6.11 19.96 6.4 19.96C6.69 19.96 6.97 19.85 7.17 19.65L21.29 5.53C21.69 5.13 21.69 4.5 21.29 4.1Z"/>
+                </svg>
+            </button>
+          
           </div>
         </div>
 
@@ -549,6 +667,7 @@ export function Hero() {
                       <div className="h-5 leading-5">20</div>
                       <div className="h-5 leading-5">21</div>
                       <div className="h-5 leading-5">22</div>
+                      <div className="h-5 leading-5">23</div>
                     </div>
 
                     {/* Code Content */}
@@ -578,13 +697,13 @@ export function Hero() {
                         &nbsp;* <span className="text-gray-500">@author</span> <span className="text-blue-400">{t.hero.vsCode.author}</span>
                       </div>
                       <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
-                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span> <span className="text-gray-300">- El índice del botón</span>
+                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span> <span className="text-gray-300">- {t.hero.vsCode.buttonIndexComment}</span>
                       </div>
                       <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
-                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span> <span className="text-gray-300">- Si el paso está habilitado</span>
+                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span> <span className="text-gray-300">- {t.hero.vsCode.stepEnabledComment}</span>
                       </div>
                       <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
-                        &nbsp;* <span className="text-gray-500">@returns</span> <span className="text-blue-400">string</span> <span className="text-gray-300">- Clases CSS del botón</span>
+                        &nbsp;* <span className="text-gray-500">@returns</span> <span className="text-blue-400">string</span> <span className="text-gray-300">- {t.hero.vsCode.cssClassesComment}</span>
                       </div>
                       <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
                         &nbsp;*/<span className="text-gray-500"></span>
@@ -633,7 +752,7 @@ export function Hero() {
                   {!isVSCodeOpen && (
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                      <span className="text-blue-400 text-xs">Initializing...</span>
+                      <span className="text-blue-400 text-xs">{t.hero.vsCode.initializing}</span>
                     </div>
                   )}
                 </div>
@@ -643,30 +762,14 @@ export function Hero() {
                   {isVSCodeOpen && (
                     <div className="flex items-center space-x-1">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-green-400 text-xs">Ready</span>
+                      <span className="text-green-400 text-xs">{t.hero.vsCode.ready}</span>
                     </div>
                   )}
                 </div>
               </div>
             </div>
 
-            {/* Taskbar Button */}
-            <div className="mt-4 flex justify-center">
-              <button
-                ref={vsCodeIconRef}
-                onClick={toggleVSCode}
-                className={`taskbar-icon p-3 rounded-lg transition-all duration-300 hover:scale-110 ${
-                  isVSCodeOpen 
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/50' 
-                    : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                }`}
-                title={isVSCodeOpen ? "Close VS Code" : "Open VS Code"}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M21.29 4.1L18.37 1.18C18.17 0.98 17.89 0.87 17.6 0.87C17.31 0.87 17.03 0.98 16.83 1.18L2.71 15.3C2.31 15.7 2.31 16.33 2.71 16.73L5.63 19.65C5.83 19.85 6.11 19.96 6.4 19.96C6.69 19.96 6.97 19.85 7.17 19.65L21.29 5.53C21.69 5.13 21.69 4.5 21.29 4.1Z"/>
-                </svg>
-              </button>
-            </div>
+          
           </div>
         </div>
       </div>
@@ -675,7 +778,7 @@ export function Hero() {
       {showPerformancePanel && (
         <div className="fixed top-4 right-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-lg p-4 text-white text-sm z-50 max-w-xs">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-blue-400">Performance Monitor</h3>
+            <h3 className="font-bold text-blue-400">{t.hero.performance.title}</h3>
             <button
               onClick={() => setShowPerformancePanel(false)}
               className="text-gray-400 hover:text-white"
@@ -686,26 +789,26 @@ export function Hero() {
           
           <div className="space-y-2 text-xs">
             <div className="flex justify-between">
-              <span>Current FPS:</span>
+              <span>{t.hero.performance.currentFps}:</span>
               <span className="text-green-400">{performanceMonitor.getCurrentFPS()}</span>
             </div>
             <div className="flex justify-between">
-              <span>Avg FPS:</span>
+              <span>{t.hero.performance.avgFps}:</span>
               <span className="text-blue-400">{performanceMonitor.getAverageFPS()}</span>
             </div>
             <div className="flex justify-between">
-              <span>Active Animations:</span>
+              <span>{t.hero.performance.activeAnimations}:</span>
               <span className="text-yellow-400">{gsap.globalTimeline.getChildren().length}</span>
             </div>
             <div className="flex justify-between">
-              <span>DOM Elements:</span>
+              <span>{t.hero.performance.domElements}:</span>
               <span className="text-purple-400">{document.querySelectorAll('*').length}</span>
             </div>
           </div>
           
           <div className="mt-3 pt-3 border-t border-gray-700">
             <div className="text-xs text-gray-400 mb-2">
-              Press <kbd className="bg-gray-800 px-1 rounded">Ctrl+Shift+P</kbd> for debug info
+              {t.hero.performance.debugShortcut}
             </div>
             <button
               onClick={() => {
@@ -715,7 +818,7 @@ export function Hero() {
               }}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-1 px-2 rounded transition-colors"
             >
-              Check Performance
+              {t.hero.performance.checkPerformance}
             </button>
             
             <button
@@ -726,22 +829,22 @@ export function Hero() {
               }}
               className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs py-1 px-2 rounded transition-colors mt-2"
             >
-              Advanced Analysis
+              {t.hero.performance.advancedAnalysis}
             </button>
             
             <div className="mt-3 pt-3 border-t border-gray-600">
-              <div className="text-xs text-gray-400 mb-2">Optimization Comparison</div>
+              <div className="text-xs text-gray-400 mb-2">{t.hero.performance.optimizationComparison}</div>
               <button
                 onClick={() => performanceDebugger.captureBaselineMetrics()}
                 className="w-full bg-orange-600 hover:bg-orange-700 text-white text-xs py-1 px-2 rounded transition-colors mb-1"
               >
-                Capture Baseline
+                {t.hero.performance.captureBaseline}
               </button>
               <button
                 onClick={() => performanceDebugger.captureOptimizedMetrics()}
                 className="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1 px-2 rounded transition-colors"
               >
-                Compare Optimized
+                {t.hero.performance.compareOptimized}
               </button>
             </div>
           </div>

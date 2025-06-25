@@ -4,7 +4,7 @@ export class PerformanceDebugger {
   private frameTimeHistory: number[] = [];
   private lastFrameTime = performance.now();
   private isDebugging = false;
-  
+
   // Add optimization tracking
   private optimizationMetrics = {
     beforeOptimization: {
