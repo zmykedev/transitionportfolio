@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { useTranslation } from "../lib/useTranslation";
 
 export function About() {
-  const { t } = useTranslation();
   const stackRef = useRef<HTMLDivElement>(null);
 
   const technologies = [
@@ -180,7 +178,7 @@ export function About() {
 
         {/* Technologies Grid */}
         <div className="tech-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-6">
-          {technologies.map((tech, index) => (
+          {technologies.map((tech) => (
             <div
               key={tech.name}
               className="tech-card group bg-gray-800/50 backdrop-blur-sm rounded-xl p-6 border border-gray-700/50 hover:border-gray-600/50 transition-all duration-300 cursor-pointer"

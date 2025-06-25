@@ -1,7 +1,5 @@
-import { useTranslation } from "../lib/useTranslation";
 
 export function MyStack() {
-  const { t } = useTranslation();
 
   const technologies = [
     {
