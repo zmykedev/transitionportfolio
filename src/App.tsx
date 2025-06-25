@@ -4,7 +4,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import { Hero } from "./components/Hero";
-import { MyStack } from "./components/My-Stack";
 
 
 // Registrar ScrollTrigger plugin
