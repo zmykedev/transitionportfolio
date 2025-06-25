@@ -111,7 +111,6 @@ export class PerformanceDebugger {
 
   private detectLongTasks() {
     // This is a simplified version - in a real implementation you'd use PerformanceObserver
-    const now = performance.now();
     const tasks = performance.getEntriesByType('measure');
     const longTasks = tasks.filter(task => task.duration > 16);
     
