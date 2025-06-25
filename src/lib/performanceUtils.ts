@@ -247,9 +247,12 @@ export class PerformanceDebugger {
       if (el.tagName === 'BUTTON' || 
           el.tagName === 'A' || 
           el.tagName === 'INPUT' ||
-          el.onclick ||
-          el.onmouseover ||
-          el.onmouseenter) {
+          (el instanceof HTMLElement && (
+            typeof el.onclick === 'function' ||
+            typeof el.onmouseover === 'function' ||
+            typeof el.onmouseenter === 'function'
+          ))
+        ) {
         estimatedListeners++;
       }
     });
