@@ -17,8 +17,6 @@ export function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement>(null);
-  const typewriterRef = useRef<HTMLDivElement>(null);
   const vsCodeRef = useRef<HTMLDivElement>(null);
   const vsCodeIconRef = useRef<HTMLButtonElement>(null);
 
