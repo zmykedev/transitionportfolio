@@ -4,6 +4,24 @@ export class PerformanceDebugger {
   private frameTimeHistory: number[] = [];
   private lastFrameTime = performance.now();
   private isDebugging = false;
+  
+  // Add optimization tracking
+  private optimizationMetrics = {
+    beforeOptimization: {
+      avgFPS: 0,
+      minFPS: 0,
+      maxFPS: 0,
+      complexElements: 0,
+      animationCount: 0
+    },
+    afterOptimization: {
+      avgFPS: 0,
+      minFPS: 0,
+      maxFPS: 0,
+      complexElements: 0,
+      animationCount: 0
+    }
+  };
 
   static getInstance(): PerformanceDebugger {
     if (!PerformanceDebugger.instance) {
@@ -257,6 +275,154 @@ export class PerformanceDebugger {
     });
     
     return estimatedListeners;
+  }
+
+  // Method to capture baseline metrics
+  captureBaselineMetrics() {
+    const frames = this.frameTimeHistory.slice(-100); // Last 100 frames
+    if (frames.length === 0) return;
+    
+    const fps = frames.map(frameTime => 1000 / frameTime);
+    const complexElements = this.getComplexElementCount();
+    const animationCount = this.getActiveAnimationCount();
+    
+    this.optimizationMetrics.beforeOptimization = {
+      avgFPS: Math.round(fps.reduce((a, b) => a + b, 0) / fps.length),
+      minFPS: Math.round(Math.min(...fps)),
+      maxFPS: Math.round(Math.max(...fps)),
+      complexElements,
+      animationCount
+    };
+    
+    console.log('📊 Baseline metrics captured:', this.optimizationMetrics.beforeOptimization);
+  }
+  
+  // Method to capture optimized metrics
+  captureOptimizedMetrics() {
+    const frames = this.frameTimeHistory.slice(-100); // Last 100 frames
+    if (frames.length === 0) return;
+    
+    const fps = frames.map(frameTime => 1000 / frameTime);
+    const complexElements = this.getComplexElementCount();
+    const animationCount = this.getActiveAnimationCount();
+    
+    this.optimizationMetrics.afterOptimization = {
+      avgFPS: Math.round(fps.reduce((a, b) => a + b, 0) / fps.length),
+      minFPS: Math.round(Math.min(...fps)),
+      maxFPS: Math.round(Math.max(...fps)),
+      complexElements,
+      animationCount
+    };
+    
+    console.log('📊 Optimized metrics captured:', this.optimizationMetrics.afterOptimization);
+    this.compareOptimizations();
+  }
+  
+  // Method to compare before/after optimization
+  compareOptimizations() {
+    const before = this.optimizationMetrics.beforeOptimization;
+    const after = this.optimizationMetrics.afterOptimization;
+    
+    if (before.avgFPS === 0) {
+      console.warn('⚠️ No baseline metrics available for comparison');
+      return;
+    }
+    
+    const improvements = {
+      avgFPSImprovement: after.avgFPS - before.avgFPS,
+      minFPSImprovement: after.minFPS - before.minFPS,
+      maxFPSImprovement: after.maxFPS - before.maxFPS,
+      complexElementsReduction: before.complexElements - after.complexElements,
+      animationReduction: before.animationCount - after.animationCount
+    };
+    
+    console.group('🚀 Performance Optimization Results');
+    console.log('📈 FPS Improvements:');
+    console.log(`  Average FPS: ${before.avgFPS} → ${after.avgFPS} (${improvements.avgFPSImprovement > 0 ? '+' : ''}${improvements.avgFPSImprovement})`);
+    console.log(`  Minimum FPS: ${before.minFPS} → ${after.minFPS} (${improvements.minFPSImprovement > 0 ? '+' : ''}${improvements.minFPSImprovement})`);
+    console.log(`  Maximum FPS: ${before.maxFPS} → ${after.maxFPS} (${improvements.maxFPSImprovement > 0 ? '+' : ''}${improvements.maxFPSImprovement})`);
+    
+    console.log('🎯 Element Optimizations:');
+    console.log(`  Complex Elements: ${before.complexElements} → ${after.complexElements} (${improvements.complexElementsReduction > 0 ? '-' : '+'}${Math.abs(improvements.complexElementsReduction)})`);
+    console.log(`  Active Animations: ${before.animationCount} → ${after.animationCount} (${improvements.animationReduction > 0 ? '-' : '+'}${Math.abs(improvements.animationReduction)})`);
+    
+    console.log('💡 Performance Score:');
+    const performanceScore = this.calculatePerformanceScore(after);
+    console.log(`  Overall Score: ${performanceScore}/100`);
+    
+    if (improvements.avgFPSImprovement > 10) {
+      console.log('🎉 Excellent optimization! Significant FPS improvement detected.');
+    } else if (improvements.avgFPSImprovement > 5) {
+      console.log('✅ Good optimization! Notable FPS improvement.');
+    } else if (improvements.avgFPSImprovement > 0) {
+      console.log('👍 Minor improvement detected.');
+    } else {
+      console.log('⚠️ No significant improvement detected. Consider additional optimizations.');
+    }
+    
+    console.groupEnd();
+  }
+  
+  // Calculate overall performance score
+  private calculatePerformanceScore(metrics: typeof this.optimizationMetrics.afterOptimization): number {
+    let score = 0;
+    
+    // FPS score (40 points max)
+    if (metrics.avgFPS >= 55) score += 40;
+    else if (metrics.avgFPS >= 45) score += 30;
+    else if (metrics.avgFPS >= 30) score += 20;
+    else if (metrics.avgFPS >= 20) score += 10;
+    
+    // Consistency score (30 points max)
+    const fpsVariance = metrics.maxFPS - metrics.minFPS;
+    if (fpsVariance <= 10) score += 30;
+    else if (fpsVariance <= 20) score += 20;
+    else if (fpsVariance <= 30) score += 10;
+    
+    // Complexity score (30 points max)
+    if (metrics.complexElements <= 10) score += 30;
+    else if (metrics.complexElements <= 20) score += 20;
+    else if (metrics.complexElements <= 30) score += 10;
+    
+    return Math.min(100, score);
+  }
+  
+  private getComplexElementCount(): number {
+    const elements = document.querySelectorAll('*');
+    let complexCount = 0;
+    
+    elements.forEach(el => {
+      const styles = window.getComputedStyle(el);
+      if (
+        styles.transform !== 'none' || 
+        styles.filter !== 'none' || 
+        styles.backdropFilter !== 'none' ||
+        styles.boxShadow !== 'none' ||
+        styles.opacity !== '1'
+      ) {
+        complexCount++;
+      }
+    });
+    
+    return complexCount;
+  }
+  
+  private getActiveAnimationCount(): number {
+    // Count GSAP animations
+    const gsapAnimations = gsap.globalTimeline.getChildren().length;
+    
+    // Count CSS animations
+    const elements = document.querySelectorAll('*');
+    let cssAnimations = 0;
+    
+    elements.forEach(el => {
+      const styles = window.getComputedStyle(el);
+      if (styles.animationName !== 'none') {
+        cssAnimations++;
+      }
+    });
+    
+    return gsapAnimations + cssAnimations;
   }
 }
 
