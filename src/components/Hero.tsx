@@ -185,15 +185,28 @@ export function Hero() {
     if (!isVSCodeOpen) {
       setIsVSCodeOpen(true);
       
-      // Animación simplificada para mejor rendimiento
+      // Animación con efecto bounce
       gsap.to(vsCodeRef.current, {
         scale: 1,
         opacity: 1,
         y: 0,
-        duration: 0.5,
-        ease: "power2.out",
+        duration: 0.8,
+        ease: "back.out(1.7)",
         onStart: () => performanceMonitor.trackAnimation(),
-        onComplete: endTracking
+        onComplete: () => {
+          // Efecto de typing en las líneas de código
+          const codeLines = document.querySelectorAll('.code-line');
+          codeLines.forEach((line, index) => {
+            gsap.set(line, { opacity: 0 });
+            gsap.to(line, {
+              opacity: 1,
+              duration: 0.1,
+              delay: index * 0.2,
+              ease: "none"
+            });
+          });
+          endTracking();
+        }
       });
     }
   };
@@ -204,12 +217,25 @@ export function Hero() {
     if (isVSCodeOpen) {
       setIsVSCodeOpen(false);
       
+      // Primero ocultar las líneas de código
+      const codeLines = document.querySelectorAll('.code-line');
+      codeLines.forEach((line, index) => {
+        gsap.to(line, {
+          opacity: 0,
+          duration: 0.05,
+          delay: index * 0.02,
+          ease: "none"
+        });
+      });
+      
+      // Luego cerrar la ventana
       gsap.to(vsCodeRef.current, {
         scale: 0,
         opacity: 0,
         y: 20,
-        duration: 0.3,
-        ease: "power2.in",
+        duration: 0.5,
+        delay: 0.3,
+        ease: "back.in(1.7)",
         onStart: () => performanceMonitor.trackAnimation(),
         onComplete: endTracking
       });
@@ -261,6 +287,37 @@ export function Hero() {
       scale: 0,
       opacity: 0,
       y: 20
+    });
+
+    // Ocultar líneas de código inicialmente
+    gsap.set(".code-line", {
+      opacity: 0
+    });
+
+    // Abrir VS Code automáticamente después de un delay
+    gsap.delayedCall(.2, () => {
+      setIsVSCodeOpen(true);
+      gsap.to(".vscode-window", {
+        scale: 1,
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "back.out(1.7)",
+        onStart: () => performanceMonitor.trackAnimation(),
+        onComplete: () => {
+          // Efecto de typing en las líneas de código
+          const codeLines = document.querySelectorAll('.code-line');
+          codeLines.forEach((line, index) => {
+            gsap.set(line, { opacity: 0 });
+            gsap.to(line, {
+              opacity: 1,
+              duration: 0.1,
+              delay: index * 0.2,
+              ease: "none"
+            });
+          });
+        }
+      });
     });
 
     // Efecto de ondas en el fondo - optimizado
@@ -447,7 +504,7 @@ export function Hero() {
 
               {/* VS Code Sidebar */}
               <div className="flex">
-                <div className="w-6 sm:w-8 bg-gray-800 flex flex-col items-center py-2 space-y-2">
+                <div className="w-6 sm:w-8 pl-2 bg-gray-800 flex flex-col items-center py-2 space-y-2">
                   <div className="w-4 h-4 sm:w-6 sm:h-6 text-blue-500">
                     <svg fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"/>
@@ -469,75 +526,100 @@ export function Hero() {
                 <div className="flex-1 bg-gray-900">
                   {/* Line Numbers */}
                   <div className="flex">
-                    <div className="w-8 sm:w-12 bg-gray-800 text-gray-500 text-xs py-2 px-1 sm:px-2 text-right select-none">
-                      <div>1</div>
-                      <div>2</div>
-                      <div>3</div>
-                      <div>4</div>
-                      <div>5</div>
-                      <div>6</div>
-                      <div>7</div>
-                      <div>8</div>
-                      <div>9</div>
-                      <div>10</div>
-                      <div>11</div>
-                      <div>12</div>
-                      <div>13</div>
-                      <div>14</div>
-                      <div>15</div>
-                      <div>16</div>
-                      <div>17</div>
-                      <div>18</div>
-                      <div>19</div>
-                      <div>20</div>
+                    <div className="w-6 sm:w-8 bg-gray-800 text-gray-500 text-xs py-2 px-1 sm:px-2 text-right select-none">
+                      <div className="h-5 leading-5">1</div>
+                      <div className="h-5 leading-5">2</div>
+                      <div className="h-5 leading-5">3</div>
+                      <div className="h-5 leading-5">4</div>
+                      <div className="h-5 leading-5">5</div>
+                      <div className="h-5 leading-5">6</div>
+                      <div className="h-5 leading-5">7</div>
+                      <div className="h-5 leading-5">8</div>
+                      <div className="h-5 leading-5">9</div>
+                      <div className="h-5 leading-5">10</div>
+                      <div className="h-5 leading-5">11</div>
+                      <div className="h-5 leading-5">12</div>
+                      <div className="h-5 leading-5">13</div>
+                      <div className="h-5 leading-5">14</div>
+                      <div className="h-5 leading-5">15</div>
+                      <div className="h-5 leading-5">16</div>
+                      <div className="h-5 leading-5">17</div>
+                      <div className="h-5 leading-5">18</div>
+                      <div className="h-5 leading-5">19</div>
+                      <div className="h-5 leading-5">20</div>
+                      <div className="h-5 leading-5">21</div>
+                      <div className="h-5 leading-5">22</div>
                     </div>
 
                     {/* Code Content */}
                     <div className="vscode-content flex-1 p-2 font-mono text-xs sm:text-sm text-gray-300 overflow-x-auto">
-                      <div className="code-line typing-line whitespace-nowrap">
-                        <span className="text-gray-500">/**</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-purple-400">import</span> <span className="text-blue-400">React</span> <span className="text-purple-400">from</span> <span className="text-green-400">'react'</span><span className="text-gray-500">;</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;* <span className="text-gray-500">@description</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-purple-400">import</span> <span className="text-blue-400">classes</span> <span className="text-purple-400">from</span> <span className="text-green-400">'./styles'</span><span className="text-gray-500">;</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;* <span className="text-gray-300">{t.hero.vsCode.description}</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-purple-400">import</span> <span className="text-blue-400">clsx</span> <span className="text-purple-400">from</span> <span className="text-green-400">'clsx'</span><span className="text-gray-500">;</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;* <span className="text-gray-500">@author</span> <span className="text-blue-400">{t.hero.vsCode.author}</span><span className="text-gray-500">.</span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;*/<span className="text-gray-500">;</span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        <span className="text-purple-400">const</span> <span className="text-blue-400">{t.hero.vsCode.functionName}</span> <span className="text-gray-400">=</span> <span className="text-purple-400">(</span><span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span><span className="text-gray-400">:</span> <span className="text-blue-400">number</span><span className="text-gray-400">,</span> <span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span><span className="text-gray-400">:</span> <span className="text-blue-400">boolean</span><span className="text-purple-400">)</span> <span className="text-gray-400">=&gt;</span> <span className="text-blue-400">{'{'}</span>
-                        <span className="text-gray-500"></span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;<span className="text-purple-400">if</span> <span className="text-purple-400">(</span><span className="text-yellow-400">step</span> <span className="text-gray-400">===</span> <span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span><span className="text-purple-400">)</span> <span className="text-blue-400">{'{'}</span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="text-blue-400">clsx</span><span className="text-purple-400">(</span><span className="text-yellow-400">classes.button.root</span><span className="text-gray-400">,</span> <span className="text-yellow-400">classes.button.selected</span><span className="text-purple-400">)</span><span className="text-gray-500">;</span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;<span className="text-blue-400">{'}'}</span>
-                      </div>
-                      <div className="code-line typing-line whitespace-nowrap">
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
                         <br/>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-gray-500">/**</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-gray-400">?</span> <span className="text-blue-400">clsx</span><span className="text-purple-400">(</span><span className="text-yellow-400">classes.button.root</span><span className="text-gray-400">,</span> <span className="text-yellow-400">classes.button.normal</span><span className="text-purple-400">)</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-500">@description</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-gray-400">:</span> <span className="text-blue-400">clsx</span><span className="text-purple-400">(</span><span className="text-yellow-400">classes.button.root</span><span className="text-gray-400">,</span> <span className="text-yellow-400">classes.button.disabled</span><span className="text-purple-400">)</span><span className="text-gray-500">;</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-300">{t.hero.vsCode.description}</span>
                       </div>
-                      <div className="code-line typing-line whitespace-nowrap">
-                        <span className="text-blue-400">{'}'}</span><span className="text-gray-500">;</span>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-500">@author</span> <span className="text-blue-400">{t.hero.vsCode.author}</span>
                       </div>
-                      <div className="cursor-blink">|</div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span> <span className="text-gray-300">- El índice del botón</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-500">@param</span> <span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span> <span className="text-gray-300">- Si el paso está habilitado</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;* <span className="text-gray-500">@returns</span> <span className="text-blue-400">string</span> <span className="text-gray-300">- Clases CSS del botón</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;*/<span className="text-gray-500"></span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-purple-400">const</span> <span className="text-blue-400">{t.hero.vsCode.functionName}</span> <span className="text-gray-400">=</span> <span className="text-purple-400">(</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;<span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span><span className="text-gray-400">:</span> <span className="text-blue-400">number</span><span className="text-gray-400">,</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;<span className="text-yellow-400">{t.hero.vsCode.paramIsStepEnabled}</span><span className="text-gray-400">:</span> <span className="text-blue-400">boolean</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        <span className="text-purple-400">)</span><span className="text-gray-400">:</span> <span className="text-blue-400">string</span> <span className="text-gray-400">=&gt;</span> <span className="text-blue-400">{'{'}</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;<span className="text-purple-400">if</span> <span className="text-purple-400">(</span><span className="text-yellow-400">step</span> <span className="text-gray-400">===</span> <span className="text-yellow-400">{t.hero.vsCode.paramIndex}</span><span className="text-purple-400">)</span> <span className="text-blue-400">{'{'}</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">return</span> <span className="text-blue-400">clsx</span><span className="text-purple-400">(</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-yellow-400">classes.button.root</span><span className="text-gray-400">,</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="text-yellow-400">classes.button.selected</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span className="text-purple-400">)</span><span className="text-gray-500">;</span>
+                      </div>
+                      <div className="code-line typing-line whitespace-nowrap h-5 leading-5">
+                        &nbsp;&nbsp;<span className="text-blue-400">{'}'}</span>
+                      </div>
+                      <div className="cursor-blink h-5 leading-5">|</div>
                     </div>
                   </div>
                 </div>
@@ -548,10 +630,22 @@ export function Hero() {
                 <div className="flex items-center space-x-2 sm:space-x-4">
                   <span className="hidden sm:inline">{t.hero.vsCode.language}</span>
                   <span>{t.hero.vsCode.lineNumber}</span>
+                  {!isVSCodeOpen && (
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                      <span className="text-blue-400 text-xs">Initializing...</span>
+                    </div>
+                  )}
                 </div>
                 <div className="flex items-center space-x-2 sm:space-x-4">
                   <span className="hidden sm:inline">{t.hero.vsCode.encoding}</span>
                   <span className="hidden sm:inline">{t.hero.vsCode.lineEnding}</span>
+                  {isVSCodeOpen && (
+                    <div className="flex items-center space-x-1">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-green-400 text-xs">Ready</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
