@@ -13,6 +13,7 @@
     "@gsap/react": "^2.1.2",
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-slot": "^1.0.2",
+    "@tippyjs/react": "^4.2.6",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "flag-icons": "^7.5.0",
@@ -28,6 +29,7 @@
     "react-i18next": "^15.5.3",
     "react-responsive": "^10.0.0",
     "react-simple-typewriter": "^5.0.1",
+    "react-tippy": "^1.4.0",
     "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {

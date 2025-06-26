@@ -27,19 +27,25 @@ export const translations = {
         initializing: "Inicializando...",
         ready: "Listo",
         // Tooltips
-        closeTooltip: "Cerrar VS Code",
-        openTooltip: "Abrir VS Code",
+        closeTooltip: "Cierra el editor",
+        openTooltip: "Abre el editor",
         // Comentarios del código
         buttonIndexComment: "El índice del botón",
         stepEnabledComment: "Si el paso está habilitado",
         cssClassesComment: "Clases CSS del botón"
       },
-      floatingTags: {
-        experience: "4+ Años",
-        expertise: "Experto React",
-        availability: "Disponible Ya",
-        remote: "Trabajo Remoto"
-      },
+      techStack: [
+        "React",
+        "Tailwind CSS",
+        "GSAP",
+        "TypeScript",
+        "Next.js",
+        "Framer Motion",
+        "Vite",
+        "Git",
+        "Node.js",
+        "Storybook"
+      ],
       // Panel de Performance
       performance: {
         title: "Monitor de Rendimiento",
@@ -151,19 +157,25 @@ export const translations = {
         initializing: "Initializing...",
         ready: "Ready",
         // Tooltips
-        closeTooltip: "Close VS Code",
-        openTooltip: "Open VS Code",
+        closeTooltip: "Close the editor",
+        openTooltip: "Open the editor",
         // Comentarios del código
         buttonIndexComment: "Button index",
         stepEnabledComment: "Whether step is enabled",
         cssClassesComment: "Button CSS classes"
       },
-      floatingTags: {
-        experience: "4+ Years",
-        expertise: "React Expert",
-        availability: "Available Now",
-        remote: "Remote Ready"
-      },
+      techStack: [
+        "React",
+        "Tailwind CSS",
+        "GSAP",
+        "TypeScript",
+        "Next.js",
+        "Framer Motion",
+        "Vite",
+        "Git",
+        "Node.js",
+        "Storybook"
+      ],
       // Panel de Performance
       performance: {
         title: "Performance Monitor",
@@ -270,13 +282,43 @@ export const translations = {
         lineEnding: "LF",
         functionName: "obterEstiloBotao",
         paramIndex: "indice",
-        paramIsStepEnabled: "habilitado"
+        paramIsStepEnabled: "habilitado",
+        // Estados
+        initializing: "Inicializando...",
+        ready: "Pronto",
+        // Tooltips
+        closeTooltip: "Fechar o editor",
+        openTooltip: "Abrir o editor",
+        // Comentários do código
+        buttonIndexComment: "O índice do botão",
+        stepEnabledComment: "Se o passo está habilitado",
+        cssClassesComment: "Classes CSS do botão"
       },
-      floatingTags: {
-        experience: "4+ Anos",
-        expertise: "Especialista React",
-        availability: "Disponível Agora",
-        remote: "Trabalho Remoto"
+      techStack: [
+        "React",
+        "Tailwind CSS",
+        "GSAP",
+        "TypeScript",
+        "Next.js",
+        "Framer Motion",
+        "Vite",
+        "Git",
+        "Node.js",
+        "Storybook"
+      ],
+      // Panel de Performance
+      performance: {
+        title: "Monitor de Performance",
+        currentFps: "FPS Atual",
+        avgFps: "FPS Médio",
+        activeAnimations: "Animações Ativas",
+        domElements: "Elementos DOM",
+        debugShortcut: "Pressione Ctrl+Shift+P para info de debug",
+        checkPerformance: "Verificar Performance",
+        advancedAnalysis: "Análise Avançada",
+        optimizationComparison: "Comparação de Otimização",
+        captureBaseline: "Capturar linha Base",
+        compareOptimized: "Comparar Otimizado"
       }
     },
     
@@ -370,13 +412,43 @@ export const translations = {
         lineEnding: "LF",
         functionName: "obtenirStyleBouton",
         paramIndex: "indice",
-        paramIsStepEnabled: "activee"
+        paramIsStepEnabled: "activee",
+        // États
+        initializing: "Initialisation...",
+        ready: "Prêt",
+        // Tooltips
+        closeTooltip: "Fermer l'éditeur",
+        openTooltip: "Ouvrir l'éditeur",
+        // Commentaires du code
+        buttonIndexComment: "L'index du bouton",
+        stepEnabledComment: "Si l'étape est activée",
+        cssClassesComment: "Classes CSS du bouton"
       },
-      floatingTags: {
-        experience: "4+ Ans",
-        expertise: "Expert React",
-        availability: "Disponible Maintenant",
-        remote: "Travail à Distance"
+      techStack: [
+        "React",
+        "Tailwind CSS",
+        "GSAP",
+        "TypeScript",
+        "Next.js",
+        "Framer Motion",
+        "Vite",
+        "Git",
+        "Node.js",
+        "Storybook"
+      ],
+      // Panel de Performance
+      performance: {
+        title: "Moniteur de Performance",
+        currentFps: "FPS Actuel",
+        avgFps: "FPS Moyen",
+        activeAnimations: "Animations Actives",
+        domElements: "Éléments DOM",
+        debugShortcut: "Appuyez sur Ctrl+Shift+P pour info de debug",
+        checkPerformance: "Vérifier Performance",
+        advancedAnalysis: "Analyse Avancée",
+        optimizationComparison: "Comparaison d'Optimisation",
+        captureBaseline: "Capturer Ligne de Base",
+        compareOptimized: "Comparer Optimisé"
       }
     },
     

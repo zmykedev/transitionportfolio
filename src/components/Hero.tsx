@@ -10,6 +10,7 @@ import {
   Calendar,
 } from "lucide-react";
 
+
 // Registrar plugins
 gsap.registerPlugin(useGSAP);
 
@@ -138,6 +139,10 @@ export function Hero() {
 
   // Estado para el VS Code
   const [isVSCodeOpen, setIsVSCodeOpen] = useState(false);
+  
+  // Estado para controlar cuándo mostrar el tooltip permanentemente
+  const [tooltipEnabled, setTooltipEnabled] = useState(false);
+  const techStack = t.hero.techStack;
 
   // Performance monitoring
   useEffect(() => {
@@ -322,6 +327,8 @@ export function Hero() {
       onStart: () => performanceMonitor.trackAnimation()
     });
 
+  
+
     // Animación del hero-description - optimizada
     gsap.from(".hero-description", {
       opacity: 0,
@@ -341,7 +348,144 @@ export function Hero() {
       duration: 2.8,
       delay: 0.2,
       ease: "bounce.out",
-      onStart: () => performanceMonitor.trackAnimation()
+      onStart: () => performanceMonitor.trackAnimation(),
+      onComplete: () => {
+        console.log('🎯 Bounce animation completed - enabling tooltip');
+        
+        // Habilitar tooltip después de que termine el bounce
+        gsap.delayedCall(0.5, () => {
+          console.log('🎯 Bounce completed - showing tooltip permanently');
+          setTooltipEnabled(true);
+          
+          // Agregar clase especial al botón VS Code
+          if (vsCodeIconRef.current) {
+            vsCodeIconRef.current.classList.add('tip-vscode-enabled');
+            console.log('🎯 VS Code tooltip now visible permanently');
+          }
+
+          
+                     // Animación de aparición del robot asistente
+           gsap.delayedCall(0.3, () => {
+             console.log('🤖 Iniciando aparición del robot asistente...');
+             
+                           // Robot aparece desde atrás del botón con secuencia controlada
+              gsap.timeline()
+                .to('.robot-container', {
+                  x: 0,
+                  y: 0,
+                  scale: 1,
+                  rotation: 0,
+                  opacity: 1,
+                  duration: 1.2,
+                  ease: "back.out(2)",
+                  onComplete: () => {
+                    console.log('🤖 Robot apareció! Iniciando animaciones de vida...');
+                    
+                    // Robot "flotando" en el aire
+                    gsap.to('.robot-body', {
+                      y: "-=8",
+                      duration: 2.5,
+                      ease: "sine.inOut",
+                      yoyo: true,
+                      repeat: -1
+                    });
+                    
+                    // Rotación sutil del robot como si estuviera "pensando"
+                    gsap.to('.robot-body', {
+                      rotation: "3",
+                      duration: 4,
+                      ease: "sine.inOut",
+                      yoyo: true,
+                      repeat: -1
+                    });
+                  }
+                })
+                .to('.speech-bubble', {
+                  scale: 1,
+                  opacity: 1,
+                  duration: 0.6,
+                  ease: "back.out(1.7)",
+                  delay: 0.3
+                })
+                .to('.speaking-text', {
+                  opacity: 1,
+                  duration: 0.8
+                })
+                .to('.speech-bubble', {
+                  scale: 1.02,
+                  duration: 1.5,
+                  ease: "sine.inOut",
+                  yoyo: true,
+                  repeat: -1
+                })
+                .to('.particle-1, .particle-2, .particle-3', {
+                  opacity: 0.7,
+                  duration: 0.5,
+                  stagger: 0.2,
+                  onComplete: () => {
+                    // Animaciones de partículas flotando
+                    gsap.to('.particle-1', {
+                      y: "-=15",
+                      x: "+=5",
+                      rotation: 360,
+                      duration: 4,
+                      ease: "sine.inOut",
+                      yoyo: true,
+                      repeat: -1
+                    });
+                    
+                    gsap.to('.particle-2', {
+                      y: "+=10",
+                      x: "-=8",
+                      rotation: -360,
+                      duration: 3,
+                      ease: "sine.inOut",
+                      yoyo: true,
+                      repeat: -1,
+                      delay: 1
+                    });
+                    
+                    gsap.to('.particle-3', {
+                      y: "-=12",
+                      x: "+=3",
+                      rotation: 180,
+                      duration: 3.5,
+                      ease: "sine.inOut",
+                      yoyo: true,
+                      repeat: -1,
+                      delay: 0.5
+                    });
+                    
+                    // Robot ocasionalmente "gesticula" más animadamente
+                    const createGestureEffect = () => {
+                      gsap.timeline({ repeat: -1, repeatDelay: 8 })
+                        .to('.robot-body', {
+                          scale: 1.1,
+                          rotation: "+=8",
+                          duration: 0.4,
+                          ease: "back.out(2)"
+                        })
+                        .to('.robot-body', {
+                          scale: 0.95,
+                          rotation: "-=12",
+                          duration: 0.3,
+                          ease: "power2.out"
+                        })
+                        .to('.robot-body', {
+                          scale: 1,
+                          rotation: "+=4",
+                          duration: 0.5,
+                          ease: "elastic.out(1.2, 0.5)"
+                        });
+                    };
+                    
+                    // Iniciar gestos después de 3 segundos
+                    gsap.delayedCall(3, createGestureEffect);
+                  }
+                }, "-=0.5");
+           });
+        });
+      }
     });
 
     // VS Code window - estado inicial
@@ -458,6 +602,42 @@ export function Hero() {
 
     endTracking();
 
+    // Animación para las medallas flotantes
+    gsap.from(".floating-tag", {
+      opacity: 0,
+      scale: 0.5,
+      duration: 1,
+      ease: 'back.out(1.7)',
+      stagger: 0.2,
+      delay: 1.2
+    });
+
+    // Animación del avión
+    gsap.fromTo('.airplane-svg', 
+        { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
+        {
+            x: '60vw',
+            y: '15vh',
+            rotate: -15,
+            scale: 2,
+            duration: 4,
+            delay: 1,
+            ease: 'cubic-bezier(0.25, 1, 0.5, 1)',
+            onComplete: () => {
+                // Floating animation
+                gsap.to('.airplane-svg', {
+                    y: '+=15',
+                    rotate: '+=3',
+                  
+                    duration: 2.5,
+                    yoyo: true,
+                    repeat: -1,
+                    ease: 'sine.inOut'
+                })
+            }
+        }
+    );
+
   }, { 
     scope: heroRef,
     dependencies: [t.hero.greeting, t.hero.name, t.hero.location, t.hero.description]
@@ -472,6 +652,11 @@ export function Hero() {
       <div className="absolute inset-0 overflow-hidden">
         <div className="wave absolute top-1/4 left-1/4 w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gradient-to-r from-purple-500/5 to-pink-500/5 rounded-full blur-2xl lg:blur-3xl"></div>
         <div className="wave absolute bottom-1/4 right-1/4 w-48 h-48 sm:w-64 sm:h-64 lg:w-96 lg:h-96 bg-gradient-to-r from-blue-500/5 to-cyan-500/5 rounded-full blur-2xl lg:blur-3xl"></div>
+      </div>
+
+      {/* Airplane */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-[5]">
+        <span role="img" aria-label="airplane" className="airplane-svg absolute text-6xl">✈️</span>
       </div>
 
       {/* Main Content - Responsive Grid Layout */}
@@ -575,29 +760,80 @@ export function Hero() {
               <span className="relative z-10 sm:hidden">WhatsApp</span>
             </a>
 
-            {/* VSCode */}
-            <button
-              ref={vsCodeIconRef}
-              onClick={toggleVSCode}
-              className={`group relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl sm:rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transform-gpu overflow-hidden text-sm sm:text-base ${
-                isVSCodeOpen 
-                  ? 'shadow-lg ' 
-                  : ''
-              }`}
-              title={isVSCodeOpen ? t.hero.vsCode.closeTooltip : t.hero.vsCode.openTooltip}
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M21.29 4.1L18.37 1.18C18.17 0.98 17.89 0.87 17.6 0.87C17.31 0.87 17.03 0.98 16.83 1.18L2.71 15.3C2.31 15.7 2.31 16.33 2.71 16.73L5.63 19.65C5.83 19.85 6.11 19.96 6.4 19.96C6.69 19.96 6.97 19.85 7.17 19.65L21.29 5.53C21.69 5.13 21.69 4.5 21.29 4.1Z"/>
+                        {/* VSCode */}
+            <div className="relative">
+              <button
+                ref={vsCodeIconRef}
+                onClick={toggleVSCode}
+                className={`group relative flex items-center gap-2 sm:gap-3 px-4 sm:px-6 py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 text-white font-bold rounded-xl sm:rounded-2xl transition-all duration-500 shadow-xl hover:shadow-2xl hover:scale-105 hover:-translate-y-1 transform-gpu overflow-hidden text-sm sm:text-base z-10 ${
+                  isVSCodeOpen 
+                    ? 'shadow-lg ' 
+                    : ''
+                }`}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <svg className="relative z-10 w-5 h-5 sm:w-6 sm:h-6" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M21.29 4.1L18.37 1.18C18.17 0.98 17.89 0.87 17.6 0.87C17.31 0.87 17.03 0.98 16.83 1.18L2.71 15.3C2.31 15.7 2.31 16.33 2.71 16.73L5.63 19.65C5.83 19.85 6.11 19.96 6.4 19.96C6.69 19.96 6.97 19.85 7.17 19.65L21.29 5.53C21.69 5.13 21.69 4.5 21.29 4.1Z"/>
                 </svg>
-            </button>
-          
+              </button>
+
+                            {/* Robot Assistant */}
+              {tooltipEnabled && (
+                <div className="absolute top-20 -right-1 z-0">
+                  {/* Robot que sale de atrás */}
+                  <div className="robot-container relative opacity-0 scale-0" style={{transform: 'translateX(-40px) translateY(-20px) rotate(-45deg)'}}>
+                    {/* Robot */}
+                    <div className="robot-body text-4xl transform-gpu" style={{filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'}}>
+                      🤖
+                    </div>
+                    
+                    {/* Globo de diálogo */}
+                    <div className="speech-bubble absolute -top-8 left-10 bg-white text-gray-800 text-xs font-medium py-2 px-3 rounded-xl shadow-lg border border-gray-200 whitespace-nowrap max-w-xs opacity-0 scale-0">
+                     <span className="speaking-text opacity-0">
+                          {isVSCodeOpen ? t.hero.vsCode.closeTooltip : t.hero.vsCode.openTooltip}
+                         </span>
+                      
+                      {/* Cola del globo apuntando al robot */}
+                      <div className="absolute top-full left-8 transform -translate-x-1/2">
+                        <div className="w-0 h-0 border-l-4 border-r-4 border-t-6 border-transparent border-t-white"></div>
+                      </div>
+                      
+               
+                    </div>
+                    
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {/* Right Side - Visual Studio Code Interface */}
-        <div className="flex justify-center xl:justify-end order-1 xl:order-2 mb-8 xl:mb-0">
-          <div className="w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
+        <div className="flex justify-center xl:justify-center order-1 xl:order-2 mb-8 xl:mb-0">
+          <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
+            {/* Floating Medals */}
+            {techStack.map((tag: string, index: number) => (
+              <div
+                key={index}
+                className={`absolute bg-gray-800/60 backdrop-blur-md text-white font-bold py-2 px-5 rounded-full shadow-lg border border-gray-700/50 transform-gpu floating-tag`}
+                style={{
+                  zIndex: -1,
+                  ...(index === 0 && { top: '2%', left: '-15%', transform: 'rotate(-15deg)' }),
+                  ...(index === 1 && { top: '15%', right: '-20%', transform: 'rotate(10deg)' }),
+                  ...(index === 2 && { top: '35%', left: '-22%', transform: 'rotate(8deg)' }),
+                  ...(index === 3 && { top: '50%', right: '-18%', transform: 'rotate(-12deg)' }),
+                  ...(index === 4 && { top: '68%', left: '-15%', transform: 'rotate(-5deg)' }),
+                  ...(index === 5 && { top: '80%', right: '-22%', transform: 'rotate(15deg)' }),
+                  ...(index === 6 && { bottom: '-5%', left: '5%', transform: 'rotate(10deg)' }),
+                  ...(index === 7 && { bottom: '-10%', right: '25%', transform: 'rotate(-8deg)' }),
+                  ...(index === 8 && { top: '-8%', right: '30%', transform: 'rotate(5deg)' }),
+                  ...(index === 9 && { top: '5%', left: '35%', transform: 'rotate(-10deg)' }),
+                }}
+              >
+                {tag}
+              </div>
+            ))}
+
             {/* VS Code Window */}
             <div ref={vsCodeRef} className="vscode-window bg-gray-900 rounded-lg shadow-2xl overflow-hidden border border-gray-700">
               {/* VS Code Header */}
