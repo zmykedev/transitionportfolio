@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import Hero from "./components/Hero";
+import Hero from "./components/Hero/Hero";
 import WaterEffect from "./components/WaterEffect";
 
 // Registrar ScrollTrigger plugin
@@ -33,7 +33,7 @@ export default function App() {
     const timer = setTimeout(() => {
       setShowWaterEffect(false);
       setShowHero(true);
-    }, 4000);
+    }, 1800);
 
     return () => clearTimeout(timer);
   }, []);

@@ -1,8 +1,8 @@
 import { useRef, useState, useEffect } from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useTranslation } from "../lib/useTranslation";
-import { performanceDebugger } from "../lib/performanceUtils";
+import { useTranslation } from "../../lib/useTranslation";
+import { performanceDebugger } from "../../lib/performanceUtils";
 import { 
   Github, 
   Linkedin, 
@@ -616,8 +616,8 @@ export default function Hero() {
     gsap.fromTo('.airplane-svg', 
         { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
         {
-            x: '70vw',
-            y: '40vh',
+            x: '65vw',
+            y: '35vh',
             rotate: -15,
             scale: 2,
             duration: 4,
@@ -813,7 +813,7 @@ export default function Hero() {
             {/* Floating Medals */}
             {techStack.map((tag: string, index: number) => {
               const angle = (index / 10) * 2 * Math.PI - Math.PI / 2; // Start from top
-              const left = 40 + 40 * Math.cos(angle);
+              const left = 40 + 30 * Math.cos(angle);
               const top = 40 + 30 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
               
               return (
