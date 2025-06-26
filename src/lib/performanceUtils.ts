@@ -4,6 +4,7 @@ export class PerformanceDebugger {
   private frameTimeHistory: number[] = [];
   private lastFrameTime = performance.now();
   private isDebugging = false;
+  private isDevelopment = process.env.NODE_ENV === 'development';
 
   // Add optimization tracking
   private optimizationMetrics = {
@@ -31,35 +32,43 @@ export class PerformanceDebugger {
   }
 
   startFrameTimeTracking() {
-    if (this.isDebugging) return;
+    if (!this.isDevelopment || this.isDebugging) return;
     
     this.isDebugging = true;
     this.frameTimeHistory = [];
     this.lastFrameTime = performance.now();
     
-    console.log('🎯 Frame time tracking started');
+    if (this.isDevelopment) {
+      console.log('🎯 Frame time tracking started');
+    }
     this.trackFrameTime();
   }
 
   stopFrameTimeTracking() {
+    if (!this.isDevelopment) return;
+    
     this.isDebugging = false;
-    console.log('⏹️ Frame time tracking stopped');
+    if (this.isDevelopment) {
+      console.log('⏹️ Frame time tracking stopped');
+    }
     
     if (this.frameTimeHistory.length > 0) {
       const avgFrameTime = this.frameTimeHistory.reduce((a, b) => a + b, 0) / this.frameTimeHistory.length;
       const maxFrameTime = Math.max(...this.frameTimeHistory);
       const minFrameTime = Math.min(...this.frameTimeHistory);
       
-      console.log('📊 Frame Time Analysis:');
-      console.log(`  Average: ${avgFrameTime.toFixed(2)}ms`);
-      console.log(`  Maximum: ${maxFrameTime.toFixed(2)}ms`);
-      console.log(`  Minimum: ${minFrameTime.toFixed(2)}ms`);
-      console.log(`  FPS Range: ${(1000 / maxFrameTime).toFixed(1)} - ${(1000 / minFrameTime).toFixed(1)} FPS`);
+      if (this.isDevelopment) {
+        console.log('📊 Frame Time Analysis:');
+        console.log(`  Average: ${avgFrameTime.toFixed(2)}ms`);
+        console.log(`  Maximum: ${maxFrameTime.toFixed(2)}ms`);
+        console.log(`  Minimum: ${minFrameTime.toFixed(2)}ms`);
+        console.log(`  FPS Range: ${(1000 / maxFrameTime).toFixed(1)} - ${(1000 / minFrameTime).toFixed(1)} FPS`);
+      }
     }
   }
 
   private trackFrameTime() {
-    if (!this.isDebugging) return;
+    if (!this.isDevelopment || !this.isDebugging) return;
 
     const currentTime = performance.now();
     const frameTime = currentTime - this.lastFrameTime;
@@ -71,7 +80,7 @@ export class PerformanceDebugger {
     }
     
     // Log slow frames
-    if (frameTime > 33) { // More than 30fps threshold
+    if (frameTime > 33 && this.isDevelopment) { // More than 30fps threshold
       console.warn(`🐌 Slow frame detected: ${frameTime.toFixed(2)}ms (${(1000 / frameTime).toFixed(1)} FPS)`);
       this.analyzeSlowFrame();
     }
@@ -81,6 +90,8 @@ export class PerformanceDebugger {
   }
 
   private analyzeSlowFrame() {
+    if (!this.isDevelopment) return;
+    
     console.group('🔍 Slow Frame Analysis');
     
     // Check for layout thrashing
@@ -128,6 +139,8 @@ export class PerformanceDebugger {
   }
 
   private detectLongTasks() {
+    if (!this.isDevelopment) return;
+    
     // This is a simplified version - in a real implementation you'd use PerformanceObserver
     const tasks = performance.getEntriesByType('measure');
     const longTasks = tasks.filter(task => task.duration > 16);
@@ -142,6 +155,8 @@ export class PerformanceDebugger {
 
   // Method to analyze specific performance bottlenecks
   analyzeBottlenecks() {
+    if (!this.isDevelopment) return;
+    
     console.group('🔍 Performance Bottleneck Analysis');
     
     // Analyze DOM complexity
@@ -157,6 +172,8 @@ export class PerformanceDebugger {
   }
 
   private analyzeDOMComplexity() {
+    if (!this.isDevelopment) return;
+    
     const elements = document.querySelectorAll('*');
     const totalElements = elements.length;
     
@@ -199,6 +216,8 @@ export class PerformanceDebugger {
   }
 
   private analyzeCSSComplexity() {
+    if (!this.isDevelopment) return;
+    
     const stylesheets = Array.from(document.styleSheets);
     let totalRules = 0;
     let complexSelectors = 0;
@@ -232,6 +251,8 @@ export class PerformanceDebugger {
   }
 
   private analyzeJavaScriptPerformance() {
+    if (!this.isDevelopment) return;
+    
     // Check for memory leaks
     if ('memory' in performance) {
       const memory = (performance as any).memory;
@@ -279,6 +300,8 @@ export class PerformanceDebugger {
 
   // Method to capture baseline metrics
   captureBaselineMetrics() {
+    if (!this.isDevelopment) return;
+    
     const frames = this.frameTimeHistory.slice(-100); // Last 100 frames
     if (frames.length === 0) return;
     
@@ -294,11 +317,15 @@ export class PerformanceDebugger {
       animationCount
     };
     
-    console.log('📊 Baseline metrics captured:', this.optimizationMetrics.beforeOptimization);
+    if (this.isDevelopment) {
+      console.log('📊 Baseline metrics captured:', this.optimizationMetrics.beforeOptimization);
+    }
   }
   
   // Method to capture optimized metrics
   captureOptimizedMetrics() {
+    if (!this.isDevelopment) return;
+    
     const frames = this.frameTimeHistory.slice(-100); // Last 100 frames
     if (frames.length === 0) return;
     
@@ -314,12 +341,16 @@ export class PerformanceDebugger {
       animationCount
     };
     
-    console.log('📊 Optimized metrics captured:', this.optimizationMetrics.afterOptimization);
+    if (this.isDevelopment) {
+      console.log('📊 Optimized metrics captured:', this.optimizationMetrics.afterOptimization);
+    }
     this.compareOptimizations();
   }
   
   // Method to compare before/after optimization
   compareOptimizations() {
+    if (!this.isDevelopment) return;
+    
     const before = this.optimizationMetrics.beforeOptimization;
     const after = this.optimizationMetrics.afterOptimization;
     

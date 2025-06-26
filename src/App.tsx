@@ -1,13 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense, lazy } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import { Hero } from "./components/Hero";
 
+// Lazy load the Hero component
+const Hero = lazy(() => import("./components/Hero").then(module => ({ default: module.Hero })));
 
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
+
+// Loading component for Hero
+const HeroLoading = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
+      <p className="text-white text-lg">Cargando...</p>
+    </div>
+  </div>
+);
 
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null);
@@ -77,8 +88,10 @@ export default function App() {
       <div ref={appRef} className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <LanguageSwitcher />
         
-        {/* Hero Section */}
-        <Hero />
+        {/* Hero Section with Lazy Loading */}
+        <Suspense fallback={<HeroLoading />}>
+          <Hero />
+        </Suspense>
       </div>
     </LanguageProvider>
   );
