@@ -616,8 +616,8 @@ export function Hero() {
     gsap.fromTo('.airplane-svg', 
         { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
         {
-            x: '60vw',
-            y: '15vh',
+            x: '70vw',
+            y: '40vh',
             rotate: -15,
             scale: 2,
             duration: 4,
@@ -628,7 +628,6 @@ export function Hero() {
                 gsap.to('.airplane-svg', {
                     y: '+=15',
                     rotate: '+=3',
-                  
                     duration: 2.5,
                     yoyo: true,
                     repeat: -1,
@@ -812,27 +811,26 @@ export function Hero() {
         <div className="flex justify-center xl:justify-center order-1 xl:order-2 mb-8 xl:mb-0">
           <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
             {/* Floating Medals */}
-            {techStack.map((tag: string, index: number) => (
-              <div
-                key={index}
-                className={`absolute bg-gray-800/60 backdrop-blur-md text-white font-bold py-2 px-5 rounded-full shadow-lg border border-gray-700/50 transform-gpu floating-tag`}
-                style={{
-                  zIndex: -1,
-                  ...(index === 0 && { top: '2%', left: '-15%', transform: 'rotate(-15deg)' }),
-                  ...(index === 1 && { top: '15%', right: '-20%', transform: 'rotate(10deg)' }),
-                  ...(index === 2 && { top: '35%', left: '-22%', transform: 'rotate(8deg)' }),
-                  ...(index === 3 && { top: '50%', right: '-18%', transform: 'rotate(-12deg)' }),
-                  ...(index === 4 && { top: '68%', left: '-15%', transform: 'rotate(-5deg)' }),
-                  ...(index === 5 && { top: '80%', right: '-22%', transform: 'rotate(15deg)' }),
-                  ...(index === 6 && { bottom: '-5%', left: '5%', transform: 'rotate(10deg)' }),
-                  ...(index === 7 && { bottom: '-10%', right: '25%', transform: 'rotate(-8deg)' }),
-                  ...(index === 8 && { top: '-8%', right: '30%', transform: 'rotate(5deg)' }),
-                  ...(index === 9 && { top: '5%', left: '35%', transform: 'rotate(-10deg)' }),
-                }}
-              >
-                {tag}
-              </div>
-            ))}
+            {techStack.map((tag: string, index: number) => {
+              const angle = (index / 10) * 2 * Math.PI - Math.PI / 2; // Start from top
+              const left = 40 + 40 * Math.cos(angle);
+              const top = 40 + 30 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
+              
+              return (
+                <div
+                  key={index}
+                  className={`absolute bg-gray-800/60 backdrop-blur-md text-white font-bold py-2 px-5 rounded-full shadow-lg border border-gray-700/50 transform-gpu floating-tag`}
+                  style={{
+                    zIndex: -1,
+                    top: `${top}%`,
+                    left: `${left}%`,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                >
+                  {tag}
+                </div>
+              );
+            })}
 
             {/* VS Code Window */}
             <div ref={vsCodeRef} className="vscode-window bg-gray-900 rounded-lg shadow-2xl overflow-hidden border border-gray-700">
