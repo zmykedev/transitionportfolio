@@ -1,11 +1,10 @@
-import { useEffect, useRef, Suspense, lazy } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
-
-// Lazy load the Hero component
-const Hero = lazy(() => import("./components/Hero").then(module => ({ default: module.Hero })));
+import Hero from "./components/Hero";
+import WaterEffect from "./components/WaterEffect";
 
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -22,6 +21,22 @@ const HeroLoading = () => (
 
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null);
+  const [showHero, setShowHero] = useState(false);
+  const [showWaterEffect, setShowWaterEffect] = useState(true);
+
+  // Control timing for WaterEffect and Hero
+  useEffect(() => {
+    // Show WaterEffect first
+    setShowWaterEffect(true);
+    
+    // After 4 seconds (2s drop + 2s wave), hide WaterEffect and show Hero
+    const timer = setTimeout(() => {
+      setShowWaterEffect(false);
+      setShowHero(true);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Configuración global de GSAP
@@ -86,12 +101,19 @@ export default function App() {
   return (
     <LanguageProvider initialLanguage="es">
       <div ref={appRef} className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        <LanguageSwitcher />
+        {/* Water Effect - shows first */}
+        {showWaterEffect && <WaterEffect />}
         
-        {/* Hero Section with Lazy Loading */}
-        <Suspense fallback={<HeroLoading />}>
-          <Hero />
-        </Suspense>
+        {/* Main content - shows after WaterEffect */}
+        {showHero && (
+          <>
+            <LanguageSwitcher />
+            <Hero />
+          </>
+        )}
+        
+        {/* Loading state while WaterEffect is playing */}
+        {!showHero && !showWaterEffect && <HeroLoading />}
       </div>
     </LanguageProvider>
   );

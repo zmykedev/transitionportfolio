@@ -129,7 +129,7 @@ class PerformanceMonitor {
 // Global performance monitor instance
 const performanceMonitor = new PerformanceMonitor();
 
-export function Hero() {
+export default function Hero() {
   const { t } = useTranslation();
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
