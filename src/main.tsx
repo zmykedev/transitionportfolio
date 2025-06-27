@@ -1,5 +1,5 @@
 import App from './App';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense} from 'react';
 import WaterEffect from './components/Watter-Effect';
 import ReactDOM from 'react-dom/client';
 import '@/styles/globals.css';

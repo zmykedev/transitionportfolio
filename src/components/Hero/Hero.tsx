@@ -1,15 +1,10 @@
-import { useRef, useState, useEffect, useCallback} from "react";
+import { useRef, useEffect, useCallback} from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
-<<<<<<< HEAD:src/components/Hero.tsx
 import { useMediaQuery } from 'usehooks-ts'
 import { useAtom } from 'jotai';
-import { useTranslation } from "../lib/useTranslation";
-import { vsCodeOpenAtom, tooltipEnabledAtom } from "../lib/atoms";
-=======
-import { useTranslation } from "../../lib/useTranslation";
-import { performanceDebugger } from "../../lib/performanceUtils";
->>>>>>> origin:src/components/Hero/Hero.tsx
+import { useTranslation } from "../../lib/useTranslation"; 
+import { vsCodeOpenAtom, tooltipEnabledAtom } from "../../lib/atoms";
 import { 
   Github, 
   Linkedin, 
@@ -21,130 +16,10 @@ import {
 // Registrar plugins
 gsap.registerPlugin(useGSAP);
 
-<<<<<<< HEAD:src/components/Hero.tsx
 export function Hero() {
   const { t, language } = useTranslation();
 
   const isMobile = useMediaQuery('(max-width: 768px)');
-=======
-// Performance monitoring utilities
-class PerformanceMonitor {
-  private frameCount = 0;
-  private lastTime = performance.now();
-  private fpsHistory: number[] = [];
-  private animationCount = 0;
-  private isMonitoring = false;
-
-  startMonitoring() {
-    if (this.isMonitoring) return;
-    
-    this.isMonitoring = true;
-    this.frameCount = 0;
-    this.lastTime = performance.now();
-    this.fpsHistory = [];
-    this.animationCount = 0;
-    
-    console.log('🚀 Performance monitoring started');
-    this.monitorFPS();
-  }
-
-  stopMonitoring() {
-    this.isMonitoring = false;
-    console.log('⏹️ Performance monitoring stopped');
-    console.log('📊 Average FPS:', this.getAverageFPS());
-    console.log('📈 FPS History:', this.fpsHistory);
-  }
-
-  private monitorFPS() {
-    if (!this.isMonitoring) return;
-
-    this.frameCount++;
-    const currentTime = performance.now();
-    
-    if (currentTime >= this.lastTime + 1000) {
-      const fps = Math.round((this.frameCount * 1000) / (currentTime - this.lastTime));
-      this.fpsHistory.push(fps);
-      
-      // Keep only last 60 measurements
-      if (this.fpsHistory.length > 60) {
-        this.fpsHistory.shift();
-      }
-      
-      // Log FPS drops
-      if (fps < 30) {
-        console.warn(`⚠️ Low FPS detected: ${fps} FPS`);
-        this.logPerformanceIssues();
-      } else if (fps < 50) {
-        console.log(`📉 Moderate FPS: ${fps} FPS`);
-      }
-      
-      this.frameCount = 0;
-      this.lastTime = currentTime;
-    }
-    
-    requestAnimationFrame(() => this.monitorFPS());
-  }
-
-  getAverageFPS(): number {
-    if (this.fpsHistory.length === 0) return 0;
-    return Math.round(this.fpsHistory.reduce((a, b) => a + b, 0) / this.fpsHistory.length);
-  }
-
-  getCurrentFPS(): number {
-    if (this.fpsHistory.length === 0) return 0;
-    return this.fpsHistory[this.fpsHistory.length - 1];
-  }
-
-  logPerformanceIssues() {
-    console.group('🔍 Performance Analysis');
-    
-    // Check GSAP animations
-    const activeAnimations = gsap.globalTimeline.getChildren();
-    console.log('🎬 Active GSAP animations:', activeAnimations.length);
-    
-    // Check DOM elements
-    const totalElements = document.querySelectorAll('*').length;
-    console.log('🏗️ Total DOM elements:', totalElements);
-    
-    // Check for heavy elements
-    const heavyElements = document.querySelectorAll('.wave, .vscode-window, .social-buttons');
-    console.log('⚖️ Heavy elements count:', heavyElements.length);
-    
-    // Memory usage (if available)
-    if ('memory' in performance) {
-      const memory = (performance as any).memory;
-      console.log('💾 Memory usage:', {
-        used: Math.round(memory.usedJSHeapSize / 1024 / 1024) + 'MB',
-        total: Math.round(memory.totalJSHeapSize / 1024 / 1024) + 'MB',
-        limit: Math.round(memory.jsHeapSizeLimit / 1024 / 1024) + 'MB'
-      });
-    }
-    
-    console.groupEnd();
-  }
-
-  trackAnimation() {
-    this.animationCount++;
-    console.log(`🎭 Animation started (${this.animationCount} total)`);
-  }
-
-  trackHeavyOperation(operation: string) {
-    const startTime = performance.now();
-    return () => {
-      const duration = performance.now() - startTime;
-      if (duration > 16) { // More than 1 frame at 60fps
-        console.warn(`🐌 Slow operation detected: ${operation} took ${duration.toFixed(2)}ms`);
-      }
-    };
-  }
-}
-
-// Global performance monitor instance
-const performanceMonitor = new PerformanceMonitor();
-
-export default function Hero() {
-  const { t } = useTranslation();
->>>>>>> origin:src/components/Hero/Hero.tsx
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -721,13 +596,8 @@ export default function Hero() {
             {/* Floating Medals */}
             {techStack.map((tag: string, index: number) => {
               const angle = (index / 10) * 2 * Math.PI - Math.PI / 2; // Start from top
-<<<<<<< HEAD:src/components/Hero.tsx
               const left = 50 + 40 * Math.cos(angle);
               const top = 50 + 40 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
-=======
-              const left = 40 + 30 * Math.cos(angle);
-              const top = 40 + 30 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
->>>>>>> origin:src/components/Hero/Hero.tsx
               
               return (
                 <div
