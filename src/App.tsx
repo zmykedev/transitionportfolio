@@ -3,7 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import {Hero} from "./components/Hero";
+import { Hero } from "./components/Hero/Hero";
 import WaterEffect from "./components/Watter-Effect";
 import StickyMiniSidebar from "./components/StickyMiniSidebar";
 
