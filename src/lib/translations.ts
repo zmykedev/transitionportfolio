@@ -39,12 +39,12 @@ export const translations = {
         "Tailwind CSS",
         "GSAP",
         "TypeScript",
-        "Next.js",
+        "Python",
         "Framer Motion",
         "Vite",
         "Git",
         "Node.js",
-        "Storybook"
+        "Storybook", 
       ],
       // Panel de Performance
       performance: {
@@ -60,23 +60,6 @@ export const translations = {
         captureBaseline: "Capturar Línea Base",
         compareOptimized: "Comparar Optimizado"
       }
-    },
-    
-    // TypewriterText
-    typewriter: {
-      iAm: "Soy",
-      words: [
-        "Desarrollador React",
-        "Cazador de Bugs",
-        "Obsesionado con Performance",
-        "Dinámico con Tailwind CSS",
-        "Amante de Framer Motion",
-        "Maestro en Gestión de Estado",
-        "UI Pixel Perfect",
-        "Amante de Storybook",
-        "Adicto a TypeScript",
-        "Defensor del Código Reutilizable",
-      ]
     },
     
     // Section 2 - About
@@ -169,7 +152,7 @@ export const translations = {
         "Tailwind CSS",
         "GSAP",
         "TypeScript",
-        "Next.js",
+        "Python",
         "Framer Motion",
         "Vite",
         "Git",
@@ -190,23 +173,6 @@ export const translations = {
         captureBaseline: "Capture Baseline",
         compareOptimized: "Compare Optimized"
       }
-    },
-    
-    // TypewriterText
-    typewriter: {
-      iAm: "I'm",
-      words: [
-        "React Developer",
-        "Bug Killer",
-        "UI Performance Obsessed",
-        "Tailwind CSS Dynamic",
-        "Framer Motion Lover",
-        "State Management Master",
-        "Pixel Perfect UI",
-        "Storybook Lover",
-        "TypeScript Addict",
-        "Reusable Code Advocate",
-      ]
     },
     
     // Section 2 - About
@@ -299,7 +265,7 @@ export const translations = {
         "Tailwind CSS",
         "GSAP",
         "TypeScript",
-        "Next.js",
+        "Python",
         "Framer Motion",
         "Vite",
         "Git",
@@ -320,23 +286,6 @@ export const translations = {
         captureBaseline: "Capturar linha Base",
         compareOptimized: "Comparar Otimizado"
       }
-    },
-    
-    // TypewriterText
-    typewriter: {
-      iAm: "Sou",
-      words: [
-        "Desenvolvedor React",
-        "Caçador de Bugs",
-        "Obcecado por Performance",
-        "Dinâmico com Tailwind CSS",
-        "Amante do Framer Motion",
-        "Mestre em Gestão de Estado",
-        "UI Pixel Perfect",
-        "Amante do Storybook",
-        "Viciado em TypeScript",
-        "Defensor do Código Reutilizável",
-      ]
     },
     
     // Section 2 - About
@@ -429,7 +378,7 @@ export const translations = {
         "Tailwind CSS",
         "GSAP",
         "TypeScript",
-        "Next.js",
+        "Python",
         "Framer Motion",
         "Vite",
         "Git",
