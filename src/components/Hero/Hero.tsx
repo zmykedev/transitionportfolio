@@ -1,8 +1,15 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback} from "react";
 import { gsap } from "gsap";
 import { useGSAP } from "@gsap/react";
+<<<<<<< HEAD:src/components/Hero.tsx
+import { useMediaQuery } from 'usehooks-ts'
+import { useAtom } from 'jotai';
+import { useTranslation } from "../lib/useTranslation";
+import { vsCodeOpenAtom, tooltipEnabledAtom } from "../lib/atoms";
+=======
 import { useTranslation } from "../../lib/useTranslation";
 import { performanceDebugger } from "../../lib/performanceUtils";
+>>>>>>> origin:src/components/Hero/Hero.tsx
 import { 
   Github, 
   Linkedin, 
@@ -14,6 +21,12 @@ import {
 // Registrar plugins
 gsap.registerPlugin(useGSAP);
 
+<<<<<<< HEAD:src/components/Hero.tsx
+export function Hero() {
+  const { t, language } = useTranslation();
+
+  const isMobile = useMediaQuery('(max-width: 768px)');
+=======
 // Performance monitoring utilities
 class PerformanceMonitor {
   private frameCount = 0;
@@ -131,150 +144,163 @@ const performanceMonitor = new PerformanceMonitor();
 
 export default function Hero() {
   const { t } = useTranslation();
+>>>>>>> origin:src/components/Hero/Hero.tsx
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const vsCodeRef = useRef<HTMLDivElement>(null);
   const vsCodeIconRef = useRef<HTMLButtonElement>(null);
 
-  // Estado para el VS Code
-  const [isVSCodeOpen, setIsVSCodeOpen] = useState(false);
+  // Estado global para el VS Code usando atoms
+  const [isVSCodeOpen, setIsVSCodeOpen] = useAtom(vsCodeOpenAtom);
   
-  // Estado para controlar cuándo mostrar el tooltip permanentemente
-  const [tooltipEnabled, setTooltipEnabled] = useState(false);
+  // Estado global para controlar cuándo mostrar el tooltip permanentemente
+  const [tooltipEnabled, setTooltipEnabled] = useAtom(tooltipEnabledAtom);
+
+  // Ref para saber si es la primera carga del componente
+  const isInitialMount = useRef(true);
   const techStack = t.hero.techStack;
 
-  // Performance monitoring
-  useEffect(() => {
-    // Start monitoring when component mounts
-    performanceMonitor.startMonitoring();
-    performanceDebugger.startFrameTimeTracking();
+  // // Performance monitoring
+  // useEffect(() => {
+  //   // Start monitoring when component mounts
+  //   performanceMonitor.startMonitoring();
+  //   performanceDebugger.startFrameTimeTracking();
     
-    // Add keyboard shortcut for performance debugging
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-        e.preventDefault();
-        console.group('🎯 Performance Debug Info');
-        console.log('Current FPS:', performanceMonitor.getCurrentFPS());
-        console.log('Active animations:', gsap.globalTimeline.getChildren().length);
-        console.log('DOM elements:', document.querySelectorAll('*').length);
-        console.log('Heavy elements:', document.querySelectorAll('.wave, .vscode-window, .social-buttons').length);
-        performanceDebugger.analyzeBottlenecks();
-        console.groupEnd();
-      }
-    };
+  //   // Add keyboard shortcut for performance debugging
+  //   const handleKeyPress = (e: KeyboardEvent) => {
+  //     if (e.ctrlKey && e.shiftKey && e.key === 'P') {
+  //       e.preventDefault();
+  //       console.group('🎯 Performance Debug Info');
+  //       console.log('Current FPS:', performanceMonitor.getCurrentFPS());
+  //       console.log('Active animations:', gsap.globalTimeline.getChildren().length);
+  //       console.log('DOM elements:', document.querySelectorAll('*').length);
+  //       console.log('Heavy elements:', document.querySelectorAll('.wave, .vscode-window, .social-buttons').length);
+  //       performanceDebugger.analyzeBottlenecks();
+  //       console.groupEnd();
+  //     }
+  //   };
     
-    document.addEventListener('keydown', handleKeyPress);
+  //   document.addEventListener('keydown', handleKeyPress);
     
-    // Stop monitoring when component unmounts
-    return () => {
-      performanceMonitor.stopMonitoring();
-      performanceDebugger.stopFrameTimeTracking();
-      document.removeEventListener('keydown', handleKeyPress);
-    };
-  }, []);
+  //   // Stop monitoring when component unmounts
+  //   return () => {
+  //     performanceMonitor.stopMonitoring();
+  //     performanceDebugger.stopFrameTimeTracking();
+  //     document.removeEventListener('keydown', handleKeyPress);
+  //   };
+  // }, []);
 
-  // Performance control panel (only in development)
-  const [showPerformancePanel, setShowPerformancePanel] = useState(false);
-  
-  useEffect(() => {
-    if (process.env.NODE_ENV === 'development') {
-      setShowPerformancePanel(true);
+  // Función para ejecutar las animaciones de apertura del VS Code
+  const executeVSCodeOpenAnimation = useCallback(() => {
+    // Verificar que el elemento existe antes de animar
+    if (!vsCodeRef.current) {
+      console.warn('VSCode ref not available');
+      return;
     }
-  }, []);
 
-  // Funciones para controlar el VS Code
-  const openVSCode = () => {
-    const endTracking = performanceMonitor.trackHeavyOperation('openVSCode');
+    // Limpiar animaciones previas
+    gsap.killTweensOf(vsCodeRef.current);
+    gsap.killTweensOf(".code-line");
+    gsap.killTweensOf(".cursor-blink");
     
-    if (!isVSCodeOpen) {
-      setIsVSCodeOpen(true);
-
-          // VS Code window - estado inicial
-      gsap.set(".vscode-window", {
-        scale: 0,
-        opacity: 0,
-        x: 200,
-        y: -500
-      });
-      
-       // Obtener posición inicial del botón para la animación automática
-       const buttonRect = vsCodeIconRef.current?.getBoundingClientRect();
-       const vsCodeWindow = vsCodeRef.current;
-       const vsCodeRect = vsCodeWindow?.getBoundingClientRect();
-       
-       if (buttonRect && vsCodeWindow && vsCodeRect) {
-         // Calcular la posición relativa del botón respecto a la ventana
-         const deltaX = buttonRect.left - vsCodeRect.left;
-         const deltaY = buttonRect.top - vsCodeRect.top;
-         
-         // Establecer posición inicial en el botón
-         gsap.set(vsCodeWindow, {
-           scale: 0,
-           opacity: 0,
-           x: deltaX,
-           y: deltaY,
-           transformOrigin: "center center"
-         });
-       }
-      
-      // Animación desde el botón hacia la posición final
-      gsap.to(vsCodeRef.current, {
-        scale: 1,
-        opacity: 1,
-        x: 0,
-        y: 0,
-        duration: 0.8,
-        ease: "back.out(1.7)",
-        onStart: () => performanceMonitor.trackAnimation(),
-        onComplete: () => {
-          // Efecto de typing en las líneas de código
-          const codeLines = document.querySelectorAll('.code-line');
+    // VS Code window - estado inicial
+    gsap.set(vsCodeRef.current, {
+      scale: 0,
+      opacity: 0,
+      x: 0,
+      y: 0,
+      transformOrigin: "center center"
+    });
+    
+    // Animación desde el botón hacia la posición final
+    gsap.to(vsCodeRef.current, {
+      scale: 1,
+      opacity: 1,
+      x: 0,
+      y: 0,
+      duration: 0.8,
+      ease: "back.out(1.7)",
+      onComplete: () => {
+        // Efecto de typing en las líneas de código
+        const codeLines = document.querySelectorAll('.code-line');
+        if (codeLines.length > 0) {
           codeLines.forEach((line, index) => {
             gsap.set(line, { opacity: 0 });
             gsap.to(line, {
               opacity: 1,
               duration: 0.1,
-              delay: index * 0.2,
+              delay: index * 0.1,
               ease: "none",
               onComplete: () => {
                 if (index === codeLines.length - 1) {
                   // Mostrar cursor y comenzar parpadeo después de terminar el código
-                  gsap.to('.cursor-blink', {
-                    opacity: 1,
-                    duration: 0.1,
-                    delay: 0.5,
-                    onComplete: () => {
-                      // Iniciar animación de parpadeo
-                      gsap.to('.cursor-blink', {
-                        opacity: 0,
-                        duration: 1,
-                        repeat: -1,
-                        yoyo: true,
-                        ease: "power1.inOut",
-                        onStart: () => performanceMonitor.trackAnimation()
-                      });
-                    }
-                  });
+                  const cursor = document.querySelector('.cursor-blink');
+                  if (cursor) {
+                    gsap.to(cursor, {
+                      opacity: 1,
+                      duration: 0.1,
+                      delay: 0.5,
+                      onComplete: () => {
+                        // Iniciar animación de parpadeo
+                        gsap.to(cursor, {
+                          opacity: 0,
+                          duration: 1,
+                          repeat: -1,
+                          yoyo: true,
+                          ease: "power1.inOut",
+                        });
+                      }
+                    });
+                  }
                 }
               }
             });
           });
-          endTracking();
         }
-      });
+      }
+    });
+  }, []);
+
+  // Effect para reaccionar a cambios en el estado del VS Code (desde el sticky sidebar)
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
+    
+    if (isVSCodeOpen && vsCodeRef.current) {
+      try {
+        // Ejecutar animaciones de apertura cuando se abre desde el sticky sidebar
+        executeVSCodeOpenAnimation();
+      } catch (error) {
+        console.warn('Error executing VS Code animation:', error);
+      }
+    }
+  }, [isVSCodeOpen, executeVSCodeOpenAnimation]);
+
+  // Funciones para controlar el VS Code
+  const openVSCode = () => {
+    if (!isVSCodeOpen) {
+      setIsVSCodeOpen(true);
+      executeVSCodeOpenAnimation();
     }
   };
 
   const closeVSCode = () => {
-    const endTracking = performanceMonitor.trackHeavyOperation('closeVSCode');
-    
-    if (isVSCodeOpen) {
+    if (isVSCodeOpen && vsCodeRef.current) {
       setIsVSCodeOpen(false);
       
-      // Detener y ocultar cursor
+      // Limpiar todas las animaciones previas
+      gsap.killTweensOf(vsCodeRef.current);
       gsap.killTweensOf('.cursor-blink');
-      gsap.set('.cursor-blink', { opacity: 0 });
+      gsap.killTweensOf('.code-line');
+      
+      // Detener y ocultar cursor
+      const cursor = document.querySelector('.cursor-blink');
+      if (cursor) {
+        gsap.set(cursor, { opacity: 0 });
+      }
       
       // Primero ocultar las líneas de código
       const codeLines = document.querySelectorAll('.code-line');
@@ -286,22 +312,16 @@ export default function Hero() {
           ease: "none"
         });
       });
-
       
-      
-      
-      
-      // Luego cerrar la ventana hacia el botón
+      // Luego cerrar la ventana
       gsap.to(vsCodeRef.current, {
         scale: 0,
         opacity: 0,
-        x: -500,
-        y: 200,
+        x: 0,
+        y: 0,
         duration: 0.5,
         delay: 0.3,
         ease: "back.in(1.7)",
-        onStart: () => performanceMonitor.trackAnimation(),
-        onComplete: endTracking
       });
     }
   };
@@ -315,7 +335,6 @@ export default function Hero() {
   };
 
   useGSAP(() => {
-    const endTracking = performanceMonitor.trackHeavyOperation('useGSAP animations');
     
     // Animación del hero-location (greeting + name) - optimizada
     gsap.from(".hero-location", {
@@ -324,7 +343,6 @@ export default function Hero() {
       duration: 1.4,
       ease: "power2.out",
       stagger: 0.2,
-      onStart: () => performanceMonitor.trackAnimation()
     });
 
   
@@ -337,7 +355,6 @@ export default function Hero() {
       duration: 1.4,
       ease: "power2.out",
       delay: 0.2,
-      onStart: () => performanceMonitor.trackAnimation()
     });
 
     // Animación de botones sociales - optimizada
@@ -348,25 +365,20 @@ export default function Hero() {
       duration: 2.8,
       delay: 0.2,
       ease: "bounce.out",
-      onStart: () => performanceMonitor.trackAnimation(),
       onComplete: () => {
-        console.log('🎯 Bounce animation completed - enabling tooltip');
         
         // Habilitar tooltip después de que termine el bounce
         gsap.delayedCall(0.5, () => {
-          console.log('🎯 Bounce completed - showing tooltip permanently');
           setTooltipEnabled(true);
           
           // Agregar clase especial al botón VS Code
           if (vsCodeIconRef.current) {
             vsCodeIconRef.current.classList.add('tip-vscode-enabled');
-            console.log('🎯 VS Code tooltip now visible permanently');
           }
 
           
                      // Animación de aparición del robot asistente
            gsap.delayedCall(0.3, () => {
-             console.log('🤖 Iniciando aparición del robot asistente...');
              
                            // Robot aparece desde atrás del botón con secuencia controlada
               gsap.timeline()
@@ -379,7 +391,6 @@ export default function Hero() {
                   duration: 1.2,
                   ease: "back.out(2)",
                   onComplete: () => {
-                    console.log('🤖 Robot apareció! Iniciando animaciones de vida...');
                     
                     // Robot "flotando" en el aire
                     gsap.to('.robot-body', {
@@ -418,71 +429,7 @@ export default function Hero() {
                   yoyo: true,
                   repeat: -1
                 })
-                .to('.particle-1, .particle-2, .particle-3', {
-                  opacity: 0.7,
-                  duration: 0.5,
-                  stagger: 0.2,
-                  onComplete: () => {
-                    // Animaciones de partículas flotando
-                    gsap.to('.particle-1', {
-                      y: "-=15",
-                      x: "+=5",
-                      rotation: 360,
-                      duration: 4,
-                      ease: "sine.inOut",
-                      yoyo: true,
-                      repeat: -1
-                    });
-                    
-                    gsap.to('.particle-2', {
-                      y: "+=10",
-                      x: "-=8",
-                      rotation: -360,
-                      duration: 3,
-                      ease: "sine.inOut",
-                      yoyo: true,
-                      repeat: -1,
-                      delay: 1
-                    });
-                    
-                    gsap.to('.particle-3', {
-                      y: "-=12",
-                      x: "+=3",
-                      rotation: 180,
-                      duration: 3.5,
-                      ease: "sine.inOut",
-                      yoyo: true,
-                      repeat: -1,
-                      delay: 0.5
-                    });
-                    
-                    // Robot ocasionalmente "gesticula" más animadamente
-                    const createGestureEffect = () => {
-                      gsap.timeline({ repeat: -1, repeatDelay: 8 })
-                        .to('.robot-body', {
-                          scale: 1.1,
-                          rotation: "+=8",
-                          duration: 0.4,
-                          ease: "back.out(2)"
-                        })
-                        .to('.robot-body', {
-                          scale: 0.95,
-                          rotation: "-=12",
-                          duration: 0.3,
-                          ease: "power2.out"
-                        })
-                        .to('.robot-body', {
-                          scale: 1,
-                          rotation: "+=4",
-                          duration: 0.5,
-                          ease: "elastic.out(1.2, 0.5)"
-                        });
-                    };
-                    
-                    // Iniciar gestos después de 3 segundos
-                    gsap.delayedCall(3, createGestureEffect);
-                  }
-                }, "-=0.5");
+               
            });
         });
       }
@@ -509,78 +456,16 @@ export default function Hero() {
 
     // Abrir VS Code automáticamente después de un delay
     gsap.delayedCall(.2, () => {
-      setIsVSCodeOpen(true);
-      
-      // Obtener posición inicial del botón para la animación automática
-      const buttonRect = vsCodeIconRef.current?.getBoundingClientRect();
-      const vsCodeWindow = vsCodeRef.current;
-      const vsCodeRect = vsCodeWindow?.getBoundingClientRect();
-      
-      if (buttonRect && vsCodeWindow && vsCodeRect) {
-        // Calcular la posición relativa del botón respecto a la ventana
-        const deltaX = buttonRect.left - vsCodeRect.left;
-        const deltaY = buttonRect.top - vsCodeRect.top;
-        
-        // Establecer posición inicial en el botón
-        gsap.set(vsCodeWindow, {
-          scale: 0,
-          opacity: 0,
-          x: deltaX,
-          y: deltaY,
-          transformOrigin: "center center"
-        });
+      if (vsCodeRef.current) {
+        setIsVSCodeOpen(true);
+        executeVSCodeOpenAnimation();
       }
-      
-      gsap.to(".vscode-window", {
-        scale: 1,
-        opacity: 1,
-        x: 0,
-        y: 0,
-        duration: 0.6,
-        ease: "back.out(1.7)",
-        onStart: () => performanceMonitor.trackAnimation(),
-        onComplete: () => {
-          // Efecto de typing en las líneas de código
-          const codeLines = document.querySelectorAll('.code-line');
-          codeLines.forEach((line, index) => {
-            gsap.set(line, { opacity: 0 });
-            gsap.to(line, {
-              opacity: 1,
-              duration: .4,
-              delay: index * 0.090,
-              ease: "none",
-              onComplete: () => {
-                if (index === codeLines.length - 1) {
-                  // Mostrar cursor y comenzar parpadeo después de terminar el código
-                  gsap.to('.cursor-blink', {
-                    opacity: 1,
-                    duration: 0.2,
-                    onComplete: () => {
-                      // Iniciar animación de parpadeo
-                      gsap.to('.cursor-blink', {
-                        opacity: 0,
-                        duration: 1,
-                        repeat: -1,
-                        yoyo: true,
-                        ease: "power1.inOut",
-                        onStart: () => performanceMonitor.trackAnimation()
-                      });
-                    }
-                  });
-                }
-              }
-            });
-          });
-        }
-      });
     });
 
     // Efecto de ondas en el fondo - optimizado
     const createWaveEffect = () => {
-      const endWaveTracking = performanceMonitor.trackHeavyOperation('wave effect creation');
       
       const waves = document.querySelectorAll('.wave');
-      console.log(`🌊 Creating wave effect for ${waves.length} elements`);
       
       waves.forEach((wave, index) => {
         gsap.to(wave, {
@@ -590,17 +475,14 @@ export default function Hero() {
           yoyo: true,
           ease: "power1.inOut",
           delay: index * 0.2,
-          onStart: () => performanceMonitor.trackAnimation()
         });
       });
       
-      endWaveTracking();
     };
 
     // Efecto de ondas con delay
     gsap.delayedCall(1, createWaveEffect);
 
-    endTracking();
 
     // Animación para las medallas flotantes
     gsap.from(".floating-tag", {
@@ -632,20 +514,46 @@ export default function Hero() {
                     yoyo: true,
                     repeat: -1,
                     ease: 'sine.inOut'
-                })
+                });
+
+                            // Additional flight animation after a delay
+            if (isMobile) {
+              gsap.delayedCall(.2, () => {
+                  // Detener las animaciones de flotación antes de la segunda animación
+                  gsap.killTweensOf('.airplane-svg');
+                  
+                  // Usar 'to' en lugar de 'fromTo' para evitar el salto repentino
+                  gsap.to('.airplane-svg', {
+                      x: '120vw',
+                      y: '20vh',
+                      duration: 1,
+                      ease: 'power1.inOut',
+                      onComplete: () => {
+                         gsap.fromTo('.airplane-svg', 
+                           { x: '50vw', y: -200, rotate: 140 }, 
+                           { y: 750, x: '40vw', duration: 2, ease: 'power2.out', rotate: 120 }
+                         );
+                       }
+                     
+                  });
+              });
+            }
             }
         }
     );
 
   }, { 
     scope: heroRef,
-    dependencies: [t.hero.greeting, t.hero.name, t.hero.location, t.hero.description]
+    dependencies: [t.hero.greeting, t.hero.name, t.hero.location, t.hero.description],
+    revertOnUpdate: true
   });
+
+  const vh =   language === 'pt' || language === 'fr' ? 'h-[165vh]' : 'h-[160vh]';
 
   return (
     <section 
       ref={heroRef}
-      className="h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8"
+      className={`${vh} sm:h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8`}
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">
@@ -662,7 +570,7 @@ export default function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-2 items-center">
         
         {/* Left Side - Content */}
-        <div ref={textRef} className="text-center xl:text-left order-2 xl:order-1">
+        <div ref={textRef} className="text-center xl:text-left order-1 xl:order-1">
           {/* Greeting */}
           <div>
           <h1 className="hero-location text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 transform-gpu">
@@ -759,8 +667,8 @@ export default function Hero() {
               <span className="relative z-10 sm:hidden">WhatsApp</span>
             </a>
 
-                        {/* VSCode */}
-            <div className="relative">
+                        {/* VSCode - Solo visible en desktop */}
+            <div className="relative hidden md:block">
               <button
                 ref={vsCodeIconRef}
                 onClick={toggleVSCode}
@@ -778,7 +686,7 @@ export default function Hero() {
 
                             {/* Robot Assistant */}
               {tooltipEnabled && (
-                <div className="absolute top-20 -right-1 z-0">
+                <div className={`fixed top-2 right-4 z-50 ${language === 'fr' || language === 'pt' ? 'mt-20' : ''}`}>
                   {/* Robot que sale de atrás */}
                   <div className="robot-container relative opacity-0 scale-0" style={{transform: 'translateX(-40px) translateY(-20px) rotate(-45deg)'}}>
                     {/* Robot */}
@@ -808,13 +716,18 @@ export default function Hero() {
         </div>
 
         {/* Right Side - Visual Studio Code Interface */}
-        <div className="flex justify-center xl:justify-center order-1 xl:order-2 mb-8 xl:mb-0">
+        <div className="flex justify-center xl:justify-center order-2 xl:order-2 mb-8 xl:mb-0">
           <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
             {/* Floating Medals */}
             {techStack.map((tag: string, index: number) => {
               const angle = (index / 10) * 2 * Math.PI - Math.PI / 2; // Start from top
+<<<<<<< HEAD:src/components/Hero.tsx
+              const left = 50 + 40 * Math.cos(angle);
+              const top = 50 + 40 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
+=======
               const left = 40 + 30 * Math.cos(angle);
               const top = 40 + 30 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
+>>>>>>> origin:src/components/Hero/Hero.tsx
               
               return (
                 <div
@@ -1007,83 +920,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
-      {/* Performance Control Panel (Development Only) */}
-      {showPerformancePanel && (
-        <div className="fixed top-4 right-4 bg-gray-900/90 backdrop-blur-sm border border-gray-700 rounded-lg p-4 text-white text-sm z-50 max-w-xs">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="font-bold text-blue-400">{t.hero.performance.title}</h3>
-            <button
-              onClick={() => setShowPerformancePanel(false)}
-              className="text-gray-400 hover:text-white"
-            >
-              ×
-            </button>
-          </div>
-          
-          <div className="space-y-2 text-xs">
-            <div className="flex justify-between">
-              <span>{t.hero.performance.currentFps}:</span>
-              <span className="text-green-400">{performanceMonitor.getCurrentFPS()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>{t.hero.performance.avgFps}:</span>
-              <span className="text-blue-400">{performanceMonitor.getAverageFPS()}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>{t.hero.performance.activeAnimations}:</span>
-              <span className="text-yellow-400">{gsap.globalTimeline.getChildren().length}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>{t.hero.performance.domElements}:</span>
-              <span className="text-purple-400">{document.querySelectorAll('*').length}</span>
-            </div>
-          </div>
-          
-          <div className="mt-3 pt-3 border-t border-gray-700">
-            <div className="text-xs text-gray-400 mb-2">
-              {t.hero.performance.debugShortcut}
-            </div>
-            <button
-              onClick={() => {
-                console.group('🔍 Manual Performance Check');
-                performanceMonitor.logPerformanceIssues();
-                console.groupEnd();
-              }}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-xs py-1 px-2 rounded transition-colors"
-            >
-              {t.hero.performance.checkPerformance}
-            </button>
-            
-            <button
-              onClick={() => {
-                console.group('🔬 Advanced Performance Analysis');
-                performanceDebugger.analyzeBottlenecks();
-                console.groupEnd();
-              }}
-              className="w-full bg-purple-600 hover:bg-purple-700 text-white text-xs py-1 px-2 rounded transition-colors mt-2"
-            >
-              {t.hero.performance.advancedAnalysis}
-            </button>
-            
-            <div className="mt-3 pt-3 border-t border-gray-600">
-              <div className="text-xs text-gray-400 mb-2">{t.hero.performance.optimizationComparison}</div>
-              <button
-                onClick={() => performanceDebugger.captureBaselineMetrics()}
-                className="w-full bg-orange-600 hover:bg-orange-700 text-white text-xs py-1 px-2 rounded transition-colors mb-1"
-              >
-                {t.hero.performance.captureBaseline}
-              </button>
-              <button
-                onClick={() => performanceDebugger.captureOptimizedMetrics()}
-                className="w-full bg-green-600 hover:bg-green-700 text-white text-xs py-1 px-2 rounded transition-colors"
-              >
-                {t.hero.performance.compareOptimized}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </section>
   );
 } 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useMediaQuery } from 'usehooks-ts';
 import { useTranslation } from '../lib/useTranslation';
 import type { Language } from '../lib/translations';
 
@@ -13,6 +14,7 @@ const languages = [
 export const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
   
   const currentLanguage = languages.find(lang => lang.code === language) || languages[0];
   
@@ -20,7 +22,70 @@ export const LanguageSwitcher: React.FC = () => {
     setLanguage(newLanguage);
     setIsOpen(false);
   };
-  
+
+  // Mobile version - Carousel selector with arrows
+  if (isMobile) {
+    const currentIndex = languages.findIndex(lang => lang.code === language);
+    
+    const goToPrevious = () => {
+      const prevIndex = currentIndex === 0 ? languages.length - 1 : currentIndex - 1;
+      handleLanguageChange(languages[prevIndex].code as Language);
+    };
+    
+    const goToNext = () => {
+      const nextIndex = currentIndex === languages.length - 1 ? 0 : currentIndex + 1;
+      handleLanguageChange(languages[nextIndex].code as Language);
+    };
+
+    return (
+      <div className="fixed top-2 right-4 z-50">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="flex items-center gap-2 bg-gray-900/80 backdrop-blur-md rounded-full px-2 py-1 border border-gray-700/50"
+        >
+          {/* Left Arrow */}
+          <motion.button
+            onClick={goToPrevious}
+            whileTap={{ scale: 0.8 }}
+            className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors duration-200"
+            aria-label="Previous language"
+          >
+            <svg className="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </motion.button>
+
+          {/* Current Flag */}
+          <motion.div
+            key={language}
+            initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
+            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+            exit={{ opacity: 0, scale: 0.8, rotateY: 90 }}
+            transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 20 }}
+            className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10"
+          >
+            <span className={`${currentLanguage.flag} text-lg`} />
+          </motion.div>
+
+          {/* Right Arrow */}
+          <motion.button
+            onClick={goToNext}
+            whileTap={{ scale: 0.8 }}
+            className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors duration-200"
+            aria-label="Next language"
+          >
+            <svg className="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </motion.button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Desktop version - Original dropdown
   return (
     <div className="fixed top-4 right-4 z-50">
       <motion.button
