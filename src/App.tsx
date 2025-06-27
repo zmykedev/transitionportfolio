@@ -10,15 +10,7 @@ import StickyMiniSidebar from "./components/StickyMiniSidebar";
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
-// Loading component for Hero
-const HeroLoading = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="text-center">
-      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
-      <p className="text-white text-lg">Cargando...</p>
-    </div>
-  </div>
-);
+
 
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null);
@@ -122,8 +114,7 @@ export default function App() {
           </>
         )}
         
-        {/* Loading state while WaterEffect is playing */}
-        {!showHero && !showWaterEffect && <HeroLoading />}
+   
       </div>
     </LanguageProvider>
   );

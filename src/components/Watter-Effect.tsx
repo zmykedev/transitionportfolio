@@ -145,6 +145,70 @@ const WaterEffect = () => {
                 left: 200px;
               }
             }
+
+            /* Mobile responsive - ondas más delgadas */
+            @media (max-width: 768px) {
+              @keyframes ripple {
+                from {
+                  opacity: 1;
+                }
+                to {
+                  width: 300px;
+                  height: 150px;
+                  border-width: 1px;
+                  top: -50px;
+                  opacity: 0;
+                }
+              }
+    
+              @keyframes ripple-2 {
+                0% {
+                  opacity: 1;
+                }
+                50% {
+                  opacity: 0;
+                }
+                100% {
+                  width: 120px;
+                  height: 60px;
+                  border-width: 1px;
+                  top: 50px;
+                  left: 100px;
+                }
+              }
+            }
+
+            /* Extra small mobile - ondas aún más delgadas */
+            @media (max-width: 480px) {
+              @keyframes ripple {
+                from {
+                  opacity: 1;
+                }
+                to {
+                  width: 200px;
+                  height: 100px;
+                  border-width: 1px;
+                  top: -30px;
+                  opacity: 0;
+                }
+              }
+    
+              @keyframes ripple-2 {
+                0% {
+                  opacity: 1;
+                }
+                50% {
+                  opacity: 0;
+                }
+                100% {
+                  width: 80px;
+                  height: 40px;
+                  border-width: 1px;
+                  top: 30px;
+                  left: 60px;
+                }
+              }
+            }
   
             @keyframes drip {
               0% {

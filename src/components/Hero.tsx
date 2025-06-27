@@ -17,7 +17,7 @@ import {
 gsap.registerPlugin(useGSAP);
 
 export function Hero() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const isMobile = useMediaQuery('(max-width: 768px)');
   const heroRef = useRef<HTMLDivElement>(null);
@@ -389,7 +389,30 @@ export function Hero() {
                     yoyo: true,
                     repeat: -1,
                     ease: 'sine.inOut'
-                })
+                });
+
+                            // Additional flight animation after a delay
+            if (isMobile) {
+              gsap.delayedCall(.2, () => {
+                  // Detener las animaciones de flotación antes de la segunda animación
+                  gsap.killTweensOf('.airplane-svg');
+                  
+                  // Usar 'to' en lugar de 'fromTo' para evitar el salto repentino
+                  gsap.to('.airplane-svg', {
+                      x: '120vw',
+                      y: '20vh',
+                      duration: 1,
+                      ease: 'power1.inOut',
+                      onComplete: () => {
+                         gsap.fromTo('.airplane-svg', 
+                           { x: '50vw', y: -200, rotate: 140 }, 
+                           { y: 750, x: '40vw', duration: 2, ease: 'power2.out', rotate: 120 }
+                         );
+                       }
+                     
+                  });
+              });
+            }
             }
         }
     );
@@ -400,10 +423,12 @@ export function Hero() {
     revertOnUpdate: true
   });
 
+  const vh =   language === 'pt' || language === 'fr' ? 'h-[165vh]' : 'h-[160vh]';
+
   return (
     <section 
       ref={heroRef}
-      className="h-[150vh] sm:h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8"
+      className={`${vh} sm:h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8`}
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">
@@ -420,7 +445,7 @@ export function Hero() {
       <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-2 items-center">
         
         {/* Left Side - Content */}
-        <div ref={textRef} className="text-center xl:text-left order-1 xl:order-1 mt-10">
+        <div ref={textRef} className="text-center xl:text-left order-1 xl:order-1">
           {/* Greeting */}
           <div>
           <h1 className="hero-location text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 transform-gpu">
@@ -536,7 +561,7 @@ export function Hero() {
 
                             {/* Robot Assistant */}
               {tooltipEnabled && (
-                <div className="absolute top-20 -right-1 z-0">
+                <div className={`fixed top-2 right-4 z-50 ${language === 'fr' || language === 'pt' ? 'mt-20' : ''}`}>
                   {/* Robot que sale de atrás */}
                   <div className="robot-container relative opacity-0 scale-0" style={{transform: 'translateX(-40px) translateY(-20px) rotate(-45deg)'}}>
                     {/* Robot */}
