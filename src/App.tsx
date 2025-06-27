@@ -1,16 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LanguageProvider } from "./components/LanguageProvider";
 import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import { Hero } from "./components/Hero";
-
+import {Hero} from "./components/Hero";
+import WaterEffect from "./components/Watter-Effect";
+import StickyMiniSidebar from "./components/StickyMiniSidebar";
 
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+// Loading component for Hero
+const HeroLoading = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-500 mx-auto mb-4"></div>
+      <p className="text-white text-lg">Cargando...</p>
+    </div>
+  </div>
+);
+
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null);
+  const [showHero, setShowHero] = useState(false);
+  const [showWaterEffect, setShowWaterEffect] = useState(true);
+
+  // Control timing for WaterEffect and Hero
+  useEffect(() => {
+    // Show WaterEffect first
+    setShowWaterEffect(true);
+    
+    // After 4 seconds (2s drop + 2s wave), hide WaterEffect and show Hero
+    const timer = setTimeout(() => {
+      setShowWaterEffect(false);
+      setShowHero(true);
+    }, 1800);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     // Configuración global de GSAP
@@ -68,17 +95,35 @@ export default function App() {
 
     // Cleanup
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      // Limpiar ScrollTriggers de forma segura
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach(trigger => {
+        try {
+          trigger.kill();
+        } catch (error) {
+          console.warn('Error killing ScrollTrigger:', error);
+        }
+      });
     };
   }, []);
 
   return (
     <LanguageProvider initialLanguage="es">
       <div ref={appRef} className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-        <LanguageSwitcher />
+        {/* Water Effect - shows first */}
+        {showWaterEffect && <WaterEffect />}
         
-        {/* Hero Section */}
-        <Hero />
+        <StickyMiniSidebar />
+        {/* Main content - shows after WaterEffect */}
+        {showHero && (
+          <>
+            <LanguageSwitcher />
+            <Hero />
+          </>
+        )}
+        
+        {/* Loading state while WaterEffect is playing */}
+        {!showHero && !showWaterEffect && <HeroLoading />}
       </div>
     </LanguageProvider>
   );

@@ -1,10 +1,17 @@
-import React from 'react';
+import App from './App';
+import React, { Suspense, lazy } from 'react';
+import WaterEffect from './components/Watter-Effect';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import '@/styles/globals.css';
+
+
+
+
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <App />
+    <Suspense fallback={<WaterEffect />}>
+      <App />
+    </Suspense>
   </React.StrictMode>
 );
