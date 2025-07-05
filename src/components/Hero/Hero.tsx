@@ -74,10 +74,24 @@ export function Hero() {
       return;
     }
 
-    // Limpiar animaciones previas
-    gsap.killTweensOf(vsCodeRef.current);
-    gsap.killTweensOf(".code-line");
-    gsap.killTweensOf(".cursor-blink");
+    try {
+      // Limpiar animaciones previas con validación
+      if (vsCodeRef.current) {
+        gsap.killTweensOf(vsCodeRef.current);
+      }
+      
+      const codeLines = document.querySelectorAll(".code-line");
+      if (codeLines.length > 0) {
+        gsap.killTweensOf(".code-line");
+      }
+      
+      const cursorBlink = document.querySelector(".cursor-blink");
+      if (cursorBlink) {
+        gsap.killTweensOf(".cursor-blink");
+      }
+    } catch (error) {
+      console.warn('Error al limpiar animaciones VS Code:', error);
+    }
     
     // VS Code window - estado inicial
     gsap.set(vsCodeRef.current, {
@@ -166,38 +180,46 @@ export function Hero() {
     if (isVSCodeOpen && vsCodeRef.current) {
       setIsVSCodeOpen(false);
       
-      // Limpiar todas las animaciones previas
-      gsap.killTweensOf(vsCodeRef.current);
-      gsap.killTweensOf('.cursor-blink');
-      gsap.killTweensOf('.code-line');
-      
-      // Detener y ocultar cursor
-      const cursor = document.querySelector('.cursor-blink');
-      if (cursor) {
-        gsap.set(cursor, { opacity: 0 });
-      }
-      
-      // Primero ocultar las líneas de código
-      const codeLines = document.querySelectorAll('.code-line');
-      codeLines.forEach((line, index) => {
-        gsap.to(line, {
+      try {
+        // Limpiar todas las animaciones previas con validación
+        if (vsCodeRef.current) {
+          gsap.killTweensOf(vsCodeRef.current);
+        }
+        
+        const cursorBlink = document.querySelector('.cursor-blink');
+        if (cursorBlink) {
+          gsap.killTweensOf('.cursor-blink');
+          gsap.set(cursorBlink, { opacity: 0 });
+        }
+        
+        const codeLines = document.querySelectorAll('.code-line');
+        if (codeLines.length > 0) {
+          gsap.killTweensOf('.code-line');
+          
+          // Primero ocultar las líneas de código
+          codeLines.forEach((line, index) => {
+            gsap.to(line, {
+              opacity: 0,
+              duration: 0.05,
+              delay: index * 0.02,
+              ease: "none"
+            });
+          });
+        }
+        
+        // Luego cerrar la ventana
+        gsap.to(vsCodeRef.current, {
+          scale: 0,
           opacity: 0,
-          duration: 0.05,
-          delay: index * 0.02,
-          ease: "none"
+          x: 0,
+          y: 0,
+          duration: 0.5,
+          delay: 0.3,
+          ease: "back.in(1.7)",
         });
-      });
-      
-      // Luego cerrar la ventana
-      gsap.to(vsCodeRef.current, {
-        scale: 0,
-        opacity: 0,
-        x: 0,
-        y: 0,
-        duration: 0.5,
-        delay: 0.3,
-        ease: "back.in(1.7)",
-      });
+      } catch (error) {
+        console.warn('Error al cerrar VS Code:', error);
+      }
     }
   };
 
@@ -369,53 +391,76 @@ export function Hero() {
       delay: 1.2
     });
 
-    // Animación del avión
-    gsap.fromTo('.airplane-svg', 
-        { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
-        {
-            x: '65vw',
-            y: '35vh',
-            rotate: -15,
-            scale: 2,
-            duration: 4,
-            delay: 1,
-            ease: 'cubic-bezier(0.25, 1, 0.5, 1)',
-            onComplete: () => {
-                // Floating animation
-                gsap.to('.airplane-svg', {
-                    y: '+=15',
-                    rotate: '+=3',
-                    duration: 2.5,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'sine.inOut'
-                });
+    // Animación del avión con validación
+    const airplaneElement = document.querySelector('.airplane-svg');
+    if (airplaneElement) {
+      try {
+        gsap.fromTo('.airplane-svg', 
+            { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
+            {
+                x: '65vw',
+                y: '35vh',
+                rotate: 45,
+                scale: 2,
+                duration: 4,
+                delay: 1,
+                ease: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                onComplete: () => {
+                    try {
+                      // Floating animation
+                      gsap.to('.airplane-svg', {
+                          y: '+=15',
+                          rotate: '+=3',
+                          duration: 2.5,
+                          yoyo: true,
+                          repeat: -1,
+                          ease: 'sine.inOut'
+                      });
+                    } catch (error) {
+                      console.warn('Error en animación flotante del avión:', error);
+                    }
 
                             // Additional flight animation after a delay
             if (isMobile) {
               gsap.delayedCall(.2, () => {
-                  // Detener las animaciones de flotación antes de la segunda animación
-                  gsap.killTweensOf('.airplane-svg');
-                  
-                  // Usar 'to' en lugar de 'fromTo' para evitar el salto repentino
-                  gsap.to('.airplane-svg', {
-                      x: '120vw',
-                      y: '20vh',
-                      duration: 1,
-                      ease: 'power1.inOut',
-                      onComplete: () => {
-                         gsap.fromTo('.airplane-svg', 
-                           { x: '50vw', y: -200, rotate: 140 }, 
-                           { y: 750, x: '40vw', duration: 2, ease: 'power2.out', rotate: 120 }
-                         );
-                       }
-                     
-                  });
+                  try {
+                    // Verificar que el elemento existe antes de matarlo
+                    const airplaneElement = document.querySelector('.airplane-svg');
+                    if (airplaneElement) {
+                      // Detener las animaciones de flotación antes de la segunda animación
+                      gsap.killTweensOf('.airplane-svg');
+                      
+                      // Usar 'to' en lugar de 'fromTo' para evitar el salto repentino
+                      gsap.to('.airplane-svg', {
+                          x: '120vw',
+                          y: '20vh',
+                          rotate: 10,
+                          duration: 1,
+                          ease: 'power1.inOut',
+                          onComplete: () => {
+                            try {
+                              gsap.fromTo('.airplane-svg', 
+                                { x: '50vw', y: -200, rotate: 140 }, 
+                                { y: 750, x: '40vw', duration: 2, ease: 'power2.out', rotate: 120 }
+                              );
+                            } catch (error) {
+                              console.warn('Error en animación final del avión:', error);
+                            }
+                          }
+                      });
+                    }
+                  } catch (error) {
+                    console.warn('Error en animación del avión:', error);
+                  }
               });
             }
             }
         }
     );
+      } catch (error) {
+        console.warn('Error en animación principal del avión:', error);
+      }
+    }
 
   }, { 
     scope: heroRef,
@@ -423,12 +468,41 @@ export function Hero() {
     revertOnUpdate: true
   });
 
-  const vh =   language === 'pt' || language === 'fr' ? 'h-[165vh]' : 'h-[160vh]';
+  // Cleanup function para cuando se desmonte el componente
+  useEffect(() => {
+    return () => {
+      try {
+        // Limpiar todas las animaciones al desmontar
+        const airplaneElement = document.querySelector('.airplane-svg');
+        if (airplaneElement) {
+          gsap.killTweensOf('.airplane-svg');
+        }
+        
+        // Limpiar delayed calls y timelines
+        gsap.globalTimeline.killTweensOf('.airplane-svg');
+        
+        // Limpiar animaciones de ondas
+        const waves = document.querySelectorAll('.wave');
+        if (waves.length > 0) {
+          gsap.killTweensOf('.wave');
+        }
+        
+        // Limpiar animaciones de etiquetas flotantes
+        const floatingTags = document.querySelectorAll('.floating-tag');
+        if (floatingTags.length > 0) {
+          gsap.killTweensOf('.floating-tag');
+        }
+      } catch (error) {
+        console.warn('Error al limpiar animaciones en desmontaje:', error);
+      }
+    };
+  }, []);
+
 
   return (
     <section 
       ref={heroRef}
-      className={`${vh} sm:h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8`}
+      className={` sm:h-screen flex items-center justify-center relative overflow-hidden px-4 sm:px-6 lg:px-8`}
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">
@@ -438,16 +512,16 @@ export function Hero() {
 
       {/* Airplane */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-[5]">
-        <span role="img" aria-label="airplane" className="airplane-svg absolute text-6xl">✈️</span>
+        <span  role="img" aria-label="airplane" className="airplane-svg absolute text-6xl">✈️</span>
       </div>
 
       {/* Main Content - Responsive Grid Layout */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-2 items-center">
+      <div className="relative z-10 w-full max-w-7xl mx-auto grid grid-cols-1 xl:grid-cols-2 gap-8 lg:gap-12 xl:gap-2 items-center pt-3">
         
         {/* Left Side - Content */}
-        <div ref={textRef} className="text-center xl:text-left order-1 xl:order-1">
+        <div ref={textRef} className="text-center xl:text-left order-1 xl:order-1 mt-[42px]">
           {/* Greeting */}
-          <div>
+          <div >
           <h1 className="hero-location text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black mb-4 sm:mb-6 transform-gpu">
             <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
               {t.hero.greeting}
@@ -457,9 +531,9 @@ export function Hero() {
             </span> 
           </h1>
 
-          <p className="hero-location text-lg sm:text-xl md:text-2xl text-gray-300 mb-3 sm:mb-4">
+          <h2 className="hero-location text-md sm:text-xl md:text-2xl text-gray-300 mb-3 sm:mb-4">
               {t.hero.location}
-            </p>
+            </h2>
           </div>
           
           {/* Description */}
@@ -791,6 +865,9 @@ export function Hero() {
           
           </div>
         </div>
+
+
+        
       </div>
     </section>
   );
