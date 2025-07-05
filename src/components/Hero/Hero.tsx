@@ -36,36 +36,6 @@ export function Hero() {
   const isInitialMount = useRef(true);
   const techStack = t.hero.techStack;
 
-  // // Performance monitoring
-  // useEffect(() => {
-  //   // Start monitoring when component mounts
-  //   performanceMonitor.startMonitoring();
-  //   performanceDebugger.startFrameTimeTracking();
-    
-  //   // Add keyboard shortcut for performance debugging
-  //   const handleKeyPress = (e: KeyboardEvent) => {
-  //     if (e.ctrlKey && e.shiftKey && e.key === 'P') {
-  //       e.preventDefault();
-  //       console.group('🎯 Performance Debug Info');
-  //       console.log('Current FPS:', performanceMonitor.getCurrentFPS());
-  //       console.log('Active animations:', gsap.globalTimeline.getChildren().length);
-  //       console.log('DOM elements:', document.querySelectorAll('*').length);
-  //       console.log('Heavy elements:', document.querySelectorAll('.wave, .vscode-window, .social-buttons').length);
-  //       performanceDebugger.analyzeBottlenecks();
-  //       console.groupEnd();
-  //     }
-  //   };
-    
-  //   document.addEventListener('keydown', handleKeyPress);
-    
-  //   // Stop monitoring when component unmounts
-  //   return () => {
-  //     performanceMonitor.stopMonitoring();
-  //     performanceDebugger.stopFrameTimeTracking();
-  //     document.removeEventListener('keydown', handleKeyPress);
-  //   };
-  // }, []);
-
   // Función para ejecutar las animaciones de apertura del VS Code
   const executeVSCodeOpenAnimation = useCallback(() => {
     // Verificar que el elemento existe antes de animar

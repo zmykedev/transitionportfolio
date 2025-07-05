@@ -23,27 +23,21 @@ const DYNAMIC_CACHE_PATTERNS = [
 
 // Install event - cache static resources
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing service worker...');
   
   event.waitUntil(
     caches.open(STATIC_CACHE_NAME)
       .then((cache) => {
-        console.log('[SW] Caching static resources');
         return cache.addAll(STATIC_RESOURCES);
       })
       .then(() => {
-        console.log('[SW] Static resources cached successfully');
         return self.skipWaiting();
       })
-      .catch((error) => {
-        console.error('[SW] Failed to cache static resources:', error);
-      })
+   
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating service worker...');
   
   event.waitUntil(
     caches.keys()
@@ -51,14 +45,12 @@ self.addEventListener('activate', (event) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
             if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE_NAME) {
-              console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
       .then(() => {
-        console.log('[SW] Service worker activated');
         return self.clients.claim();
       })
   );
@@ -124,7 +116,6 @@ async function handleFetch(request) {
     return await fetch(request);
     
   } catch (error) {
-    console.error('[SW] Fetch failed:', error);
     
     // Return offline fallback if available
     if (request.mode === 'navigate') {
@@ -212,7 +203,6 @@ self.addEventListener('sync', (event) => {
   if (event.tag === 'performance-sync') {
     event.waitUntil(
       // Sync performance data when network is available
-      console.log('[SW] Performance sync triggered')
     );
   }
 }); 
