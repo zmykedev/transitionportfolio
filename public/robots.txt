@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mykedev.com/sitemap.xml
+
+# Disallow specific paths (if any)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+
+# Crawl delay
+Crawl-delay: 1
+
+# Host
+Host: https://mykedev.com 

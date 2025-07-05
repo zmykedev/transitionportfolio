@@ -1,0 +1,75 @@
+{
+  "name": "MykeDev - Full Stack Developer Portfolio",
+  "short_name": "MykeDev",
+  "description": "Portafolio profesional de Maikol Zapata, Full Stack Developer especializado en React, TypeScript y tecnologías modernas",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1f2937",
+  "theme_color": "#1f2937",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["portfolio", "developer", "technology"],
+  "screenshots": [
+    {
+      "src": "/Rocket.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/Rocket.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/Rocket.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "About Me",
+      "short_name": "About",
+      "description": "Learn more about my experience and skills",
+      "url": "/#about",
+      "icons": [
+        {
+          "src": "/Rocket.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "description": "View my latest projects and work",
+      "url": "/#projects",
+      "icons": [
+        {
+          "src": "/Rocket.png",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Get in touch with me",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/Rocket.png",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+} 
