@@ -79,6 +79,28 @@ self.addEventListener('fetch', (event) => {
     return;
   }
   
+  // Skip Vite HMR and dev server requests
+  if (url.pathname.includes('/@vite/') || 
+      url.pathname.includes('/@id/') ||
+      url.pathname.includes('/@fs/') ||
+      url.pathname.includes('/node_modules/') ||
+      url.pathname.includes('/@react-refresh') ||
+      url.searchParams.has('import') ||
+      url.searchParams.has('t=') ||
+      request.destination === 'script' && url.pathname.includes('/src/')) {
+    return;
+  }
+  
+  // Skip if in development mode (localhost or specific dev domains)
+  if (url.hostname === 'localhost' || 
+      url.hostname === '127.0.0.1' || 
+      url.hostname.includes('localhost')) {
+    // Only cache specific resources in development
+    if (!url.pathname.match(/\.(png|jpg|jpeg|gif|svg|ico|css|woff2?|ttf|eot)$/)) {
+      return;
+    }
+  }
+  
   event.respondWith(
     handleFetch(request)
   );
