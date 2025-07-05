@@ -465,8 +465,10 @@ export function Hero() {
           {/* Description */}
           <div className="mb-6 sm:mb-8">
            
-            <p className="hero-description text-base sm:text-lg text-gray-400 leading-relaxed max-w-lg mx-auto xl:mx-0">
-              {t.hero.description}
+            <p className="hero-description text-base sm:text-lg leading-relaxed max-w-lg mx-auto xl:mx-0 bg-gradient-to-r from-yellow-200/30 via-pink-200/20 to-blue-200/30 rounded-xl px-5 py-4 shadow-lg border border-white/10 backdrop-blur-md text-gray-100 font-semibold">
+              <span className="bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-400 bg-clip-text text-transparent font-extrabold">
+                {t.hero.description}
+              </span>
             </p>
             
       
@@ -502,7 +504,7 @@ export function Hero() {
 
             {/* Download CV */}
             <a
-              href="/src/assets/CVMaikolZapata.pdf"
+              href="/src/assets/MaikolZapata2025.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download
