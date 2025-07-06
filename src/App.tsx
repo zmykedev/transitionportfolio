@@ -1,16 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { LanguageProvider } from "./components/LanguageProvider";
-import { LanguageSwitcher } from "./components/LanguageSwitcher";
-import { Hero } from "./components/Hero/Hero";
-import WaterEffect from "./components/Watter-Effect";
-import StickyMiniSidebar from "./components/StickyMiniSidebar";
+import { useEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { LanguageProvider } from './components/LanguageProvider';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { Hero } from './components/Hero/Hero';
+import WaterEffect from './components/Watter-Effect';
+import StickyMiniSidebar from './components/StickyMiniSidebar';
+import { Skills } from './components/Skills/Skils';
 
 // Registrar ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
-
-
 
 export default function App() {
   const appRef = useRef<HTMLDivElement>(null);
@@ -21,7 +20,7 @@ export default function App() {
   useEffect(() => {
     // Show WaterEffect first
     setShowWaterEffect(true);
-    
+
     // After 4 seconds (2s drop + 2s wave), hide WaterEffect and show Hero
     const timer = setTimeout(() => {
       setShowWaterEffect(false);
@@ -31,24 +30,24 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
-
-
   return (
     <LanguageProvider initialLanguage="es">
-      <div ref={appRef} className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div
+        ref={appRef}
+        className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      >
         {/* Water Effect - shows first */}
         {showWaterEffect && <WaterEffect />}
-        
+
         <StickyMiniSidebar />
         {/* Main content - shows after WaterEffect */}
         {showHero && (
           <>
             <LanguageSwitcher />
             <Hero />
+            <Skills />
           </>
         )}
-        
-   
       </div>
     </LanguageProvider>
   );

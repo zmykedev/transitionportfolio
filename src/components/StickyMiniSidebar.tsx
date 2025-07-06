@@ -21,62 +21,76 @@ const StickyMiniSidebar = () => {
   };
 
   return (
-    <div className={`fixed left-1/2 bottom-0 transform -translate-x-1/2 z-40 md:hidden transition-all duration-1000 ${
-      isVisible 
-        ? 'translate-y-0 opacity-100 ease-out' 
-        : 'translate-y-full opacity-0 ease-in'
-    }`}>
+    <div
+      className={`fixed bottom-0 left-1/2 z-40 -translate-x-1/2 transform transition-all duration-1000 md:hidden ${
+        isVisible
+          ? 'translate-y-0 opacity-100 ease-out'
+          : 'translate-y-full opacity-0 ease-in'
+      }`}
+    >
       {/* Mac-style Dock Mini Sidebar */}
-      <div className="bg-gray-900/95 backdrop-blur-md border-t border-l border-r border-gray-700/40 rounded-t-3xl py-4 px-4 shadow-2xl relative overflow-hidden">
+      <div className="relative overflow-hidden rounded-t-3xl border-l border-r border-t border-gray-700/40 bg-gray-900/95 px-4 py-4 shadow-2xl backdrop-blur-md">
         {/* Subtle gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-gray-800/10 to-transparent pointer-events-none"></div>
-        <div className="flex flex-row items-center space-x-4 relative z-10">
-          
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gray-800/10 to-transparent"></div>
+        <div className="relative z-10 flex flex-row items-center space-x-4">
           {/* Home */}
-          <button className={`group relative flex items-center justify-center w-10 h-10 bg-gray-800/50 active:bg-gray-700/90 rounded-xl transition-all duration-300 active:scale-95 active:-translate-y-1 transform ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          } delay-150`}>
-            <Home className="w-5 h-5 text-gray-300 group-active:text-white transition-colors duration-200" />
-            <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 pointer-events-none whitespace-nowrap">
+          <button
+            className={`group relative flex h-10 w-10 transform items-center justify-center rounded-xl bg-gray-800/50 transition-all duration-300 active:-translate-y-1 active:scale-95 active:bg-gray-700/90 ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            } delay-150`}
+          >
+            <Home className="h-5 w-5 text-gray-300 transition-colors duration-200 group-active:text-white" />
+            <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0">
               Home
             </div>
           </button>
 
           {/* Profile */}
-          <button className={`group relative flex items-center justify-center w-10 h-10 bg-gray-800/50 active:bg-gray-700/90 rounded-xl transition-all duration-300 active:scale-95 active:-translate-y-1 transform ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          } delay-200`}>
-            <User className="w-5 h-5 text-gray-300 group-active:text-white transition-colors duration-200" />
-            <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 pointer-events-none whitespace-nowrap">
+          <button
+            className={`group relative flex h-10 w-10 transform items-center justify-center rounded-xl bg-gray-800/50 transition-all duration-300 active:-translate-y-1 active:scale-95 active:bg-gray-700/90 ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            } delay-200`}
+          >
+            <User className="h-5 w-5 text-gray-300 transition-colors duration-200 group-active:text-white" />
+            <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0">
               Profile
             </div>
           </button>
 
           {/* VS Code - Solo cuando está cerrado */}
           {!isVSCodeOpen && (
-            <button 
+            <button
               onClick={openVSCode}
-              className={`group relative flex items-center justify-center w-12 h-12 bg-green-600/70 active:bg-green-500 rounded-xl transition-all duration-300 active:scale-90 active:-translate-y-2 shadow-lg transform ${
-                isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-8 opacity-0 scale-95'
+              className={`group relative flex h-12 w-12 transform items-center justify-center rounded-xl bg-green-600/70 shadow-lg transition-all duration-300 active:-translate-y-2 active:scale-90 active:bg-green-500 ${
+                isVisible
+                  ? 'translate-y-0 scale-100 opacity-100'
+                  : 'translate-y-8 scale-95 opacity-0'
               } delay-250`}
             >
-              <Code className="w-6 h-6 text-white transition-all duration-200" />
-              <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-green-600 text-white text-xs rounded opacity-0 pointer-events-none whitespace-nowrap">
+              <Code className="h-6 w-6 text-white transition-all duration-200" />
+              <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 transform whitespace-nowrap rounded bg-green-600 px-2 py-1 text-xs text-white opacity-0">
                 VS Code
               </div>
             </button>
           )}
 
           {/* Settings */}
-          <button className={`group relative flex items-center justify-center w-10 h-10 bg-gray-800/50 active:bg-gray-700/90 rounded-xl transition-all duration-300 active:scale-95 active:-translate-y-1 transform ${
-            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-          } delay-300`}>
-            <Settings className="w-5 h-5 text-gray-300 group-active:text-white transition-colors duration-200" />
-            <div className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 pointer-events-none whitespace-nowrap">
+          <button
+            className={`group relative flex h-10 w-10 transform items-center justify-center rounded-xl bg-gray-800/50 transition-all duration-300 active:-translate-y-1 active:scale-95 active:bg-gray-700/90 ${
+              isVisible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            } delay-300`}
+          >
+            <Settings className="h-5 w-5 text-gray-300 transition-colors duration-200 group-active:text-white" />
+            <div className="pointer-events-none absolute bottom-full left-1/2 mb-3 -translate-x-1/2 transform whitespace-nowrap rounded bg-gray-800 px-2 py-1 text-xs text-white opacity-0">
               Settings
             </div>
           </button>
-
         </div>
       </div>
     </div>

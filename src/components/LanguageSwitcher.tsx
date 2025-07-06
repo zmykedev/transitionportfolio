@@ -8,16 +8,17 @@ const languages = [
   { code: 'es', label: 'ES', flag: 'fi fi-es' },
   { code: 'en', label: 'US', flag: 'fi fi-us' },
   { code: 'pt', label: 'BR', flag: 'fi fi-br' },
-  { code: 'fr', label: 'FR', flag: 'fi fi-fr' }
+  { code: 'fr', label: 'FR', flag: 'fi fi-fr' },
 ] as const;
 
 export const LanguageSwitcher: React.FC = () => {
   const { language, setLanguage } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery('(max-width: 768px)');
-  
-  const currentLanguage = languages.find(lang => lang.code === language) || languages[0];
-  
+
+  const currentLanguage =
+    languages.find(lang => lang.code === language) || languages[0];
+
   const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsOpen(false);
@@ -26,34 +27,46 @@ export const LanguageSwitcher: React.FC = () => {
   // Mobile version - Carousel selector with arrows
   if (isMobile) {
     const currentIndex = languages.findIndex(lang => lang.code === language);
-    
+
     const goToPrevious = () => {
-      const prevIndex = currentIndex === 0 ? languages.length - 1 : currentIndex - 1;
+      const prevIndex =
+        currentIndex === 0 ? languages.length - 1 : currentIndex - 1;
       handleLanguageChange(languages[prevIndex].code as Language);
     };
-    
+
     const goToNext = () => {
-      const nextIndex = currentIndex === languages.length - 1 ? 0 : currentIndex + 1;
+      const nextIndex =
+        currentIndex === languages.length - 1 ? 0 : currentIndex + 1;
       handleLanguageChange(languages[nextIndex].code as Language);
     };
 
     return (
-      <div className="fixed top-2 right-4 z-50">
+      <div className="fixed right-4 top-2 z-50">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="flex items-center gap-2 bg-gray-900/80 backdrop-blur-md rounded-full px-2 py-1 border border-gray-700/50"
+          className="flex items-center gap-2 rounded-full border border-gray-700/50 bg-gray-900/80 px-2 py-1 backdrop-blur-md"
         >
           {/* Left Arrow */}
           <motion.button
             onClick={goToPrevious}
             whileTap={{ scale: 0.8 }}
-            className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors duration-200"
+            className="flex h-6 w-6 items-center justify-center rounded-full transition-colors duration-200 hover:bg-white/10"
             aria-label="Previous language"
           >
-            <svg className="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <svg
+              className="h-3 w-3 text-white/70"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
           </motion.button>
 
@@ -63,8 +76,13 @@ export const LanguageSwitcher: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8, rotateY: -90 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
             exit={{ opacity: 0, scale: 0.8, rotateY: 90 }}
-            transition={{ duration: 0.3, type: "spring", stiffness: 300, damping: 20 }}
-            className="flex items-center justify-center w-8 h-8 rounded-full bg-white/10"
+            transition={{
+              duration: 0.3,
+              type: 'spring',
+              stiffness: 300,
+              damping: 20,
+            }}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10"
           >
             <span className={`${currentLanguage.flag} text-lg`} />
           </motion.div>
@@ -73,11 +91,21 @@ export const LanguageSwitcher: React.FC = () => {
           <motion.button
             onClick={goToNext}
             whileTap={{ scale: 0.8 }}
-            className="flex items-center justify-center w-6 h-6 rounded-full hover:bg-white/10 transition-colors duration-200"
+            className="flex h-6 w-6 items-center justify-center rounded-full transition-colors duration-200 hover:bg-white/10"
             aria-label="Next language"
           >
-            <svg className="w-3 h-3 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <svg
+              className="h-3 w-3 text-white/70"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 5l7 7-7 7"
+              />
             </svg>
           </motion.button>
         </motion.div>
@@ -87,27 +115,32 @@ export const LanguageSwitcher: React.FC = () => {
 
   // Desktop version - Original dropdown
   return (
-    <div className="fixed top-4 right-4 z-50">
+    <div className="fixed right-4 top-4 z-50">
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="flex items-center gap-2 px-3 py-2 bg-white/20 backdrop-blur-md text-white font-semibold rounded-lg border border-white/30 hover:bg-white/30 transition-all duration-300"
+        className="flex items-center gap-2 rounded-lg border border-white/30 bg-white/20 px-3 py-2 font-semibold text-white backdrop-blur-md transition-all duration-300 hover:bg-white/30"
       >
         <span className={`${currentLanguage.flag} text-xl`}></span>
-        <span className="text-xs font-bold ml-2">{currentLanguage.label}</span>
+        <span className="ml-2 text-xs font-bold">{currentLanguage.label}</span>
         <motion.svg
-          className="w-4 h-4"
+          className="h-4 w-4"
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
         </motion.svg>
       </motion.button>
-      
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -115,28 +148,28 @@ export const LanguageSwitcher: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full right-0 mt-2 bg-white/20 backdrop-blur-md rounded-lg border border-white/30 overflow-hidden"
+            className="absolute right-0 top-full mt-2 overflow-hidden rounded-lg border border-white/30 bg-white/20 backdrop-blur-md"
           >
-            {languages.map((lang) => (
+            {languages.map(lang => (
               <motion.button
                 key={lang.code}
                 onClick={() => handleLanguageChange(lang.code as Language)}
                 whileHover={{ scale: 1.05 }}
-                className={`flex items-center gap-2 px-4 py-3 text-white font-medium transition-colors duration-200 ${
+                className={`flex items-center gap-2 px-4 py-3 font-medium text-white transition-colors duration-200 ${
                   language === lang.code ? 'bg-white/30' : 'hover:bg-white/20'
                 }`}
                 aria-label={lang.label}
               >
                 <span className={`${lang.flag} text-xl`}></span>
-                <span className="text-xs font-bold ml-2">{lang.label}</span>
+                <span className="ml-2 text-xs font-bold">{lang.label}</span>
                 <div className="ml-auto">
                   {language === lang.code ? (
                     <motion.div
                       layoutId="activeIndicator"
-                      className="w-2 h-2 bg-white rounded-full"
+                      className="h-2 w-2 rounded-full bg-white"
                     />
                   ) : (
-                    <div className="w-2 h-2 border border-white/50 rounded-full"></div>
+                    <div className="h-2 w-2 rounded-full border border-white/50"></div>
                   )}
                 </div>
               </motion.button>
@@ -146,4 +179,4 @@ export const LanguageSwitcher: React.FC = () => {
       </AnimatePresence>
     </div>
   );
-}; 
+};

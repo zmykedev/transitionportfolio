@@ -1,13 +1,6 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { 
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  MessageCircle,
-  Zap
-} from "lucide-react";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { Mail, Phone, MapPin, Send, MessageCircle, Zap } from 'lucide-react';
 
 export function Contact() {
   const contactRef = useRef<HTMLDivElement>(null);
@@ -38,18 +31,19 @@ export function Contact() {
           x: '100%',
           duration: 2,
           repeat: -1,
-          ease: "power2.inOut"
+          ease: 'power2.inOut',
         });
       };
 
       // Animación del título con efecto de holograma
-      gsap.fromTo(".contact-title",
-        { 
-          opacity: 0, 
+      gsap.fromTo(
+        '.contact-title',
+        {
+          opacity: 0,
           y: 50,
           scale: 0,
           rotation: 360,
-          skewX: 20
+          skewX: 20,
         },
         {
           opacity: 1,
@@ -58,21 +52,21 @@ export function Contact() {
           rotation: 0,
           skewX: 0,
           duration: 2,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: ".contact-title",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.contact-title',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
           },
-          onComplete: createHologramEffect
+          onComplete: createHologramEffect,
         }
       );
 
       // Efecto de ondas de sonido para los contact items
       const createSoundWaves = () => {
         const contactItems = document.querySelectorAll('.contact-item');
-        contactItems.forEach((item) => {
+        contactItems.forEach(item => {
           // Crear ondas de sonido
           for (let i = 0; i < 3; i++) {
             const wave = document.createElement('div');
@@ -97,20 +91,21 @@ export function Contact() {
               duration: 1.5,
               delay: i * 0.2,
               repeat: -1,
-              ease: "power2.out"
+              ease: 'power2.out',
             });
           }
         });
       };
 
       // Animación de los contact items con efecto de ondas
-      gsap.fromTo(".contact-item",
-        { 
-          opacity: 0, 
-          y: 50, 
+      gsap.fromTo(
+        '.contact-item',
+        {
+          opacity: 0,
+          y: 50,
           scale: 0.8,
           rotationX: 90,
-          rotationY: 45
+          rotationY: 45,
         },
         {
           opacity: 1,
@@ -120,14 +115,14 @@ export function Contact() {
           rotationY: 0,
           duration: 1.2,
           stagger: 0.2,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: ".contact-items",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.contact-items',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
           },
-          onComplete: createSoundWaves
+          onComplete: createSoundWaves,
         }
       );
 
@@ -157,7 +152,7 @@ export function Contact() {
             opacity: 1,
             duration: 1,
             delay: i * 0.1,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         }
 
@@ -166,7 +161,7 @@ export function Contact() {
           { top: '0', left: '0' },
           { top: '0', right: '0' },
           { bottom: '0', left: '0' },
-          { bottom: '0', right: '0' }
+          { bottom: '0', right: '0' },
         ];
 
         corners.forEach((corner, cornerIndex) => {
@@ -179,7 +174,9 @@ export function Contact() {
               height: 3px;
               background: #f59e0b;
               border-radius: 50%;
-              ${Object.entries(corner).map(([key, value]) => `${key}: ${value}`).join('; ')};
+              ${Object.entries(corner)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('; ')};
               pointer-events: none;
               opacity: 0;
             `;
@@ -190,7 +187,7 @@ export function Contact() {
               opacity: 1,
               scale: 1,
               duration: 0.5,
-              delay: cornerIndex * 0.2 + i * 0.1
+              delay: cornerIndex * 0.2 + i * 0.1,
             });
             gsap.to(particle, {
               x: (Math.random() - 0.5) * 50,
@@ -199,20 +196,21 @@ export function Contact() {
               scale: 0,
               duration: 1,
               delay: 0.5 + cornerIndex * 0.2 + i * 0.1,
-              ease: "power2.out"
+              ease: 'power2.out',
             });
           }
         });
       };
 
       // Animación del formulario con efecto de energía
-      gsap.fromTo(".contact-form",
-        { 
-          opacity: 0, 
-          y: 100, 
+      gsap.fromTo(
+        '.contact-form',
+        {
+          opacity: 0,
+          y: 100,
           scale: 0.9,
           rotationX: 45,
-          z: -100
+          z: -100,
         },
         {
           opacity: 1,
@@ -221,14 +219,14 @@ export function Contact() {
           rotationX: 0,
           z: 0,
           duration: 1.5,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: ".contact-form",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.contact-form',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
           },
-          onComplete: createFormEnergy
+          onComplete: createFormEnergy,
         }
       );
 
@@ -241,7 +239,7 @@ export function Contact() {
             scale: 1.02,
             borderColor: '#8b5cf6',
             boxShadow: '0 0 20px rgba(139, 92, 246, 0.3)',
-            ease: "power2.out"
+            ease: 'power2.out',
           });
 
           // Crear efecto de chispas
@@ -260,7 +258,8 @@ export function Contact() {
             `;
             input.appendChild(spark);
 
-            gsap.fromTo(spark, 
+            gsap.fromTo(
+              spark,
               { opacity: 1, scale: 0 },
               {
                 opacity: 0,
@@ -268,7 +267,7 @@ export function Contact() {
                 x: (Math.random() - 0.5) * 30,
                 y: (Math.random() - 0.5) * 30,
                 duration: 0.6,
-                ease: "power2.out"
+                ease: 'power2.out',
               }
             );
           }
@@ -280,7 +279,7 @@ export function Contact() {
             scale: 1,
             borderColor: '#374151',
             boxShadow: 'none',
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         });
       });
@@ -293,7 +292,7 @@ export function Contact() {
             duration: 0.3,
             scale: 1.05,
             rotation: 5,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
 
           // Crear efecto de energía
@@ -317,7 +316,7 @@ export function Contact() {
               opacity: 1,
               scale: 1,
               duration: 0.3,
-              delay: i * 0.05
+              delay: i * 0.05,
             });
             gsap.to(energyParticle, {
               x: (Math.random() - 0.5) * 100,
@@ -326,7 +325,7 @@ export function Contact() {
               scale: 0,
               duration: 1,
               delay: 0.3 + i * 0.05,
-              ease: "power2.out"
+              ease: 'power2.out',
             });
           }
         });
@@ -336,7 +335,7 @@ export function Contact() {
             duration: 0.3,
             scale: 1,
             rotation: 0,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         });
       }
@@ -369,13 +368,12 @@ export function Contact() {
             duration: 4,
             delay: i * 0.5,
             repeat: -1,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         }
       };
 
       createEnergyWaves();
-
     }, contactRef);
 
     return () => ctx.revert();
@@ -384,71 +382,77 @@ export function Contact() {
   const contactInfo = [
     {
       icon: Mail,
-      label: "Email",
-      value: "zmaikol399@gmail.com",
-      href: "mailto:zmaikol399@gmail.com",
-      color: "purple"
+      label: 'Email',
+      value: 'zmaikol399@gmail.com',
+      href: 'mailto:zmaikol399@gmail.com',
+      color: 'purple',
     },
     {
       icon: Phone,
-      label: "Phone",
-      value: "+57 300 123 4567",
-      href: "tel:+573001234567",
-      color: "cyan"
+      label: 'Phone',
+      value: '+57 300 123 4567',
+      href: 'tel:+573001234567',
+      color: 'cyan',
     },
     {
       icon: MapPin,
-      label: "Location",
-      value: "Colombia",
-      href: "#",
-      color: "orange"
-    }
+      label: 'Location',
+      value: 'Colombia',
+      href: '#',
+      color: 'orange',
+    },
   ];
 
-
   return (
-    <section 
+    <section
       ref={contactRef}
-      className="min-h-screen flex flex-col justify-center items-center relative py-20 overflow-hidden"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden py-20"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-orange-900/20 via-slate-900 to-black"></div>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6">
         {/* Header */}
-        <div className="text-center mb-20">
-          <h2 className="contact-title text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-yellow-400 to-cyan-400 bg-clip-text text-transparent relative">
+        <div className="mb-20 text-center">
+          <h2 className="contact-title relative mb-6 bg-gradient-to-r from-orange-400 via-yellow-400 to-cyan-400 bg-clip-text text-4xl font-black text-transparent md:text-6xl">
             Get In Touch
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Ready to bring your ideas to life? Let's collaborate and create something amazing together.
+          <p className="mx-auto max-w-3xl text-xl text-gray-300">
+            Ready to bring your ideas to life? Let's collaborate and create
+            something amazing together.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2">
           {/* Contact Information */}
           <div className="contact-items space-y-8">
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <MessageCircle className="w-6 h-6 text-orange-400" />
+            <h3 className="mb-8 flex items-center gap-3 text-2xl font-bold text-white">
+              <MessageCircle className="h-6 w-6 text-orange-400" />
               Let's Connect
             </h3>
-            
-            {contactInfo.map((info) => (
+
+            {contactInfo.map(info => (
               <div
                 key={info.label}
-                className="contact-item group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700/50 hover:border-orange-500/50 transition-all duration-500 cursor-pointer transform-gpu"
-                style={{ perspective: "1000px" }}
+                className="contact-item group relative transform-gpu cursor-pointer rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 backdrop-blur-lg transition-all duration-500 hover:border-orange-500/50"
+                style={{ perspective: '1000px' }}
               >
                 <a
                   href={info.href}
-                  className="flex items-center gap-4 group-hover:scale-105 transition-transform duration-300"
+                  className="flex items-center gap-4 transition-transform duration-300 group-hover:scale-105"
                 >
-                  <div className={`relative p-3 bg-gradient-to-br from-${info.color}-600/20 to-${info.color}-800/20 rounded-xl border border-${info.color}-500/30 group-hover:border-${info.color}-400/50 transition-colors duration-300`}>
-                    <info.icon className={`w-6 h-6 text-${info.color}-400 group-hover:text-${info.color}-300 transition-colors duration-300`} />
+                  <div
+                    className={`relative bg-gradient-to-br p-3 from-${info.color}-600/20 to-${info.color}-800/20 rounded-xl border border-${info.color}-500/30 group-hover:border-${info.color}-400/50 transition-colors duration-300`}
+                  >
+                    <info.icon
+                      className={`h-6 w-6 text-${info.color}-400 group-hover:text-${info.color}-300 transition-colors duration-300`}
+                    />
                   </div>
                   <div>
-                    <p className="text-gray-400 text-sm font-medium">{info.label}</p>
-                    <p className="text-white font-semibold group-hover:text-orange-300 transition-colors duration-300">
+                    <p className="text-sm font-medium text-gray-400">
+                      {info.label}
+                    </p>
+                    <p className="font-semibold text-white transition-colors duration-300 group-hover:text-orange-300">
                       {info.value}
                     </p>
                   </div>
@@ -458,63 +462,63 @@ export function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="contact-form relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg rounded-2xl p-8 border border-slate-700/50 transform-gpu">
-            <h3 className="text-2xl font-bold text-white mb-8 flex items-center gap-3">
-              <Zap className="w-6 h-6 text-orange-400" />
+          <div className="contact-form relative transform-gpu rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-8 backdrop-blur-lg">
+            <h3 className="mb-8 flex items-center gap-3 text-2xl font-bold text-white">
+              <Zap className="h-6 w-6 text-orange-400" />
               Send Message
             </h3>
-            
+
             <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-300">
                     Name
                   </label>
                   <input
                     type="text"
-                    className="contact-input w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300"
+                    className="contact-input w-full rounded-xl border border-slate-600/50 bg-slate-700/50 px-4 py-3 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none"
                     placeholder="Your name"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-300 text-sm font-medium mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-300">
                     Email
                   </label>
                   <input
                     type="email"
-                    className="contact-input w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300"
+                    className="contact-input w-full rounded-xl border border-slate-600/50 bg-slate-700/50 px-4 py-3 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none"
                     placeholder="your@email.com"
                   />
                 </div>
               </div>
-              
+
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-300">
                   Subject
                 </label>
                 <input
                   type="text"
-                  className="contact-input w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300"
+                  className="contact-input w-full rounded-xl border border-slate-600/50 bg-slate-700/50 px-4 py-3 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none"
                   placeholder="Project inquiry"
                 />
               </div>
-              
+
               <div>
-                <label className="block text-gray-300 text-sm font-medium mb-2">
+                <label className="mb-2 block text-sm font-medium text-gray-300">
                   Message
                 </label>
                 <textarea
                   rows={5}
-                  className="contact-input w-full px-4 py-3 bg-slate-700/50 border border-slate-600/50 rounded-xl text-white placeholder-gray-400 focus:outline-none transition-all duration-300 resize-none"
+                  className="contact-input w-full resize-none rounded-xl border border-slate-600/50 bg-slate-700/50 px-4 py-3 text-white placeholder-gray-400 transition-all duration-300 focus:outline-none"
                   placeholder="Tell me about your project..."
                 ></textarea>
               </div>
-              
+
               <button
                 type="submit"
-                className="submit-button w-full bg-gradient-to-r from-orange-500 to-yellow-500 hover:from-orange-600 hover:to-yellow-600 text-white font-bold py-4 px-8 rounded-xl transition-all duration-500 transform hover:scale-105 flex items-center justify-center gap-3 group"
+                className="submit-button group flex w-full transform items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-orange-500 to-yellow-500 px-8 py-4 font-bold text-white transition-all duration-500 hover:scale-105 hover:from-orange-600 hover:to-yellow-600"
               >
-                <Send className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
+                <Send className="h-5 w-5 transition-transform duration-300 group-hover:rotate-12" />
                 Send Message
               </button>
             </form>
@@ -523,4 +527,4 @@ export function Contact() {
       </div>
     </section>
   );
-} 
+}

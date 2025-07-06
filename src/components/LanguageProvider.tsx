@@ -7,14 +7,15 @@ interface LanguageProviderProps {
   initialLanguage?: Language;
 }
 
-export const LanguageProvider: React.FC<LanguageProviderProps> = ({ 
-  children, 
-  initialLanguage = 'es' 
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({
+  children,
+  initialLanguage = 'es',
 }) => {
   const languageProvider = useLanguageProvider(initialLanguage);
-  
+
   return (
     <LanguageContext.Provider value={languageProvider}>
       {children}
     </LanguageContext.Provider>
-  );}; 
+  );
+};

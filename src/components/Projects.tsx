@@ -1,11 +1,7 @@
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { 
-  Github, 
-  ExternalLink, 
-  ArrowRight
-} from "lucide-react";
-import { useTranslation } from "../lib/useTranslation";
+import { useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
+import { Github, ExternalLink, ArrowRight } from 'lucide-react';
+import { useTranslation } from '../lib/useTranslation';
 
 export function Projects() {
   const projectsRef = useRef<HTMLDivElement>(null);
@@ -40,17 +36,18 @@ export function Projects() {
           height: 300,
           opacity: 0,
           duration: 2,
-          ease: "power2.out"
+          ease: 'power2.out',
         });
       };
 
       // Animación del título con efecto de portal
-      gsap.fromTo(".projects-title",
-        { 
-          opacity: 0, 
+      gsap.fromTo(
+        '.projects-title',
+        {
+          opacity: 0,
           y: 50,
           scale: 0,
-          rotation: 720
+          rotation: 720,
         },
         {
           opacity: 1,
@@ -58,21 +55,21 @@ export function Projects() {
           scale: 1,
           rotation: 0,
           duration: 2,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: ".projects-title",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.projects-title',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
           },
-          onComplete: createPortalEffect
+          onComplete: createPortalEffect,
         }
       );
 
       // Efecto de energía para las project cards
       const createEnergyEffect = () => {
         const cards = document.querySelectorAll('.project-card');
-        cards.forEach((card) => {
+        cards.forEach(card => {
           // Crear líneas de energía
           for (let i = 0; i < 5; i++) {
             const energyLine = document.createElement('div');
@@ -94,7 +91,7 @@ export function Projects() {
               opacity: 1,
               duration: 1,
               delay: i * 0.1,
-              ease: "power2.out"
+              ease: 'power2.out',
             });
           }
 
@@ -120,7 +117,7 @@ export function Projects() {
               opacity: 1,
               scale: 1,
               duration: 0.5,
-              delay: i * 0.05
+              delay: i * 0.05,
             });
             gsap.to(energyParticle, {
               x: (Math.random() - 0.5) * 300,
@@ -129,21 +126,22 @@ export function Projects() {
               scale: 0,
               duration: 1.5,
               delay: 0.5 + i * 0.05,
-              ease: "power2.out"
+              ease: 'power2.out',
             });
           }
         });
       };
 
       // Animación de las project cards con efecto de energía
-      gsap.fromTo(".project-card",
-        { 
-          opacity: 0, 
-          y: 100, 
+      gsap.fromTo(
+        '.project-card',
+        {
+          opacity: 0,
+          y: 100,
           scale: 0.8,
           rotationX: 90,
           rotationY: 45,
-          z: -100
+          z: -100,
         },
         {
           opacity: 1,
@@ -154,14 +152,14 @@ export function Projects() {
           z: 0,
           duration: 1.5,
           stagger: 0.3,
-          ease: "back.out(1.7)",
+          ease: 'back.out(1.7)',
           scrollTrigger: {
-            trigger: ".projects-grid",
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: '.projects-grid',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            toggleActions: 'play none none reverse',
           },
-          onComplete: createEnergyEffect
+          onComplete: createEnergyEffect,
         }
       );
 
@@ -177,8 +175,8 @@ export function Projects() {
             duration: 0.3,
             scale: 1.1,
             rotation: 2,
-            filter: "brightness(1.2) contrast(1.1)",
-            ease: "power2.out"
+            filter: 'brightness(1.2) contrast(1.1)',
+            ease: 'power2.out',
           });
 
           // Efecto de energía en el overlay
@@ -186,7 +184,7 @@ export function Projects() {
             duration: 0.3,
             opacity: 1,
             scale: 1.05,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
 
           // Efecto de elevación 3D
@@ -196,7 +194,7 @@ export function Projects() {
             rotationY: 5,
             rotationX: 5,
             z: 50,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
 
           // Crear efecto de chispas
@@ -215,7 +213,8 @@ export function Projects() {
             `;
             card.appendChild(spark);
 
-            gsap.fromTo(spark, 
+            gsap.fromTo(
+              spark,
               { opacity: 1, scale: 0 },
               {
                 opacity: 0,
@@ -223,7 +222,7 @@ export function Projects() {
                 x: (Math.random() - 0.5) * 100,
                 y: (Math.random() - 0.5) * 100,
                 duration: 0.8,
-                ease: "power2.out"
+                ease: 'power2.out',
               }
             );
           }
@@ -234,15 +233,15 @@ export function Projects() {
             duration: 0.3,
             scale: 1,
             rotation: 0,
-            filter: "brightness(1) contrast(1)",
-            ease: "power2.out"
+            filter: 'brightness(1) contrast(1)',
+            ease: 'power2.out',
           });
 
           gsap.to(overlay, {
             duration: 0.3,
             opacity: 0,
             scale: 1,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
 
           gsap.to(card, {
@@ -251,7 +250,7 @@ export function Projects() {
             rotationY: 0,
             rotationX: 0,
             z: 0,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         });
 
@@ -263,7 +262,7 @@ export function Projects() {
           const y = mouseEvent.clientY - rect.top;
           const centerX = rect.width / 2;
           const centerY = rect.height / 2;
-          
+
           const rotateX = (y - centerY) / 15;
           const rotateY = (centerX - x) / 15;
 
@@ -271,7 +270,7 @@ export function Projects() {
             duration: 0.1,
             rotationX: rotateX,
             rotationY: rotateY,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         });
       });
@@ -304,71 +303,70 @@ export function Projects() {
             duration: 3,
             delay: i * 0.5,
             repeat: -1,
-            ease: "power2.out"
+            ease: 'power2.out',
           });
         }
       };
 
       createEnergyWaves();
-
     }, projectsRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section 
+    <section
       ref={projectsRef}
-      className="min-h-screen flex flex-col justify-center items-center relative py-20 overflow-hidden"
+      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden py-20"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-900 to-black"></div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6">
         {/* Header */}
-        <div className="text-center mb-20">
-          <h2 className="projects-title text-4xl md:text-6xl font-black mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent relative">
+        <div className="mb-20 text-center">
+          <h2 className="projects-title relative mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-4xl font-black text-transparent md:text-6xl">
             {t.projects.featuredProjects}
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="mx-auto max-w-3xl text-xl text-gray-300">
             {t.projects.showcaseDescription}
           </p>
         </div>
 
         {/* Projects Grid */}
-        <div className="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {t.projects.items.map((project) => (
+        <div className="projects-grid grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {t.projects.items.map(project => (
             <div
               key={project.id}
-              className="project-card group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all duration-500 cursor-pointer transform-gpu"
-              style={{ perspective: "1000px" }}
+              className="project-card group relative transform-gpu cursor-pointer rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 backdrop-blur-lg transition-all duration-500 hover:border-purple-500/50"
+              style={{ perspective: '1000px' }}
             >
               {/* Project Image */}
               <div className="relative mb-6 overflow-hidden rounded-xl">
                 <img
                   src={`https://via.placeholder.com/400x250/1f2937/ffffff?text=${project.title}`}
                   alt={project.title}
-                  className="w-full h-48 object-cover transition-all duration-500"
+                  className="h-48 w-full object-cover transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                
+
                 {/* Overlay with links */}
-                <div className="project-overlay absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 flex items-center justify-center gap-4">
+                <div className="project-overlay absolute inset-0 flex items-center justify-center gap-4 bg-black/60 opacity-0 transition-opacity duration-300">
                   <a
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-purple-600 hover:bg-purple-700 text-white p-3 rounded-full transition-colors duration-300 transform hover:scale-110"
+                    className="transform rounded-full bg-purple-600 p-3 text-white transition-colors duration-300 hover:scale-110 hover:bg-purple-700"
                   >
-                    <ExternalLink className="w-5 h-5" />
+                    <ExternalLink className="h-5 w-5" />
                   </a>
                   <a
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-slate-700 hover:bg-slate-600 text-white p-3 rounded-full transition-colors duration-300 transform hover:scale-110"
+                    className="transform rounded-full bg-slate-700 p-3 text-white transition-colors duration-300 hover:scale-110 hover:bg-slate-600"
                   >
-                    <Github className="w-5 h-5" />
+                    <Github className="h-5 w-5" />
                   </a>
                 </div>
               </div>
@@ -376,24 +374,24 @@ export function Projects() {
               {/* Project Info */}
               <div className="space-y-4">
                 <div>
-                  <span className="text-sm text-purple-400 font-medium">
+                  <span className="text-sm font-medium text-purple-400">
                     Full Stack
                   </span>
-                  <h3 className="text-2xl font-bold text-white mt-2 group-hover:text-purple-300 transition-colors duration-300">
+                  <h3 className="mt-2 text-2xl font-bold text-white transition-colors duration-300 group-hover:text-purple-300">
                     {project.title}
                   </h3>
                 </div>
 
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed text-gray-300">
                   {project.description}
                 </p>
 
                 {/* Tech Stack */}
                 <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech) => (
+                  {project.tech.map(tech => (
                     <span
                       key={tech}
-                      className="bg-slate-700/50 text-slate-300 text-xs font-medium px-3 py-1 rounded-full border border-slate-600/50 hover:border-purple-400/50 transition-colors duration-300"
+                      className="rounded-full border border-slate-600/50 bg-slate-700/50 px-3 py-1 text-xs font-medium text-slate-300 transition-colors duration-300 hover:border-purple-400/50"
                     >
                       {tech}
                     </span>
@@ -406,10 +404,10 @@ export function Projects() {
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 font-medium transition-colors duration-300 group-hover:gap-3"
+                    className="inline-flex items-center gap-2 font-medium text-purple-400 transition-colors duration-300 hover:text-purple-300 group-hover:gap-3"
                   >
                     {t.projects.viewProject}
-                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </a>
                 </div>
               </div>
@@ -419,4 +417,4 @@ export function Projects() {
       </div>
     </section>
   );
-} 
+}

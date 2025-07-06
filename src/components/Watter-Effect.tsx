@@ -1,9 +1,8 @@
-
 const WaterEffect = () => {
-    return (
-      <div className="water-effect-container">
-        <style>
-          {`
+  return (
+    <div className="water-effect-container">
+      <style>
+        {`
             .water-effect-container {
               overflow: hidden;
               position: fixed;
@@ -221,12 +220,12 @@ const WaterEffect = () => {
               }
             }
           `}
-        </style>
-        
-        <div className="drop"></div>
-        <div className="wave"></div>
-      </div>
-    );
-  };
-  
-  export default WaterEffect;
+      </style>
+
+      <div className="drop"></div>
+      <div className="wave"></div>
+    </div>
+  );
+};
+
+export default WaterEffect;

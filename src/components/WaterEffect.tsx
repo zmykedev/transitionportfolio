@@ -1,4 +1,3 @@
-
 const WaterEffect = () => {
   return (
     <div className="water-effect-container">
@@ -158,7 +157,7 @@ const WaterEffect = () => {
           }
         `}
       </style>
-      
+
       <div className="drop"></div>
       <div className="wave"></div>
     </div>
