@@ -7,32 +7,35 @@ import { useTranslation } from '../../lib/useTranslation';
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const skills = [
-  { name: 'React', icon: 'react', color: 'from-blue-400 to-cyan-400' },
+  { id: 'react', name: 'React', icon: 'react', color: 'from-blue-400 to-cyan-400' },
   {
+    id: 'typescript',
     name: 'TypeScript',
     icon: 'typescript',
     color: 'from-blue-500 to-blue-600',
   },
-  { name: 'Node.js', icon: 'nodejs', color: 'from-green-400 to-green-600' },
+  { id: 'nodejs', name: 'Node.js', icon: 'nodejs', color: 'from-green-400 to-green-600' },
   {
+    id: 'javascript',
     name: 'JavaScript',
     icon: 'javascript',
     color: 'from-yellow-400 to-yellow-500',
   },
-  { name: 'HTML5', icon: 'html', color: 'from-orange-400 to-red-500' },
-  { name: 'CSS3', icon: 'css', color: 'from-blue-400 to-blue-600' },
-  { name: 'Python', icon: 'python', color: 'from-blue-400 to-yellow-400' },
-  { name: 'Git', icon: 'git', color: 'from-orange-500 to-red-500' },
+  { id: 'html', name: 'HTML5', icon: 'html', color: 'from-orange-400 to-red-500' },
+  { id: 'css', name: 'CSS3', icon: 'css', color: 'from-blue-400 to-blue-600' },
+  { id: 'python', name: 'Python', icon: 'python', color: 'from-blue-400 to-yellow-400' },
+  { id: 'git', name: 'Git', icon: 'git', color: 'from-orange-500 to-red-500' },
   {
+    id: 'postgresql',
     name: 'PostgreSQL',
     icon: 'postgresql',
     color: 'from-blue-500 to-blue-600',
   },
-  { name: 'Docker', icon: 'docker', color: 'from-blue-400 to-blue-600' },
-  { name: 'AWS', icon: 'aws', color: 'from-orange-400 to-orange-500' },
-  { name: 'Next.js', icon: 'nextjs', color: 'from-gray-700 to-gray-900' },
-  { name: 'Tailwind', icon: 'tailwindcss', color: 'from-cyan-400 to-blue-500' },
-  { name: 'Bun', icon: 'bun', color: 'from-brown-400 to-brown-600' },
+  { id: 'docker', name: 'Docker', icon: 'docker', color: 'from-blue-400 to-blue-600' },
+  { id: 'aws', name: 'AWS', icon: 'aws', color: 'from-orange-400 to-orange-500' },
+  { id: 'nextjs', name: 'Next.js', icon: 'nextjs', color: 'from-gray-700 to-gray-900' },
+  { id: 'tailwindcss', name: 'Tailwind', icon: 'tailwindcss', color: 'from-cyan-400 to-blue-500' },
+  { id: 'bun', name: 'Bun', icon: 'bun', color: 'from-brown-400 to-brown-600' },
 ];
 
 export const Skills: React.FC = () => {
@@ -305,7 +308,8 @@ export const Skills: React.FC = () => {
         >
           {skills.map((skill, index) => (
             <div
-              key={skill.name}
+              key={skill.id}
+              id={`skill-${skill.id}`}
               className="skill-card group relative"
               style={{
                 animationDelay: `${index * 0.1}s`,
