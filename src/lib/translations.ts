@@ -125,6 +125,12 @@ export const translations = {
         },
       ],
     },
+
+    skills: {
+      title: 'Skills & Tecnologías',
+      subtitle: 'Tecnologías con las que trabajo para construir experiencias digitales increíbles',
+      bottomText: 'Siempre aprendiendo y explorando nuevas tecnologías',
+    },
   },
 
   en: {
@@ -253,6 +259,12 @@ export const translations = {
         },
       ],
     },
+
+    skills: {
+      title: 'Skills & Technologies',
+      subtitle: 'Technologies I work with to build amazing digital experiences',
+      bottomText: 'Always learning and exploring new technologies',
+    },
   },
 
   pt: {
@@ -380,6 +392,12 @@ export const translations = {
           url: '#',
         },
       ],
+    },
+
+    skills: {
+      title: 'Skills & Tecnologias',
+      subtitle: 'Tecnologias com as quais trabalho para criar experiências digitais incríveis',
+      bottomText: 'Sempre aprendendo e explorando novas tecnologias',
     },
   },
 
@@ -525,6 +543,12 @@ export const translations = {
           url: '#',
         },
       ],
+    },
+
+    skills: {
+      title: 'Compétences & Technologies',
+      subtitle: 'Technologies avec lesquelles je travaille pour créer des expériences digitales incroyables',
+      bottomText: "Toujours en train d'apprendre et d'explorer de nouvelles technologies",
     },
   },
 };

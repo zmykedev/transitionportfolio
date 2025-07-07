@@ -478,7 +478,7 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className={`hero-snap relative flex min-h-screen items-center justify-center overflow-hidden p-4 sm:p-6 lg:p-8`}
+      className="relative flex min-h-screen items-center justify-center overflow-hidden p-4 sm:p-6 lg:p-8"
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">

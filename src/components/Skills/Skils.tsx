@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useTranslation } from '../../lib/useTranslation';
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -35,6 +36,7 @@ const skills = [
 ];
 
 export const Skills: React.FC = () => {
+  const { t } = useTranslation();
   const skillsRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -247,7 +249,7 @@ export const Skills: React.FC = () => {
   return (
     <section
       ref={skillsRef}
-      className="skills-snap relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 p-4 sm:p-6 lg:p-8"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden p-4 sm:p-6 lg:p-8"
     >
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
@@ -284,15 +286,15 @@ export const Skills: React.FC = () => {
         <div className="mb-8 text-center sm:mb-10">
           <h2
             ref={titleRef}
-            className="mb-2 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-2xl font-black text-transparent sm:text-3xl md:text-4xl"
+            className="mb-2 bg-gradient-to-r from-white via-purple-200 to-cyan-200 bg-clip-text text-2xl font-black text-transparent sm:text-3xl md:text-4xl"
           >
-            Skills & Technologies
+            {t.skills.title}
           </h2>
           <p
             ref={subtitleRef}
             className="mx-auto max-w-xl text-sm text-gray-300 sm:text-base"
           >
-            Technologies I work with to build amazing digital experiences
+            {t.skills.subtitle}
           </p>
         </div>
 
@@ -347,7 +349,7 @@ export const Skills: React.FC = () => {
         {/* Bottom Text */}
         <div ref={bottomTextRef} className="mt-6 text-center sm:mt-8">
           <p className="text-xs text-gray-400 sm:text-sm">
-            Always learning and exploring new technologies
+            {t.skills.bottomText}
           </p>
         </div>
       </div>
