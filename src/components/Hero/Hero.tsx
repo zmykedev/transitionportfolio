@@ -5,14 +5,16 @@ import { useAtom } from 'jotai';
 import { useTranslation } from '../../lib/useTranslation';
 import { vsCodeOpenAtom } from '../../lib/atoms';
 import { Github, Linkedin, FileDown, Calendar } from 'lucide-react';
+import { useMediaQuery } from 'usehooks-ts';
 
 
 // Registrar plugins
 gsap.registerPlugin(useGSAP);
 
 export function Hero() {
-  const { t } = useTranslation();
-
+  const { t } = useTranslation();   
+  
+  const isMobile = useMediaQuery('(max-width: 480px)');
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -546,11 +548,23 @@ export function Hero() {
             {/* Planet Earth Animation - Behind VS Code */}
             <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: -1 }}>
               {!isVSCodeOpen && (
-                <div className="planet-container">
-                  <div className="night"></div>
-                  <div className="day"></div>
-                  <div className="clouds"></div>
-                  <div className="inner-shadow"></div>
+                <div
+                  className="planet-container"
+                  style={
+                    isMobile
+                      ? {
+                          height: 280,
+                          width: 280,
+                          minHeight: 280,
+                          minWidth: 280,
+                        }
+                      : undefined
+                  }
+                >
+                  <div className="night" style={isMobile ? { height: 280, width: 280 } : undefined}></div>
+                  <div className="day" style={isMobile ? { height: 280, width: 280, marginLeft: 61 } : undefined}></div>
+                  <div className="clouds" style={isMobile ? { height: 280, width: 280, marginLeft: 56 } : undefined}></div>
+                  <div className="inner-shadow" style={isMobile ? { height: 280, width: 280 } : undefined}></div>
                 </div>
               )}
             </div>

@@ -370,13 +370,7 @@ html {
     display: none; /* Hide complex effects on mobile */
   }
   
-  .robot-body {
-    font-size: 2rem; /* Smaller on mobile */
-  }
-  
-  .code-line {
-    font-size: 0.625rem; /* Smaller code on mobile */
-  }
+
   
   .planet-container {
     height: 320px;
