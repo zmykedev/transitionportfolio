@@ -1,7 +1,6 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { gsap } from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { useMediaQuery } from 'usehooks-ts';
 import { useAtom } from 'jotai';
 import { useTranslation } from '../../lib/useTranslation';
 import { vsCodeOpenAtom } from '../../lib/atoms';
