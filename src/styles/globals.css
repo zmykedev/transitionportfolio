@@ -338,6 +338,30 @@ html {
   will-change: opacity;
 }
 
+/* Tablet optimizations */
+@media (max-width: 1024px) {
+  .planet-container {
+    height: 400px;
+    width: 400px;
+  }
+  
+  .night,
+  .day,
+  .clouds,
+  .inner-shadow {
+    height: 400px;
+    width: 400px;
+  }
+  
+  .day {
+    margin-left: 88px;
+  }
+  
+  .clouds {
+    margin-left: 80px;
+  }
+}
+
 /* Mobile optimizations */
 @media (max-width: 768px) {
   .particle,
@@ -355,24 +379,48 @@ html {
   }
   
   .planet-container {
-    height: 350px;
-    width: 350px;
+    height: 320px;
+    width: 320px;
   }
   
   .night,
   .day,
   .clouds,
   .inner-shadow {
-    height: 350px;
-    width: 350px;
+    height: 320px;
+    width: 320px;
   }
   
   .day {
-    margin-left: 77px;
+    margin-left: 70px;
   }
   
   .clouds {
-    margin-left: 70px;
+    margin-left: 64px;
+  }
+}
+
+/* Small mobile optimizations */
+@media (max-width: 480px) {
+  .planet-container {
+    height: 280px;
+    width: 280px;
+  }
+  
+  .night,
+  .day,
+  .clouds,
+  .inner-shadow {
+    height: 280px;
+    width: 280px;
+  }
+  
+  .day {
+    margin-left: 61px;
+  }
+  
+  .clouds {
+    margin-left: 56px;
   }
 }
 

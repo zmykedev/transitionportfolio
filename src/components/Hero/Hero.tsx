@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react';
 import { useMediaQuery } from 'usehooks-ts';
 import { useAtom } from 'jotai';
 import { useTranslation } from '../../lib/useTranslation';
-import { vsCodeOpenAtom, tooltipEnabledAtom } from '../../lib/atoms';
+import { vsCodeOpenAtom } from '../../lib/atoms';
 import { Github, Linkedin, FileDown, Calendar } from 'lucide-react';
 
 
@@ -12,10 +12,8 @@ import { Github, Linkedin, FileDown, Calendar } from 'lucide-react';
 gsap.registerPlugin(useGSAP);
 
 export function Hero() {
-  const { t, language } = useTranslation();
+  const { t } = useTranslation();
 
-  const isMobile = useMediaQuery('(max-width: 768px)');
-  const isMiniBook = useMediaQuery('(max-width: 1280px)');
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
@@ -27,8 +25,7 @@ export function Hero() {
   // Estado global para el VS Code usando atoms
   const [isVSCodeOpen, setIsVSCodeOpen] = useAtom(vsCodeOpenAtom);
 
-  // Estado global para controlar cuándo mostrar el tooltip permanentemente
-  const [tooltipEnabled, setTooltipEnabled] = useAtom(tooltipEnabledAtom);
+
 
   // Ref para saber si es la primera carga del componente
   const isInitialMount = useRef(true);
@@ -538,40 +535,7 @@ export function Hero() {
                 </svg>
               </button>
 
-              {/* Robot Assistant */}
-              {tooltipEnabled && (
-                <div
-                  className={`fixed ${isMiniBook ? 'right-24 top-30' : 'right-4 top-2'}  z-50 ${language === 'fr' || language === 'pt' ? 'mt-20' : ''}`}
-                >
-                  {/* Robot que sale de atrás */}
-                                      <div className="robot-container relative opacity-0">
-                    {/* Robot - Optimized for LCP */}
-                    <div
-                      className="robot-body text-4xl"
-                      style={{
-                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
-                        willChange: 'auto',
-                      }}
-                    >
-                      🤖
-                    </div>
-
-                    {/* Globo de diálogo */}
-                    <div className="speech-bubble absolute max-w-xs whitespace-nowrap rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-lg" style={{ transform: 'translate(2.5rem, -2rem)' }}>
-                      <span className="speaking-text">
-                        {isVSCodeOpen
-                          ? t.hero.vsCode.closeTooltip
-                          : t.hero.vsCode.openTooltip}
-                      </span>
-
-                      {/* Cola del globo apuntando al robot */}
-                      <div className="absolute" style={{ transform: 'translate(2rem, 100%) translateX(-50%)' }}>
-                        <div className="border-t-6 h-0 w-0 border-l-4 border-r-4 border-transparent border-t-white"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              
             </div>
           </div>
         </div>
