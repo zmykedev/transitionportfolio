@@ -73,8 +73,6 @@ export function Contact() {
             wave.className = 'sound-wave';
             wave.style.cssText = `
               position: absolute;
-              top: 50%;
-              left: 50%;
               width: 0;
               height: 0;
               border: 1px solid rgba(6, 182, 212, 0.3);
@@ -140,8 +138,7 @@ export function Contact() {
             width: 2px;
             height: 0;
             background: linear-gradient(to bottom, transparent, #f59e0b, transparent);
-            top: 0;
-            left: ${12.5 * i}%;
+            transform: translateX(${12.5 * i}%);
             pointer-events: none;
             opacity: 0;
           `;
@@ -252,8 +249,7 @@ export function Contact() {
               height: 2px;
               background: #8b5cf6;
               border-radius: 50%;
-              top: 50%;
-              left: 50%;
+              transform: translate(-50%, -50%);
               pointer-events: none;
             `;
             input.appendChild(spark);
@@ -305,8 +301,7 @@ export function Contact() {
               height: 3px;
               background: #f59e0b;
               border-radius: 50%;
-              top: 50%;
-              left: 50%;
+              transform: translate(-50%, -50%);
               pointer-events: none;
             `;
             submitButton.appendChild(energyParticle);
@@ -350,8 +345,6 @@ export function Contact() {
           wave.className = 'energy-wave';
           wave.style.cssText = `
             position: absolute;
-            top: 50%;
-            left: 50%;
             width: 0;
             height: 0;
             border: 2px solid rgba(245, 158, 11, 0.2);

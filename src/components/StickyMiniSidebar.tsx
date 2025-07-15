@@ -7,11 +7,10 @@ const StickyMiniSidebar = () => {
   const [isVSCodeOpen, setIsVSCodeOpen] = useAtom(vsCodeOpenAtom);
   const [isVisible, setIsVisible] = useState(false);
 
-  // Animación de entrada después del mount
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
-    }, 2000); // Delay para que aparezca después de todas las animaciones del hero
+    }, 2000); 
 
     return () => clearTimeout(timer);
   }, []);

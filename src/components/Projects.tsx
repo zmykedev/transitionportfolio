@@ -9,306 +9,46 @@ export function Projects() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Efecto de portal para el título
-      const createPortalEffect = () => {
-        const title = document.querySelector('.projects-title');
-        if (!title) return;
-
-        // Crear efecto de portal
-        const portal = document.createElement('div');
-        portal.className = 'portal-effect';
-        portal.style.cssText = `
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          background: radial-gradient(circle, rgba(139, 92, 246, 0.8) 0%, transparent 70%);
-          border-radius: 50%;
-          transform: translate(-50%, -50%);
-          pointer-events: none;
-          z-index: -1;
-        `;
-        title.appendChild(portal);
-
-        gsap.to(portal, {
-          width: 300,
-          height: 300,
-          opacity: 0,
-          duration: 2,
-          ease: 'power2.out',
-        });
-      };
-
-      // Animación del título con efecto de portal
+      // Simple title animation
       gsap.fromTo(
         '.projects-title',
         {
           opacity: 0,
-          y: 50,
-          scale: 0,
-          rotation: 720,
+          y: 30,
         },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 2,
-          ease: 'back.out(1.7)',
+          duration: 0.8,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: '.projects-title',
             start: 'top 80%',
-            end: 'bottom 20%',
             toggleActions: 'play none none reverse',
           },
-          onComplete: createPortalEffect,
         }
       );
 
-      // Efecto de energía para las project cards
-      const createEnergyEffect = () => {
-        const cards = document.querySelectorAll('.project-card');
-        cards.forEach(card => {
-          // Crear líneas de energía
-          for (let i = 0; i < 5; i++) {
-            const energyLine = document.createElement('div');
-            energyLine.className = 'energy-line';
-            energyLine.style.cssText = `
-              position: absolute;
-              width: 2px;
-              height: 0;
-              background: linear-gradient(to bottom, transparent, #8b5cf6, transparent);
-              top: 0;
-              left: ${20 + i * 15}%;
-              pointer-events: none;
-              opacity: 0;
-            `;
-            card.appendChild(energyLine);
-
-            gsap.to(energyLine, {
-              height: '100%',
-              opacity: 1,
-              duration: 1,
-              delay: i * 0.1,
-              ease: 'power2.out',
-            });
-          }
-
-          // Crear partículas de energía
-          for (let i = 0; i < 15; i++) {
-            const energyParticle = document.createElement('div');
-            energyParticle.className = 'energy-particle';
-            energyParticle.style.cssText = `
-              position: absolute;
-              width: 3px;
-              height: 3px;
-              background: #8b5cf6;
-              border-radius: 50%;
-              top: 50%;
-              left: 50%;
-              pointer-events: none;
-              opacity: 0;
-            `;
-            card.appendChild(energyParticle);
-
-            gsap.set(energyParticle, { opacity: 0, scale: 0 });
-            gsap.to(energyParticle, {
-              opacity: 1,
-              scale: 1,
-              duration: 0.5,
-              delay: i * 0.05,
-            });
-            gsap.to(energyParticle, {
-              x: (Math.random() - 0.5) * 300,
-              y: (Math.random() - 0.5) * 300,
-              opacity: 0,
-              scale: 0,
-              duration: 1.5,
-              delay: 0.5 + i * 0.05,
-              ease: 'power2.out',
-            });
-          }
-        });
-      };
-
-      // Animación de las project cards con efecto de energía
+      // Simple cards animation
       gsap.fromTo(
         '.project-card',
         {
           opacity: 0,
-          y: 100,
-          scale: 0.8,
-          rotationX: 90,
-          rotationY: 45,
-          z: -100,
+          y: 50,
         },
         {
           opacity: 1,
           y: 0,
-          scale: 1,
-          rotationX: 0,
-          rotationY: 0,
-          z: 0,
-          duration: 1.5,
-          stagger: 0.3,
-          ease: 'back.out(1.7)',
+          duration: 0.6,
+          stagger: 0.2,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: '.projects-grid',
             start: 'top 80%',
-            end: 'bottom 20%',
             toggleActions: 'play none none reverse',
           },
-          onComplete: createEnergyEffect,
         }
       );
-
-      // Efecto de distorsión en hover para las imágenes
-      const cards = document.querySelectorAll('.project-card');
-      cards.forEach(card => {
-        const image = card.querySelector('img');
-        const overlay = card.querySelector('.project-overlay');
-
-        card.addEventListener('mouseenter', () => {
-          // Efecto de distorsión en la imagen
-          gsap.to(image, {
-            duration: 0.3,
-            scale: 1.1,
-            rotation: 2,
-            filter: 'brightness(1.2) contrast(1.1)',
-            ease: 'power2.out',
-          });
-
-          // Efecto de energía en el overlay
-          gsap.to(overlay, {
-            duration: 0.3,
-            opacity: 1,
-            scale: 1.05,
-            ease: 'power2.out',
-          });
-
-          // Efecto de elevación 3D
-          gsap.to(card, {
-            duration: 0.3,
-            scale: 1.05,
-            rotationY: 5,
-            rotationX: 5,
-            z: 50,
-            ease: 'power2.out',
-          });
-
-          // Crear efecto de chispas
-          for (let i = 0; i < 8; i++) {
-            const spark = document.createElement('div');
-            spark.className = 'spark';
-            spark.style.cssText = `
-              position: absolute;
-              width: 2px;
-              height: 2px;
-              background: #f59e0b;
-              border-radius: 50%;
-              top: 50%;
-              left: 50%;
-              pointer-events: none;
-            `;
-            card.appendChild(spark);
-
-            gsap.fromTo(
-              spark,
-              { opacity: 1, scale: 0 },
-              {
-                opacity: 0,
-                scale: 1,
-                x: (Math.random() - 0.5) * 100,
-                y: (Math.random() - 0.5) * 100,
-                duration: 0.8,
-                ease: 'power2.out',
-              }
-            );
-          }
-        });
-
-        card.addEventListener('mouseleave', () => {
-          gsap.to(image, {
-            duration: 0.3,
-            scale: 1,
-            rotation: 0,
-            filter: 'brightness(1) contrast(1)',
-            ease: 'power2.out',
-          });
-
-          gsap.to(overlay, {
-            duration: 0.3,
-            opacity: 0,
-            scale: 1,
-            ease: 'power2.out',
-          });
-
-          gsap.to(card, {
-            duration: 0.3,
-            scale: 1,
-            rotationY: 0,
-            rotationX: 0,
-            z: 0,
-            ease: 'power2.out',
-          });
-        });
-
-        // Efecto de seguimiento del mouse 3D
-        card.addEventListener('mousemove', (e: Event) => {
-          const mouseEvent = e as MouseEvent;
-          const rect = card.getBoundingClientRect();
-          const x = mouseEvent.clientX - rect.left;
-          const y = mouseEvent.clientY - rect.top;
-          const centerX = rect.width / 2;
-          const centerY = rect.height / 2;
-
-          const rotateX = (y - centerY) / 15;
-          const rotateY = (centerX - x) / 15;
-
-          gsap.to(card, {
-            duration: 0.1,
-            rotationX: rotateX,
-            rotationY: rotateY,
-            ease: 'power2.out',
-          });
-        });
-      });
-
-      // Efecto de ondas de energía en el fondo
-      const createEnergyWaves = () => {
-        const container = projectsRef.current;
-        if (!container) return;
-
-        for (let i = 0; i < 3; i++) {
-          const wave = document.createElement('div');
-          wave.className = 'energy-wave';
-          wave.style.cssText = `
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border: 2px solid rgba(139, 92, 246, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            pointer-events: none;
-          `;
-          container.appendChild(wave);
-
-          gsap.to(wave, {
-            width: 800 + i * 200,
-            height: 800 + i * 200,
-            opacity: 0,
-            duration: 3,
-            delay: i * 0.5,
-            repeat: -1,
-            ease: 'power2.out',
-          });
-        }
-      };
-
-      createEnergyWaves();
     }, projectsRef);
 
     return () => ctx.revert();
@@ -338,8 +78,7 @@ export function Projects() {
           {t.projects.items.map(project => (
             <div
               key={project.id}
-              className="project-card group relative transform-gpu cursor-pointer rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 backdrop-blur-lg transition-all duration-500 hover:border-purple-500/50"
-              style={{ perspective: '1000px' }}
+              className="project-card group relative cursor-pointer rounded-2xl border border-slate-700/50 bg-gradient-to-br from-slate-800/50 to-slate-900/50 p-6 backdrop-blur-lg transition-all duration-300 hover:border-purple-500/50 hover:scale-105"
             >
               {/* Project Image */}
               <div className="relative mb-6 overflow-hidden rounded-xl">
@@ -351,7 +90,7 @@ export function Projects() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 
                 {/* Overlay with links */}
-                <div className="project-overlay absolute inset-0 flex items-center justify-center gap-4 bg-black/60 opacity-0 transition-opacity duration-300">
+                <div className="project-overlay absolute inset-0 flex items-center justify-center gap-4 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                   <a
                     href={project.url}
                     target="_blank"

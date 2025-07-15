@@ -256,14 +256,15 @@ export const Skills: React.FC = () => {
     >
       {/* Background Effects */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute left-1/4 top-1/4 h-32 w-32 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 blur-3xl sm:h-48 sm:w-48 lg:h-64 lg:w-64"></div>
-        <div className="absolute bottom-1/4 right-1/4 h-32 w-32 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 blur-3xl sm:h-48 sm:w-48 lg:h-64 lg:w-64"></div>
+        <div className="absolute h-32 w-32 rounded-full bg-gradient-to-r from-purple-500/10 to-pink-500/10 blur-3xl sm:h-48 sm:w-48 lg:h-64 lg:w-64" style={{ transform: 'translate(25%, 25%)' }}></div>
+        <div className="absolute h-32 w-32 rounded-full bg-gradient-to-r from-blue-500/10 to-cyan-500/10 blur-3xl sm:h-48 sm:w-48 lg:h-64 lg:w-64" style={{ transform: 'translate(75%, 75%)' }}></div>
       </div>
 
       {/* Skills Delivery Airplane */}
       <div
         ref={airplaneRef}
-        className="skills-airplane pointer-events-none absolute left-0 top-1/3 z-20"
+        className="skills-airplane pointer-events-none absolute z-20"
+        style={{ transform: 'translate(0, 33.33%)' }}
       >
         <div className="relative">
           {/* Airplane */}
@@ -272,9 +273,9 @@ export const Skills: React.FC = () => {
           </span>
 
           {/* Airplane trail */}
-          <div className="absolute -left-8 top-1/2 h-0.5 w-8 -translate-y-1/2 transform bg-gradient-to-r from-blue-400/60 to-transparent"></div>
-          <div className="absolute -left-12 top-1/2 h-0.5 w-6 -translate-y-1/2 transform bg-gradient-to-r from-blue-300/40 to-transparent"></div>
-          <div className="absolute -left-16 top-1/2 h-0.5 w-4 -translate-y-1/2 transform bg-gradient-to-r from-blue-200/20 to-transparent"></div>
+          <div className="absolute h-0.5 w-8 bg-gradient-to-r from-blue-400/60 to-transparent" style={{ transform: 'translate(-2rem, -50%)' }}></div>
+          <div className="absolute h-0.5 w-6 bg-gradient-to-r from-blue-300/40 to-transparent" style={{ transform: 'translate(-3rem, -50%)' }}></div>
+          <div className="absolute h-0.5 w-4 bg-gradient-to-r from-blue-200/20 to-transparent" style={{ transform: 'translate(-4rem, -50%)' }}></div>
 
           {/* Airplane glow */}
           <div className="absolute inset-0 text-4xl opacity-50 blur-sm sm:text-5xl md:text-6xl">

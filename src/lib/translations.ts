@@ -14,7 +14,7 @@ export const translations = {
         'Apasionado por crear soluciones digitales innovadoras y convertir ideas en realidad a través de código limpio y eficiente. Especializado en tecnologías web modernas y diseño de experiencia de usuario.',
       whatsapp: 'WhatsApp',
       vsCode: {
-        fileName: 'buttonUtils.ts',
+        fileName: 'utils.ts',
         description: 'Obtiene el estilo para el botón.',
         author: 'MykeDev',
         language: 'TypeScript',
@@ -148,7 +148,7 @@ export const translations = {
         'Passionate about creating innovative digital solutions and turning ideas into reality through clean and efficient code. Specialized in modern web technologies and user experience design.',
       whatsapp: 'WhatsApp',
       vsCode: {
-        fileName: 'buttonUtils.ts',
+        fileName: 'utils.ts',
         description: 'Get style for button.',
         author: 'MykeDev',
         language: 'TypeScript',
@@ -282,7 +282,7 @@ export const translations = {
         'Apaixonado por criar soluções digitais inovadoras e transformar ideias em realidade através de código limpo e eficiente. Especializado em tecnologias web modernas e design de experiência do usuário.',
       whatsapp: 'WhatsApp',
       vsCode: {
-        fileName: 'buttonUtils.ts',
+        fileName: 'utils.ts',
         description: 'Obtém o estilo para o botão.',
         author: 'MykeDev',
         language: 'TypeScript',
@@ -416,7 +416,7 @@ export const translations = {
         "Passionné par la création de solutions digitales innovantes et la transformation d'idées en réalité grâce au code propre et efficace. Spécialisé dans les technologies web modernes et le design d'expérience utilisateur.",
       whatsapp: 'WhatsApp',
       vsCode: {
-        fileName: 'buttonUtils.ts',
+        fileName: 'utils.ts',
         description: 'Obtenir le style du bouton.',
         author: 'MykeDev',
         language: 'TypeScript',

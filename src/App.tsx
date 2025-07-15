@@ -25,7 +25,7 @@ export default function App() {
     const timer = setTimeout(() => {
       setShowWaterEffect(false);
       setShowHero(true);
-    }, 1000);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, []);
@@ -35,6 +35,7 @@ export default function App() {
       <div
         ref={appRef}
         className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+        style={{ scrollSnapType: 'y mandatory' }}
       >
         {/* Water Effect - shows first */}
         {showWaterEffect && <WaterEffect />}
@@ -46,6 +47,7 @@ export default function App() {
             <LanguageSwitcher />
             <Hero />
             <Skills />
+         
           </>
         )}
       </div>

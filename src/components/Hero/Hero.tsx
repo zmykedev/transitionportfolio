@@ -7,6 +7,7 @@ import { useTranslation } from '../../lib/useTranslation';
 import { vsCodeOpenAtom, tooltipEnabledAtom } from '../../lib/atoms';
 import { Github, Linkedin, FileDown, Calendar } from 'lucide-react';
 
+
 // Registrar plugins
 gsap.registerPlugin(useGSAP);
 
@@ -14,11 +15,14 @@ export function Hero() {
   const { t, language } = useTranslation();
 
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMiniBook = useMediaQuery('(max-width: 1280px)');
   const heroRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
   const vsCodeRef = useRef<HTMLDivElement>(null);
   const vsCodeIconRef = useRef<HTMLButtonElement>(null);
+
+
 
   // Estado global para el VS Code usando atoms
   const [isVSCodeOpen, setIsVSCodeOpen] = useAtom(vsCodeOpenAtom);
@@ -28,7 +32,6 @@ export function Hero() {
 
   // Ref para saber si es la primera carga del componente
   const isInitialMount = useRef(true);
-  const techStack = t.hero.techStack;
 
   // Función para ejecutar las animaciones de apertura del VS Code
   const executeVSCodeOpenAnimation = useCallback(() => {
@@ -197,239 +200,141 @@ export function Hero() {
 
   useGSAP(
     () => {
-      // Animación del hero-location (greeting + name) - optimizada
-      gsap.from('.hero-location', {
+      // Single unified animation for entire left block using stagger - maximum performance
+      gsap.from('.left-content-item', {
         opacity: 0,
-        y: -400,
-        duration: 1.4,
+        y: 30,
+        duration: 0.6,
         ease: 'power2.out',
-        stagger: 0.2,
+        stagger: 0.15,
+       
       });
 
-      // Animación del hero-description - optimizada
-      gsap.from('.hero-description', {
-        opacity: 0,
-        y: -100,
-        x: -400,
-        duration: 1.4,
-        ease: 'power2.out',
-        delay: 0.2,
-      });
-
-      // Animación de botones sociales - optimizada
-      gsap.from('.social-buttons', {
-        opacity: 0,
-        y: 400,
-        scale: 0.5,
-        duration: 2.8,
-        delay: 0.2,
-        ease: 'bounce.out',
-        onComplete: () => {
-          // Habilitar tooltip después de que termine el bounce
-          gsap.delayedCall(0.5, () => {
-            setTooltipEnabled(true);
-
-            // Agregar clase especial al botón VS Code
-            if (vsCodeIconRef.current) {
-              vsCodeIconRef.current.classList.add('tip-vscode-enabled');
-            }
-
-            // Animación de aparición del robot asistente
-            gsap.delayedCall(0.3, () => {
-              // Robot aparece desde atrás del botón con secuencia controlada
-              gsap
-                .timeline()
-                .to('.robot-container', {
-                  x: 0,
-                  y: 0,
-                  scale: 1,
-                  rotation: 0,
-                  opacity: 1,
-                  duration: 1.2,
-                  ease: 'back.out(2)',
-                  onComplete: () => {
-                    // Robot "flotando" en el aire
-                    gsap.to('.robot-body', {
-                      y: '-=8',
-                      duration: 2.5,
-                      ease: 'sine.inOut',
-                      yoyo: true,
-                      repeat: -1,
-                    });
-
-                    // Rotación sutil del robot como si estuviera "pensando"
-                    gsap.to('.robot-body', {
-                      rotation: '3',
-                      duration: 4,
-                      ease: 'sine.inOut',
-                      yoyo: true,
-                      repeat: -1,
-                    });
-                  },
-                })
-                .to('.speech-bubble', {
-                  scale: 1,
-                  opacity: 1,
-                  duration: 0.6,
-                  ease: 'back.out(1.7)',
-                  delay: 0.3,
-                })
-                .to('.speaking-text', {
-                  opacity: 1,
-                  duration: 0.8,
-                })
-                .to('.speech-bubble', {
-                  scale: 1.02,
-                  duration: 1.5,
-                  ease: 'sine.inOut',
-                  yoyo: true,
-                  repeat: -1,
-                });
-            });
-          });
-        },
-      });
-
-      // VS Code window - estado inicial
+      // VS Code window - initial hidden state
       gsap.set('.vscode-window', {
-        scale: 0,
+        scale: 0.9,
         opacity: 0,
-        x: 200,
-        y: 200,
+        y: 20,
       });
 
-      // Ocultar líneas de código inicialmente
+      // Code lines - initial hidden state
       gsap.set('.code-line', {
         opacity: 0,
+        x: 0, // Respeta el padding del contenedor
       });
 
-      // Detener cualquier animación del cursor y ocultarlo siempre al cambiar idioma
-      gsap.killTweensOf('.cursor-blink');
+      // Cursor - initial hidden state
       gsap.set('.cursor-blink', {
         opacity: 0,
       });
 
-      // Abrir VS Code automáticamente después de un delay
-      gsap.delayedCall(0.2, () => {
+      // VS Code independent appearance - 0.5 second delay
+      gsap.delayedCall(0.1, () => {
         if (vsCodeRef.current) {
           setIsVSCodeOpen(true);
-          executeVSCodeOpenAnimation();
+          
+          // Smooth VS Code appearance animation
+          gsap.fromTo(vsCodeRef.current, {
+            scale: 0.9,
+            opacity: 0,
+            y: 20,
+          }, {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            onComplete: () => {
+              // Show code lines with a subtle stagger
+              gsap.fromTo('.code-line', {
+                opacity: 0,
+                x: 0,
+              }, {
+                opacity: 1,
+                x: 0,
+                duration: 0.4,
+                stagger: 0.05,
+                ease: 'power2.out',
+              });
+              
+              // Start cursor blink after code lines appear
+              gsap.delayedCall(0.3, () => {
+                gsap.to('.cursor-blink', {
+                  opacity: 0,
+                  duration: 1,
+                  repeat: -1,
+                  yoyo: true,
+                  ease: 'power1.inOut',
+                });
+              });
+            },
+          });
         }
       });
 
-      // Efecto de ondas en el fondo - optimizado
-      const createWaveEffect = () => {
-        const waves = document.querySelectorAll('.wave');
-
-        waves.forEach((wave, index) => {
-          gsap.to(wave, {
-            y: -10,
-            duration: 3,
-            repeat: -1,
-            yoyo: true,
-            ease: 'power1.inOut',
-            delay: index * 0.2,
-          });
-        });
-      };
-
-      // Efecto de ondas con delay
-      gsap.delayedCall(1, createWaveEffect);
-
-      // Animación para las medallas flotantes
-      gsap.from('.floating-tag', {
-        opacity: 0,
-        scale: 0.5,
-        duration: 1,
-        ease: 'back.out(1.7)',
-        stagger: 0.2,
-        delay: 1.2,
-      });
-
-      // Animación del avión con validación
+      // Airplane landing on planet animation
       const airplaneElement = document.querySelector('.airplane-svg');
       if (airplaneElement) {
         try {
-          gsap.fromTo(
-            '.airplane-svg',
-            { x: '-20vw', y: '25vh', rotate: 25, scale: 0.8 },
-            {
-              x: '65vw',
-              y: '35vh',
-              rotate: 45,
-              scale: 2,
-              duration: 4,
-              delay: 1,
-              ease: 'cubic-bezier(0.25, 1, 0.5, 1)',
-            
-              onComplete: () => {
-                try {
-                  // Move to the right when scrolling down
-                  gsap.fromTo(
-                    '.airplane-svg',
-                    { x: '65vw', y: '35vh',  },
-                    {
-                      x: '130vw',
-                      y: '35vh',
-                      scale: 2,
-                      duration: 4,
-                      delay: 2,
-                    }
-                  );
-                } catch (error) {
-                  console.warn('Error en animación flotante del avión:', error);
-                }
+          // Create airplane landing sequence
+          const airplaneTimeline = gsap.timeline({
+            delay: 5, // Start 5 seconds after planet appears
+          });
 
-                // Additional flight animation after a delay
-                if (isMobile) {
-                  gsap.delayedCall(0.2, () => {
-                    try {
-                      // Verificar que el elemento existe antes de matarlo
-                      const airplaneElement =
-                        document.querySelector('.airplane-svg');
-                      if (airplaneElement) {
-                        // Detener las animaciones de flotación antes de la segunda animación
-                        gsap.killTweensOf('.airplane-svg');
-
-                        // Usar 'to' en lugar de 'fromTo' para evitar el salto repentino
-                        gsap.to('.airplane-svg', {
-                          x: '120vw',
-                          y: '20vh',
-                          rotate: 10,
-                          duration: 1,
-                          ease: 'power1.inOut',
-                          onComplete: () => {
-                            try {
-                              gsap.fromTo(
-                                '.airplane-svg',
-                                { x: '50vw', y: -200, rotate: 140 },
-                                {
-                                  y: 750,
-                                  x: '40vw',
-                                  duration: 2,
-                                  ease: 'power2.out',
-                                  rotate: 120,
-                                }
-                              );
-                            } catch (error) {
-                              console.warn(
-                                'Error en animación final del avión:',
-                                error
-                              );
-                            }
-                          },
-                        });
-                      }
-                    } catch (error) {
-                      console.warn('Error en animación del avión:', error);
-                    }
-                  });
+                                  airplaneTimeline
+              // 1. Airplane approaches from left
+              .fromTo('.airplane-svg', 
+                { 
+                  x: '-20vw', 
+                  y: '45vh', 
+                  rotate: 50, 
+                  scale: 0.8,
+                  opacity: 1
+                },
+                {
+                  x: '55vw',
+                  y: '45vh',
+                  rotate: 45,
+                  scale: 1.2,
+                  duration: 3,
+                  ease: 'power2.out'
                 }
-              },
-            }
-          );
+              )
+              // 2. Airplane lands on planet (gets smaller)
+              .to('.airplane-svg', {
+                x: '60vw',
+                y: '40vh',
+                rotate: 0,
+                scale: 0.5,
+                duration: 1.5,
+                ease: 'power2.inOut'
+              })
+              // 3. Airplane stays on planet briefly
+              .to('.airplane-svg', {
+                duration: 1,
+                ease: 'none'
+              })
+              // 4. Airplane takes off (gets bigger)
+              .to('.airplane-svg', {
+                x: '65vw',
+                y: '28vh',
+                rotate: 25,
+                scale: 1.5,
+                duration: 1.5,
+                ease: 'power2.out'
+              })
+            // 5. Airplane flies away to the right
+            .to('.airplane-svg', {
+              x: '120vw',
+              y: '15vh',
+              rotate: 35,
+              scale: 0.6,
+              duration: 3,
+              ease: 'power2.in'
+            });
+
         } catch (error) {
-          console.warn('Error en animación principal del avión:', error);
+          console.warn('Error en animación del avión:', error);
         }
       }
     },
@@ -464,11 +369,7 @@ export function Hero() {
           gsap.killTweensOf('.wave');
         }
 
-        // Limpiar animaciones de etiquetas flotantes
-        const floatingTags = document.querySelectorAll('.floating-tag');
-        if (floatingTags.length > 0) {
-          gsap.killTweensOf('.floating-tag');
-        }
+
       } catch (error) {
         console.warn('Error al limpiar animaciones en desmontaje:', error);
       }
@@ -478,16 +379,16 @@ export function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen items-center justify-center overflow-hidden p-4 sm:p-6 lg:p-8"
+      className="relative flex min-h-screen items-center justify-center overflow-hidden p-4 sm:px-6 lg:px-8"
     >
       {/* Efectos de ondas - simplificados */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="wave absolute left-1/4 top-1/4 h-48 w-48 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-2xl sm:h-64 sm:w-64 lg:h-96 lg:w-96 lg:blur-3xl"></div>
-        <div className="wave absolute bottom-1/4 right-1/4 h-48 w-48 rounded-full bg-gradient-to-r from-blue-500/5 to-cyan-500/5 blur-2xl sm:h-64 sm:w-64 lg:h-96 lg:w-96 lg:blur-3xl"></div>
+        <div className="wave absolute h-48 w-48 rounded-full bg-gradient-to-r from-purple-500/5 to-pink-500/5 blur-2xl sm:h-64 sm:w-64 lg:h-96 lg:w-96 lg:blur-3xl" style={{ transform: 'translate(25%, 25%)' }}></div>
+        <div className="wave absolute h-48 w-48 rounded-full bg-gradient-to-r from-blue-500/5 to-cyan-500/5 blur-2xl sm:h-64 sm:w-64 lg:h-96 lg:w-96 lg:blur-3xl" style={{ transform: 'translate(75%, 75%)' }}></div>
       </div>
 
       {/* Airplane */}
-      <div className="absolute left-0 top-0 z-[5] h-full w-full">
+      <div className="absolute z-[5] h-full w-full" style={{ transform: 'translate(0, 0)' }}>
         <span
           role="img"
           aria-label="airplane"
@@ -498,15 +399,15 @@ export function Hero() {
       </div>
 
       {/* Main Content - Responsive Grid Layout */}
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 pt-3 lg:gap-12 xl:grid-cols-2 xl:gap-2">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-8 lg:gap-12 xl:grid-cols-2 xl:gap-2" style={{ contain: 'layout' }}>
         {/* Left Side - Content */}
         <div
           ref={textRef}
-          className="order-1 mt-[42px] text-center xl:order-1 xl:text-left"
+          className="order-1 text-center mt-[42px] xl:order-1 xl:text-left xl:mt-0"
         >
           {/* Greeting */}
-          <div>
-            <h1 className="hero-location mb-4 transform-gpu text-3xl font-black sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
+          <div className="left-content-item">
+            <h1 className="mb-4 transform-gpu text-3xl font-black sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl">
               <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent">
                 {t.hero.greeting}
               </span>{' '}
@@ -515,14 +416,14 @@ export function Hero() {
               </span>
             </h1>
 
-            <h2 className="hero-location text-md mb-3 text-gray-300 sm:mb-4 sm:text-xl md:text-2xl">
+            <h2 className="text-md mb-3 text-gray-300 sm:mb-4 sm:text-xl md:text-2xl">
               {t.hero.location}
             </h2>
           </div>
 
           {/* Description */}
-          <div className="mb-6 sm:mb-8">
-            <p className="hero-description mx-auto max-w-lg rounded-xl border border-white/10 bg-gradient-to-r from-yellow-200/30 via-pink-200/20 to-blue-200/30 px-5 py-4 text-base font-semibold leading-relaxed text-gray-100 shadow-lg backdrop-blur-md sm:text-lg xl:mx-0">
+          <div className="left-content-item mb-6 sm:mb-8">
+            <p className="mx-auto max-w-lg rounded-xl border border-white/10 bg-gradient-to-r from-yellow-200/30 via-pink-200/20 to-blue-200/30 px-5 py-4 text-base font-semibold leading-relaxed text-gray-100 shadow-lg backdrop-blur-md sm:text-lg xl:mx-0">
               <span className="bg-gradient-to-r from-yellow-300 via-pink-400 to-blue-400 bg-clip-text font-extrabold text-transparent">
                 {t.hero.description}
               </span>
@@ -532,7 +433,7 @@ export function Hero() {
           {/* Action Buttons */}
           <div
             ref={buttonsRef}
-            className="social-buttons flex flex-wrap justify-center gap-3 sm:gap-4 xl:justify-start"
+            className="left-content-item flex flex-wrap justify-center gap-3 sm:gap-4 xl:justify-start"
           >
             {/* GitHub */}
             <a
@@ -640,36 +541,31 @@ export function Hero() {
               {/* Robot Assistant */}
               {tooltipEnabled && (
                 <div
-                  className={`fixed right-4 top-2 z-50 ${language === 'fr' || language === 'pt' ? 'mt-20' : ''}`}
+                  className={`fixed ${isMiniBook ? 'right-24 top-30' : 'right-4 top-2'}  z-50 ${language === 'fr' || language === 'pt' ? 'mt-20' : ''}`}
                 >
                   {/* Robot que sale de atrás */}
-                  <div
-                    className="robot-container relative scale-0 opacity-0"
-                    style={{
-                      transform:
-                        'translateX(-40px) translateY(-20px) rotate(-45deg)',
-                    }}
-                  >
-                    {/* Robot */}
+                                      <div className="robot-container relative opacity-0">
+                    {/* Robot - Optimized for LCP */}
                     <div
-                      className="robot-body transform-gpu text-4xl"
+                      className="robot-body text-4xl"
                       style={{
-                        filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+                        filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.2))',
+                        willChange: 'auto',
                       }}
                     >
                       🤖
                     </div>
 
                     {/* Globo de diálogo */}
-                    <div className="speech-bubble absolute -top-8 left-10 max-w-xs scale-0 whitespace-nowrap rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 opacity-0 shadow-lg">
-                      <span className="speaking-text opacity-0">
+                    <div className="speech-bubble absolute max-w-xs whitespace-nowrap rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-800 shadow-lg" style={{ transform: 'translate(2.5rem, -2rem)' }}>
+                      <span className="speaking-text">
                         {isVSCodeOpen
                           ? t.hero.vsCode.closeTooltip
                           : t.hero.vsCode.openTooltip}
                       </span>
 
                       {/* Cola del globo apuntando al robot */}
-                      <div className="absolute left-8 top-full -translate-x-1/2 transform">
+                      <div className="absolute" style={{ transform: 'translate(2rem, 100%) translateX(-50%)' }}>
                         <div className="border-t-6 h-0 w-0 border-l-4 border-r-4 border-transparent border-t-white"></div>
                       </div>
                     </div>
@@ -683,32 +579,24 @@ export function Hero() {
         {/* Right Side - Visual Studio Code Interface */}
         <div className="order-2 mb-8 flex justify-center xl:order-2 xl:mb-0 xl:justify-center">
           <div className="relative w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl xl:max-w-2xl 2xl:max-w-3xl">
-            {/* Floating Medals */}
-            {techStack.map((tag: string, index: number) => {
-              const angle = (index / 10) * 2 * Math.PI - Math.PI / 2; // Start from top
-              const left = 50 + 40 * Math.cos(angle);
-              const top = 50 + 40 * Math.sin(angle); // Use 40 for vertical radius to create a slight oval shape
 
-              return (
-                <div
-                  key={index}
-                  className={`floating-tag absolute transform-gpu rounded-full border border-gray-700/50 bg-gray-800/60 px-5 py-2 font-bold text-white shadow-lg backdrop-blur-md`}
-                  style={{
-                    zIndex: -1,
-                    top: `${top}%`,
-                    left: `${left}%`,
-                    transform: 'translate(-50%, -50%)',
-                  }}
-                >
-                  {tag}
+            {/* Planet Earth Animation - Behind VS Code */}
+            <div className="absolute inset-0 flex items-center justify-center" style={{ zIndex: -1 }}>
+              {!isVSCodeOpen && (
+                <div className="planet-container">
+                  <div className="night"></div>
+                  <div className="day"></div>
+                  <div className="clouds"></div>
+                  <div className="inner-shadow"></div>
                 </div>
-              );
-            })}
+              )}
+            </div>
 
             {/* VS Code Window */}
             <div
               ref={vsCodeRef}
               className="vscode-window overflow-hidden rounded-lg border border-gray-700 bg-gray-900 shadow-2xl"
+              style={{ opacity: 1, transform: 'translate3d(0, 0, 0)' }}
             >
               {/* VS Code Header */}
               <div className="flex items-center justify-between bg-gray-800 px-3 py-2 sm:px-4">
@@ -798,7 +686,7 @@ export function Hero() {
                     </div>
 
                     {/* Code Content */}
-                    <div className="vscode-content flex-1 overflow-x-auto p-2 font-mono text-xs text-gray-300 sm:text-sm">
+                    <div className="vscode-content flex-1 overflow-x-auto font-mono text-xs text-gray-300 sm:text-sm" style={{ paddingLeft: '8px', paddingRight: '8px', paddingTop: '8px', paddingBottom: '8px' }}>
                       <div className="code-line typing-line h-5 whitespace-nowrap leading-5">
                         <span className="text-purple-400">import</span>{' '}
                         <span className="text-blue-400">React</span>{' '}
