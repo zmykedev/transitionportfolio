@@ -83,9 +83,21 @@ export function Projects() {
               {/* Project Image */}
               <div className="relative mb-6 overflow-hidden rounded-xl">
                 <img
-                  src={`https://via.placeholder.com/400x250/1f2937/ffffff?text=${project.title}`}
+                  src={`https://via.placeholder.com/400x250/1f2937/ffffff?text=${encodeURIComponent(project.title)}`}
                   alt={project.title}
                   className="h-48 w-full object-cover transition-all duration-500"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  onError={(e) => {
+                    // Fallback to a gradient background if image fails
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = 'h-48 w-full bg-gradient-to-br from-slate-700 to-slate-900 flex items-center justify-center';
+                    fallback.innerHTML = `<span class="text-white text-lg font-semibold">${project.title}</span>`;
+                    target.parentNode?.appendChild(fallback);
+                  }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 

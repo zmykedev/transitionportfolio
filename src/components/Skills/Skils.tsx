@@ -327,10 +327,21 @@ export const Skills: React.FC = () => {
                 <div className="relative z-10 flex flex-col items-center">
                   <div className="relative mb-1 sm:mb-2">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.icon}`}
+                      src={`https://skillicons.dev/icons?i=${skill.icon}&theme=dark`}
                       alt={`${skill.name} icon`}
                       className="skill-icon h-8 w-8 transition-transform duration-300 sm:h-10 sm:w-10"
                       loading="lazy"
+                      decoding="async"
+                      fetchPriority="low"
+                      onError={(e) => {
+                        // Fallback to a simple text representation if image fails
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = 'none';
+                        const fallback = document.createElement('div');
+                        fallback.className = 'skill-icon-fallback flex h-8 w-8 items-center justify-center rounded bg-gray-700 text-xs font-bold text-white sm:h-10 sm:w-10';
+                        fallback.textContent = skill.name.charAt(0).toUpperCase();
+                        target.parentNode?.appendChild(fallback);
+                      }}
                     />
                     {/* Icon Glow */}
                     <div

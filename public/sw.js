@@ -1,8 +1,9 @@
 // Service Worker for MykeDev Portfolio
-// Version 1.0.0
+// Version 2.0.0 - Optimized for performance
 
-const CACHE_NAME = 'mykedev-portfolio-v1';
-const STATIC_CACHE_NAME = 'mykedev-static-v1';
+const CACHE_NAME = 'mykedev-portfolio-v2';
+const STATIC_CACHE_NAME = 'mykedev-static-v2';
+const IMAGE_CACHE_NAME = 'mykedev-images-v2';
 
 // Resources to cache immediately
 const STATIC_RESOURCES = [
@@ -13,50 +14,73 @@ const STATIC_RESOURCES = [
   '/vite.svg',
 ];
 
+// Image patterns to cache
+const IMAGE_PATTERNS = [
+  /\.(png|jpg|jpeg|gif|svg|webp|avif)$/,
+  /^https:\/\/skillicons\.dev\/.*/,
+];
+
 // Resources to cache on first access
 const DYNAMIC_CACHE_PATTERNS = [
   /^https:\/\/fonts\.googleapis\.com/,
   /^https:\/\/fonts\.gstatic\.com/,
   /^https:\/\/cdn\.jsdelivr\.net/,
-  /\.(?:js|css|png|jpg|jpeg|svg|gif|webp|woff2?|ttf|eot)$/,
+  /\.(?:js|css|woff2?|ttf|eot)$/,
 ];
 
 // Install event - cache static resources
 self.addEventListener('install', (event) => {
+  console.log('[SW] Installing service worker...');
   
   event.waitUntil(
-    caches.open(STATIC_CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(STATIC_RESOURCES);
-      })
-      .then(() => {
-        return self.skipWaiting();
-      })
-   
+    Promise.all([
+      caches.open(STATIC_CACHE_NAME)
+        .then((cache) => {
+          console.log('[SW] Caching static resources');
+          return cache.addAll(STATIC_RESOURCES);
+        }),
+      caches.open(IMAGE_CACHE_NAME)
+        .then((cache) => {
+          console.log('[SW] Image cache ready');
+          return cache;
+        })
+    ])
+    .then(() => {
+      console.log('[SW] Service worker installed');
+      return self.skipWaiting();
+    })
+    .catch((error) => {
+      console.error('[SW] Installation failed:', error);
+    })
   );
 });
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating service worker...');
   
   event.waitUntil(
     caches.keys()
       .then((cacheNames) => {
         return Promise.all(
           cacheNames.map((cacheName) => {
-            if (cacheName !== CACHE_NAME && cacheName !== STATIC_CACHE_NAME) {
+            if (cacheName !== CACHE_NAME && 
+                cacheName !== STATIC_CACHE_NAME && 
+                cacheName !== IMAGE_CACHE_NAME) {
+              console.log('[SW] Deleting old cache:', cacheName);
               return caches.delete(cacheName);
             }
           })
         );
       })
       .then(() => {
+        console.log('[SW] Service worker activated');
         return self.clients.claim();
       })
   );
 });
 
-// Fetch event - implement caching strategy
+// Fetch event - implement optimized caching strategy
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -102,6 +126,11 @@ async function handleFetch(request) {
   const url = new URL(request.url);
   
   try {
+    // Check if it's an image request
+    if (IMAGE_PATTERNS.some(pattern => pattern.test(request.url))) {
+      return await handleImageRequest(request);
+    }
+    
     // Check if it's a navigation request (HTML)
     if (request.mode === 'navigate') {
       return await handleNavigationRequest(request);
@@ -116,6 +145,7 @@ async function handleFetch(request) {
     return await fetch(request);
     
   } catch (error) {
+    console.error('[SW] Fetch failed:', error);
     
     // Return offline fallback if available
     if (request.mode === 'navigate') {
@@ -123,6 +153,31 @@ async function handleFetch(request) {
       return cache.match('/index.html') || fetch(request);
     }
     
+    throw error;
+  }
+}
+
+async function handleImageRequest(request) {
+  const cache = await caches.open(IMAGE_CACHE_NAME);
+  const cachedResponse = await cache.match(request);
+  
+  if (cachedResponse) {
+    // Return cached version and update in background
+    fetchAndCacheImage(request, cache);
+    return cachedResponse;
+  }
+  
+  // Not in cache, fetch and cache
+  try {
+    const networkResponse = await fetch(request);
+    
+    if (networkResponse.ok) {
+      cache.put(request, networkResponse.clone());
+    }
+    
+    return networkResponse;
+  } catch (error) {
+    console.error('[SW] Failed to fetch image:', error);
     throw error;
   }
 }
@@ -180,14 +235,23 @@ async function handleStaticResource(request) {
 
 async function fetchAndCache(request, cache) {
   try {
-    const networkResponse = await fetch(request);
-    
-    if (networkResponse.ok) {
-      cache.put(request, networkResponse.clone());
+    const response = await fetch(request);
+    if (response.ok) {
+      cache.put(request, response);
     }
   } catch (error) {
-    // Silently fail background updates
-    console.warn('[SW] Background fetch failed:', error);
+    console.error('[SW] Background fetch failed:', error);
+  }
+}
+
+async function fetchAndCacheImage(request, cache) {
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      cache.put(request, response);
+    }
+  } catch (error) {
+    console.error('[SW] Background image fetch failed:', error);
   }
 }
 
