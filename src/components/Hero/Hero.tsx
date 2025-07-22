@@ -23,6 +23,7 @@ export function Hero() {
 
 
 
+
   // Estado global para el VS Code usando atoms
   const [isVSCodeOpen, setIsVSCodeOpen] = useAtom(vsCodeOpenAtom);
 
@@ -270,16 +271,18 @@ export function Hero() {
         }
       });
 
-      // Airplane landing on planet animation
+      // Airplane animation - different behavior for mobile and desktop
       const airplaneElement = document.querySelector('.airplane-svg');
       if (airplaneElement) {
         try {
-          // Create airplane landing sequence
+          // Create airplane animation sequence
           const airplaneTimeline = gsap.timeline({
-            delay: 5, // Start 5 seconds after planet appears
+            delay: isMobile ? 1: 3, // Start 5 seconds after planet appears
           });
 
-                                  airplaneTimeline
+          if (isMobile) {
+            // Mobile animation - airplane flies across without landing
+            airplaneTimeline
               // 1. Airplane approaches from left
               .fromTo('.airplane-svg', 
                 { 
@@ -290,46 +293,75 @@ export function Hero() {
                   opacity: 1
                 },
                 {
+                  x: '50vw',
+                  y: '30vh',
+                  rotate: 10,
+                  scale: 1.2,
+                  duration: 2,
+                  ease: 'power2.out'
+                }
+              )
+              // 2. Airplane continues flying across (no landing)
+              .to('.airplane-svg', {
+                x: '120vw',
+                y: '20vh',
+                rotate: 10,
+                scale: 0.8,
+                duration: 2,
+                ease: 'power1.inOut'
+              })
+
+                             .fromTo('.airplane-svg', {
+                 x: '45vw',
+                 y: '-20vh',
+                 rotate: 135,
+                 scale: 2.4,
+               }, {
+                 x: '50vw',
+                 y: '100vh',
+                 rotate: 135,
+                 scale: 3,
+                 duration: 3,
+                 ease: 'power1.inOut'
+               });
+
+
+
+          } 
+
+        
+          else {
+            // Desktop animation - airplane lands on planet
+            airplaneTimeline
+              // 1. Airplane approaches from left
+              .fromTo('.airplane-svg', 
+                { 
+                  x: '-20vw', 
+                  y: '45vh', 
+                  rotate: 50, 
+                  scale: 2,
+                  opacity: 1
+                },
+                {
                   x: '55vw',
                   y: '45vh',
                   rotate: 45,
-                  scale: 1.2,
+                  scale: 2.5,
                   duration: 3,
                   ease: 'power2.out'
                 }
               )
-              // 2. Airplane lands on planet (gets smaller)
+
               .to('.airplane-svg', {
-                x: '60vw',
-                y: '40vh',
-                rotate: 0,
-                scale: 0.5,
+                x: '200vw',
+                y: '60vh',
+                rotate: 50,
+                scale: 4,
                 duration: 1.5,
                 ease: 'power2.inOut'
-              })
-              // 3. Airplane stays on planet briefly
-              .to('.airplane-svg', {
-                duration: 1,
-                ease: 'none'
-              })
-              // 4. Airplane takes off (gets bigger)
-              .to('.airplane-svg', {
-                x: '65vw',
-                y: '28vh',
-                rotate: 25,
-                scale: 1.5,
-                duration: 1.5,
-                ease: 'power2.out'
-              })
-            // 5. Airplane flies away to the right
-            .to('.airplane-svg', {
-              x: '120vw',
-              y: '15vh',
-              rotate: 35,
-              scale: 0.6,
-              duration: 3,
-              ease: 'power2.in'
-            });
+              });
+             
+          }
 
         } catch (error) {
           console.warn('Error en animación del avión:', error);

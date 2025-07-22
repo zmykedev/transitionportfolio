@@ -94,19 +94,19 @@ export const Skills: React.FC = () => {
         .fromTo(
           '.skills-airplane',
           {
-            x: -200,
-            y: 20,
-            opacity: 0,
-            rotation: 25,
-            scale: 0.8,
+            x: -1000,
+            
+            opacity: 1,
+            rotation: 50,
+            scale: 4,
           },
           {
             x: () => window.innerWidth + 100,
-            y: 0,
+            y: -20,
             opacity: 1,
-            rotation: 25,
-            scale: 1,
-            duration: 3,
+            rotation: 50,
+            scale: 2,
+            duration: 2,
             ease: 'power2.inOut',
           },
           '-=0.2'
