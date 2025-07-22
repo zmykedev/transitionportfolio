@@ -267,8 +267,43 @@
   <body>
     <div id="root"></div>
 
-    <!-- Load main script -->
-    <script type="module" src="/src/main.tsx"></script>
+    <!-- Load main script dynamically -->
+    <script>
+      // Determine the correct script path based on environment
+      const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const scriptPath = isDev ? '/src/main.tsx' : '/assets/index.js';
+      
+      console.log('Loading script from:', scriptPath);
+      
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = scriptPath;
+      
+      // Add error handling
+      script.onerror = () => {
+        console.error('Failed to load script:', scriptPath);
+        // Try alternative paths
+        const alternatives = [
+          '/src/main.tsx',
+          '/assets/index.js',
+          '/assets/main.js',
+          '/index.js'
+        ];
+        
+        for (const alt of alternatives) {
+          if (alt !== scriptPath) {
+            console.log('Trying alternative:', alt);
+            const altScript = document.createElement('script');
+            altScript.type = 'module';
+            altScript.src = alt;
+            document.head.appendChild(altScript);
+            break;
+          }
+        }
+      };
+      
+      document.head.appendChild(script);
+    </script>
 
     <!-- Debug script to check if app loads -->
     <script>
