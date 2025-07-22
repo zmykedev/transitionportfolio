@@ -14,11 +14,11 @@ const STATIC_RESOURCES = [
   '/vite.svg',
 ];
 
-// Planet Earth images to cache immediately
+// Planet Earth images to cache immediately (optimized quality)
 const PLANET_IMAGES = [
-  'https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg?format=webp&quality=85',
-  'https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg?format=webp&quality=85',
-  'https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg?format=webp&quality=85',
+  'https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg?format=webp&quality=70',
+  'https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg?format=webp&quality=70',
+  'https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg?format=webp&quality=70',
 ];
 
 // Image patterns to cache
@@ -186,6 +186,32 @@ async function handleImageRequest(request) {
     // Return cached version and update in background
     fetchAndCacheImage(request, cache);
     return cachedResponse;
+  }
+  
+  // Special handling for skillicons.dev - cache aggressively
+  if (request.url.includes('skillicons.dev')) {
+    try {
+      const networkResponse = await fetch(request, {
+        mode: 'cors',
+        credentials: 'omit'
+      });
+      
+      if (networkResponse.ok) {
+        // Cache with longer TTL for skillicons
+        const responseToCache = new Response(networkResponse.body, {
+          status: networkResponse.status,
+          statusText: networkResponse.statusText,
+          headers: {
+            ...Object.fromEntries(networkResponse.headers.entries()),
+            'Cache-Control': 'public, max-age=31536000, immutable'
+          }
+        });
+        cache.put(request, responseToCache);
+        return networkResponse;
+      }
+    } catch (error) {
+      console.error('[SW] Failed to fetch skillicon:', error);
+    }
   }
   
   // Not in cache, fetch and cache
