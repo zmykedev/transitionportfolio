@@ -341,7 +341,6 @@ export const Skills: React.FC = () => {
                       className="skill-icon h-8 w-8 transition-transform duration-300 sm:h-10 sm:w-10"
                       loading="lazy"
                       decoding="async"
-                      fetchPriority="low"
                       onError={(e) => {
                         // Fallback to a simple text representation if image fails
                         const target = e.target as HTMLImageElement;

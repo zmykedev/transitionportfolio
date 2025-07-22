@@ -88,7 +88,6 @@ export function Projects() {
                   className="h-48 w-full object-cover transition-all duration-500"
                   loading="lazy"
                   decoding="async"
-                  fetchPriority="low"
                   onError={(e) => {
                     // Fallback to a gradient background if image fails
                     const target = e.target as HTMLImageElement;
