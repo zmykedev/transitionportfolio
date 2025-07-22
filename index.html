@@ -6,14 +6,75 @@
     <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Critical CSS inline to reduce critical request chain -->
+    <style>
+      /* Critical CSS for above-the-fold content */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: linear-gradient(135deg, #1e293b 0%, #7c3aed 50%, #1e293b 100%);
+        color: white;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Critical loading styles */
+      .loading-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #1e293b 0%, #7c3aed 50%, #1e293b 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      /* Critical hero styles */
+      .hero-section {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+      
+
+      
+      /* Critical accessibility styles */
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+    </style>
+
     <!-- Preload critical images -->
     <link rel="preload" href="/Rocket.png" as="image" type="image/png" />
     
-    <!-- Preload critical fonts -->
-    <link rel="preload" href="https://fonts.gstatic.com/s/notoemoji/v47/bMrnmSyK7YY-MEu6aWjPDs-ar6uWaGWuob-r0jwvS-FGJCMY.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Preload planet Earth images for LCP -->
+    <link rel="preload" href="https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg?format=webp&quality=85" as="image" type="image/webp" />
+    <link rel="preload" href="https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg?format=webp&quality=85" as="image" type="image/webp" />
+    <link rel="preload" href="https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg?format=webp&quality=85" as="image" type="image/webp" />
     
-    <!-- Preload system fonts for code editor -->
-    <link rel="preload" href="data:font/woff2;charset=utf-8;base64," as="font" type="font/woff2" crossorigin />
+
 
     <!-- SEO Meta Tags -->
     <title>MykeDev - Full Stack Developer | React, TypeScript, Node.js</title>
@@ -71,6 +132,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdn.jsdelivr.net" />
     <link rel="preconnect" href="https://skillicons.dev" />
+    <link rel="preconnect" href="https://www.solarsystemscope.com" />
+
+
 
     <!-- Preload critical resources -->
     <link
@@ -205,6 +269,8 @@
 
     <!-- Load main script -->
     <script type="module" src="/src/main.tsx"></script>
+
+  
 
     <!-- Service Worker Registration (only in production) -->
     <script>
