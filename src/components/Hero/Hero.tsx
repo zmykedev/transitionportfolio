@@ -474,10 +474,9 @@ export function Hero() {
             >
               <div className="absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
               <Github className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:rotate-12 sm:h-5 sm:w-5" />
-              <span className="relative z-10 hidden sm:inline">
+              <span className="relative z-10">
                 {t.hero.github}
               </span>
-              <span className="relative z-10 sm:hidden">GitHub</span>
             </a>
 
             {/* LinkedIn */}
@@ -489,10 +488,9 @@ export function Hero() {
             >
               <div className="absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
               <Linkedin className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:rotate-12 sm:h-5 sm:w-5" />
-              <span className="relative z-10 hidden sm:inline">
+              <span className="relative z-10">
                 {t.hero.linkedin}
               </span>
-              <span className="relative z-10 sm:hidden">LinkedIn</span>
             </a>
 
             {/* Download CV */}
@@ -505,10 +503,9 @@ export function Hero() {
             >
               <div className="absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
               <FileDown className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:rotate-12 sm:h-5 sm:w-5" />
-              <span className="relative z-10 hidden sm:inline">
+              <span className="relative z-10">
                 {t.hero.downloadCV}
               </span>
-              <span className="relative z-10 sm:hidden">CV</span>
             </a>
 
             {/* Schedule Call */}
@@ -520,10 +517,9 @@ export function Hero() {
             >
               <div className="absolute inset-0 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full"></div>
               <Calendar className="relative z-10 h-4 w-4 transition-transform duration-300 group-hover:rotate-12 sm:h-5 sm:w-5" />
-              <span className="relative z-10 hidden sm:inline">
+              <span className="relative z-10">
                 {t.hero.scheduleCall}
               </span>
-              <span className="relative z-10 sm:hidden">Call</span>
             </a>
 
             {/* WhatsApp */}
@@ -541,10 +537,9 @@ export function Hero() {
               >
                 <path d="M16.001 3.2c-7.06 0-12.8 5.74-12.8 12.8 0 2.26.6 4.47 1.74 6.41L3.2 28.8l6.6-1.72c1.87 1 3.97 1.53 6.2 1.53h.01c7.06 0 12.8-5.74 12.8-12.8s-5.74-12.8-12.8-12.8zm0 23.04c-1.97 0-3.9-.5-5.6-1.44l-.4-.22-3.92 1.02 1.05-3.82-.26-.39c-1.08-1.65-1.65-3.57-1.65-5.56 0-5.67 4.61-10.28 10.28-10.28s10.28 4.61 10.28 10.28-4.61 10.28-10.28 10.28zm5.62-7.67c-.31-.16-1.85-.91-2.13-1.01-.29-.1-.5-.16-.71.16-.21.31-.81 1.01-.99 1.22-.18.21-.36.23-.67.08-.31-.16-1.31-.48-2.5-1.53-.92-.82-1.54-1.83-1.72-2.14-.18-.31-.02-.48.13-.63.13-.13.31-.36.47-.54.16-.18.21-.31.31-.52.1-.21.05-.39-.03-.55-.08-.16-.71-1.71-.97-2.34-.26-.62-.53-.54-.71-.55-.18-.01-.39-.01-.6-.01-.21 0-.55.08-.84.39-.29.31-1.1 1.08-1.1 2.63 0 1.54 1.13 3.03 1.29 3.24.16.21 2.23 3.41 5.41 4.65.76.33 1.36.53 1.83.68.77.24 1.47.21 2.02.13.62-.09 1.85-.76 2.11-1.5.26-.74.26-1.37.18-1.5-.08-.13-.28-.21-.59-.37z" />
               </svg>
-              <span className="relative z-10 hidden sm:inline">
+              <span className="relative z-10">
                 {t.hero.whatsapp}
               </span>
-              <span className="relative z-10 sm:hidden">WhatsApp</span>
             </a>
 
             {/* VSCode - Solo visible en desktop */}
@@ -593,9 +588,34 @@ export function Hero() {
                       : undefined
                   }
                 >
-                  <div className="night" style={isMobile ? { height: 280, width: 280 } : undefined}></div>
-                  <div className="day" style={isMobile ? { height: 280, width: 280, marginLeft: 61 } : undefined}></div>
-                  <div className="clouds" style={isMobile ? { height: 280, width: 280, marginLeft: 56 } : undefined}></div>
+                  <div 
+                    className="night" 
+                    style={isMobile ? { height: 280, width: 280 } : undefined}
+                    onError={(e) => {
+                      // Fallback to a simple gradient if image fails
+                      const target = e.target as HTMLDivElement;
+                      target.style.backgroundImage = 'linear-gradient(45deg, #1e293b, #334155)';
+                    }}
+                  ></div>
+                  <div 
+                    className="day" 
+                    style={isMobile ? { height: 280, width: 280, marginLeft: 61 } : undefined}
+                    onError={(e) => {
+                      // Fallback to a simple gradient if image fails
+                      const target = e.target as HTMLDivElement;
+                      target.style.backgroundImage = 'linear-gradient(45deg, #3b82f6, #60a5fa)';
+                    }}
+                  ></div>
+                  <div 
+                    className="clouds" 
+                    style={isMobile ? { height: 280, width: 280, marginLeft: 56 } : undefined}
+                    onError={(e) => {
+                      // Fallback to a simple gradient if image fails
+                      const target = e.target as HTMLDivElement;
+                      target.style.backgroundImage = 'linear-gradient(45deg, #94a3b8, #cbd5e1)';
+                      target.style.opacity = '0.3';
+                    }}
+                  ></div>
                   <div className="inner-shadow" style={isMobile ? { height: 280, width: 280 } : undefined}></div>
                 </div>
               )}

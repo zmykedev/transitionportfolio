@@ -1,9 +1,9 @@
 // Service Worker for MykeDev Portfolio
-// Version 2.0.0 - Optimized for performance
+// Version 2.1.0 - Optimized for main thread performance
 
-const CACHE_NAME = 'mykedev-portfolio-v2';
-const STATIC_CACHE_NAME = 'mykedev-static-v2';
-const IMAGE_CACHE_NAME = 'mykedev-images-v2';
+const CACHE_NAME = 'mykedev-portfolio-v2.1';
+const STATIC_CACHE_NAME = 'mykedev-static-v2.1';
+const IMAGE_CACHE_NAME = 'mykedev-images-v2.1';
 
 // Resources to cache immediately
 const STATIC_RESOURCES = [
@@ -14,10 +14,18 @@ const STATIC_RESOURCES = [
   '/vite.svg',
 ];
 
+// Planet Earth images to cache immediately
+const PLANET_IMAGES = [
+  'https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg?format=webp&quality=85',
+  'https://www.solarsystemscope.com/textures/download/2k_earth_nightmap.jpg?format=webp&quality=85',
+  'https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg?format=webp&quality=85',
+];
+
 // Image patterns to cache
 const IMAGE_PATTERNS = [
   /\.(png|jpg|jpeg|gif|svg|webp|avif)$/,
   /^https:\/\/skillicons\.dev\/.*/,
+  /^https:\/\/www\.solarsystemscope\.com\/.*/,
 ];
 
 // Resources to cache on first access
@@ -28,31 +36,44 @@ const DYNAMIC_CACHE_PATTERNS = [
   /\.(?:js|css|woff2?|ttf|eot)$/,
 ];
 
-// Install event - cache static resources
+// Install event - cache static resources with performance optimization
 self.addEventListener('install', (event) => {
   console.log('[SW] Installing service worker...');
   
-  event.waitUntil(
-    Promise.all([
-      caches.open(STATIC_CACHE_NAME)
-        .then((cache) => {
-          console.log('[SW] Caching static resources');
-          return cache.addAll(STATIC_RESOURCES);
-        }),
-      caches.open(IMAGE_CACHE_NAME)
-        .then((cache) => {
-          console.log('[SW] Image cache ready');
-          return cache;
-        })
-    ])
-    .then(() => {
-      console.log('[SW] Service worker installed');
-      return self.skipWaiting();
-    })
-    .catch((error) => {
-      console.error('[SW] Installation failed:', error);
-    })
-  );
+  // Use requestIdleCallback to avoid blocking main thread
+  const installServiceWorker = () => {
+    event.waitUntil(
+      Promise.all([
+        caches.open(STATIC_CACHE_NAME)
+          .then((cache) => {
+            console.log('[SW] Caching static resources');
+            return cache.addAll(STATIC_RESOURCES);
+          }),
+        caches.open(IMAGE_CACHE_NAME)
+          .then((cache) => {
+            console.log('[SW] Caching planet Earth images');
+            return cache.addAll(PLANET_IMAGES);
+          })
+          .then(() => {
+            console.log('[SW] Image cache ready');
+          })
+      ])
+      .then(() => {
+        console.log('[SW] Service worker installed');
+        return self.skipWaiting();
+      })
+      .catch((error) => {
+        console.error('[SW] Installation failed:', error);
+      })
+    );
+  };
+
+  // Schedule installation during idle time
+  if ('requestIdleCallback' in self) {
+    requestIdleCallback(installServiceWorker, { timeout: 2000 });
+  } else {
+    installServiceWorker();
+  }
 });
 
 // Activate event - clean up old caches

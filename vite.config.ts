@@ -6,11 +6,15 @@ import { resolve } from 'path';
 export default defineConfig({
   plugins: [
     react({
-      // Enable fast refresh and optimize for dev speed      // Remove dev-only Babel plugins for prod
+      // Enable fast refresh and optimize for dev speed
       babel: {
         plugins: [],
         presets: [],
       },
+      // Optimize React for production
+      jsxRuntime: 'automatic',
+      // Reduce bundle size by excluding dev-only features
+      exclude: [/\.stories\.(t|j)sx?$/, /\.test\.(t|j)sx?$/],
     }),
   ],
   resolve: {
@@ -35,14 +39,21 @@ export default defineConfig({
       'jotai',
       'usehooks-ts',
     ],
-    esbuildOptions: {
-      // Use esbuild for even faster dependency pre-bundling
-      target: 'esnext',
-      // Define global variables to avoid runtime checks
-      define: {
-        global: 'globalThis',
+    exclude: [
+
+    ],
+          esbuildOptions: {
+        // Use esbuild for even faster dependency pre-bundling
+        target: 'esnext',
+        // Define global variables to avoid runtime checks
+        define: {
+          global: 'globalThis',
+        },
+        // Enable tree-shaking for better optimization
+        treeShaking: true,
+        // Reduce parsing time
+        legalComments: 'none',
       },
-    },
     // Force include dependencies that might be missed
     force: false,
   },
@@ -50,6 +61,8 @@ export default defineConfig({
     // Use the fastest possible target for local dev
     target: 'esnext',
     legalComments: 'none',
+    // Remove console.logs in production
+    drop: ['console', 'debugger'],
   },
   build: {
     // Use esbuild for minification for speed
@@ -58,14 +71,33 @@ export default defineConfig({
     cssTarget: 'chrome90',
     sourcemap: false,
     chunkSizeWarningLimit: 1200,
+    // Optimize for main thread performance
     rollupOptions: {
       output: {
-        // Create smaller chunks for better caching
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'animation-vendor': ['gsap', 'framer-motion'],
-          'ui-vendor': ['clsx', 'usehooks-ts'],
-          'i18n-vendor': ['i18next', 'react-i18next', 'jotai'],
+        // Use ES modules for better tree-shaking
+        format: 'es',
+        // Create smaller chunks for better caching and reduced main thread work
+        manualChunks: (id) => {
+          // Separate vendor chunks more granularly for better caching
+          if (id.includes('node_modules')) {
+            if (id.includes('react')) {
+              return 'react-vendor';
+            }
+            if (id.includes('gsap') || id.includes('framer-motion')) {
+              return 'animation-vendor';
+            }
+            if (id.includes('clsx') || id.includes('usehooks-ts')) {
+              return 'ui-vendor';
+            }
+            if (id.includes('i18next') || id.includes('jotai')) {
+              return 'i18n-vendor';
+            }
+            if (id.includes('lodash')) {
+              return 'utils-vendor';
+            }
+            // Group other vendors
+            return 'vendor';
+          }
         },
         // Optimize asset file names for better caching
         assetFileNames: assetInfo => {
@@ -82,6 +114,16 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
       },
+      // Enable tree-shaking
+      treeshake: {
+        moduleSideEffects: false,
+        propertyReadSideEffects: false,
+        unknownGlobalSideEffects: false,
+        // Optimize for main thread performance
+        tryCatchDeoptimization: false,
+      },
+      // Optimize for critical request chains
+      external: [],
     },
     // Enable CSS code splitting
     cssCodeSplit: true,
@@ -91,6 +133,8 @@ export default defineConfig({
     },
     // Enable asset inlining for small files
     assetsInlineLimit: 4096,
+    // Optimize for main thread performance
+    reportCompressedSize: false,
   },
   server: {
     // Enable filesystem strict mode for faster HMR

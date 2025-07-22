@@ -49,202 +49,211 @@ export const Skills: React.FC = () => {
 
   useGSAP(
     () => {
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: skillsRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
-        },
-      });
-
-      // Title animation
-      tl.fromTo(
-        titleRef.current,
-        {
-          y: 50,
-          opacity: 0,
-          scale: 0.8,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 0.8,
-          ease: 'back.out(1.7)',
-        }
-      )
-        // Subtitle animation
-        .fromTo(
-          subtitleRef.current,
-          {
-            y: 30,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            ease: 'power2.out',
-          },
-          '-=0.4'
-        )
-        // Airplane entrance and flight
-        .fromTo(
-          '.skills-airplane',
-          {
-            x: -1000,
-            
-            opacity: 1,
-            rotation: 50,
-            scale: 4,
-          },
-          {
-            x: () => window.innerWidth + 100,
-            y: -20,
-            opacity: 1,
-            rotation: 50,
-            scale: 2,
-            duration: 2,
-            ease: 'power2.inOut',
-          },
-          '-=0.2'
-        )
-        // Simple fadeout at the end
-        .to(
-          '.skills-airplane',
-          {
-            opacity: 0,
-            scale: 0.5,
-            duration: 0.8,
-            ease: 'power2.out',
-          },
-          '-=0.5'
-        );
-
-      // Create more realistic dropping animation for each skill
-      const skillCards = document.querySelectorAll('.skill-card');
-      skillCards.forEach((card, index) => {
-        // Initial state - hidden and positioned above
-        gsap.set(card, {
-          opacity: 0,
-          y: -400,
-          x: Math.random() * 60 - 30, // Random horizontal offset
-          rotation: Math.random() * 90 - 45, // Random rotation
-          scale: 0.1,
-        });
-
-        // Calculate drop timing based on airplane's journey
-        const dropProgress = (index / (skillCards.length - 1)) * 0.6 + 0.2; // Between 20% and 80% of flight
-        const dropDelay = dropProgress * 4; // 5 seconds is airplane duration
-
-        // Dropping animation with physics-like behavior
-        tl.to(
-          card,
-          {
-            opacity: 1,
-            y: 0,
-            x: 0,
-            rotation: 0,
-            scale: 1,
-            duration: 1,
-            ease: 'bounce.out',
-            delay: dropDelay,
-            onStart: () => {
-              // Add a small puff effect when skill appears
-              gsap.fromTo(
-                card,
-                { filter: 'blur(2px)' },
-                { filter: 'blur(0px)', duration: 0.3 }
-              );
-            },
-          },
-          0.5
-        );
-
-        // Add a subtle floating effect after landing
-        tl.to(
-          card,
-          {
-            y: 'random(-3, 3)',
-            rotation: 'random(-2, 2)',
-            duration: 'random(2, 4)',
-            ease: 'sine.inOut',
-            repeat: -1,
-            yoyo: true,
-            delay: dropDelay + 1.5,
-          },
-          0.5
-        );
-      });
-
-      // Bottom text animation - independent from timeline
-      gsap.fromTo(
-        bottomTextRef.current,
-        {
-          y: 20,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-          delay: 4, // Solo un pequeño delay inicial
+      // Use requestIdleCallback to avoid blocking main thread
+      const initAnimations = () => {
+        const tl = gsap.timeline({
           scrollTrigger: {
             trigger: skillsRef.current,
             start: 'top 80%',
+            end: 'bottom 20%',
             toggleActions: 'play none none reverse',
           },
-        }
-      );
-
-      // Enhanced hover animations for individual cards
-      skillCards.forEach(card => {
-        const icon = card.querySelector('.skill-icon');
-        const text = card.querySelector('.skill-text');
-
-        card.addEventListener('mouseenter', () => {
-          gsap.to(card, {
-            y: -8,
-            scale: 1.05,
-            duration: 0.3,
-            ease: 'back.out(1.7)',
-          });
-          gsap.to(icon, {
-            scale: 1.2,
-            rotation: 12,
-            duration: 0.3,
-            ease: 'back.out(1.7)',
-          });
-          gsap.to(text, {
-            y: -2,
-            duration: 0.3,
-            ease: 'power2.out',
-          });
         });
 
-        card.addEventListener('mouseleave', () => {
-          gsap.to(card, {
+        // Title animation
+        tl.fromTo(
+          titleRef.current,
+          {
+            y: 50,
+            opacity: 0,
+            scale: 0.8,
+          },
+          {
             y: 0,
+            opacity: 1,
             scale: 1,
-            duration: 0.3,
-            ease: 'power2.out',
+            duration: 0.8,
+            ease: 'back.out(1.7)',
+          }
+        )
+          // Subtitle animation
+          .fromTo(
+            subtitleRef.current,
+            {
+              y: 30,
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: 'power2.out',
+            },
+            '-=0.4'
+          )
+          // Airplane entrance and flight
+          .fromTo(
+            '.skills-airplane',
+            {
+              x: -1000,
+              opacity: 1,
+              rotation: 50,
+              scale: 4,
+            },
+            {
+              x: () => window.innerWidth + 100,
+              y: -20,
+              opacity: 1,
+              rotation: 50,
+              scale: 2,
+              duration: 2,
+              ease: 'power2.inOut',
+            },
+            '-=0.2'
+          )
+          // Simple fadeout at the end
+          .to(
+            '.skills-airplane',
+            {
+              opacity: 0,
+              scale: 0.5,
+              duration: 0.8,
+              ease: 'power2.out',
+            },
+            '-=0.5'
+          );
+
+        // Create more realistic dropping animation for each skill
+        const skillCards = document.querySelectorAll('.skill-card');
+        skillCards.forEach((card, index) => {
+          // Initial state - hidden and positioned above
+          gsap.set(card, {
+            opacity: 0,
+            y: -400,
+            x: Math.random() * 60 - 30, // Random horizontal offset
+            rotation: Math.random() * 90 - 45, // Random rotation
+            scale: 0.1,
           });
-          gsap.to(icon, {
-            scale: 1,
-            rotation: 0,
-            duration: 0.3,
-            ease: 'power2.out',
-          });
-          gsap.to(text, {
+
+          // Calculate drop timing based on airplane's journey
+          const dropProgress = (index / (skillCards.length - 1)) * 0.6 + 0.2; // Between 20% and 80% of flight
+          const dropDelay = dropProgress * 4; // 5 seconds is airplane duration
+
+          // Dropping animation with physics-like behavior
+          tl.to(
+            card,
+            {
+              opacity: 1,
+              y: 0,
+              x: 0,
+              rotation: 0,
+              scale: 1,
+              duration: 1,
+              ease: 'bounce.out',
+              delay: dropDelay,
+              onStart: () => {
+                // Add a small puff effect when skill appears
+                gsap.fromTo(
+                  card,
+                  { filter: 'blur(2px)' },
+                  { filter: 'blur(0px)', duration: 0.3 }
+                );
+              },
+            },
+            0.5
+          );
+
+          // Add a subtle floating effect after landing
+          tl.to(
+            card,
+            {
+              y: 'random(-3, 3)',
+              rotation: 'random(-2, 2)',
+              duration: 'random(2, 4)',
+              ease: 'sine.inOut',
+              repeat: -1,
+              yoyo: true,
+              delay: dropDelay + 1.5,
+            },
+            0.5
+          );
+        });
+
+        // Bottom text animation - independent from timeline
+        gsap.fromTo(
+          bottomTextRef.current,
+          {
+            y: 20,
+            opacity: 0,
+          },
+          {
             y: 0,
-            duration: 0.3,
+            opacity: 1,
+            duration: 0.5,
             ease: 'power2.out',
+            delay: 4, // Solo un pequeño delay inicial
+            scrollTrigger: {
+              trigger: skillsRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none reverse',
+            },
+          }
+        );
+
+        // Enhanced hover animations for individual cards
+        skillCards.forEach(card => {
+          const icon = card.querySelector('.skill-icon');
+          const text = card.querySelector('.skill-text');
+
+          card.addEventListener('mouseenter', () => {
+            gsap.to(card, {
+              y: -8,
+              scale: 1.05,
+              duration: 0.3,
+              ease: 'back.out(1.7)',
+            });
+            gsap.to(icon, {
+              scale: 1.2,
+              rotation: 12,
+              duration: 0.3,
+              ease: 'back.out(1.7)',
+            });
+            gsap.to(text, {
+              y: -2,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+          });
+
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, {
+              y: 0,
+              scale: 1,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+            gsap.to(icon, {
+              scale: 1,
+              rotation: 0,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
+            gsap.to(text, {
+              y: 0,
+              duration: 0.3,
+              ease: 'power2.out',
+            });
           });
         });
-      });
+      };
+
+      // Schedule animations during idle time
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initAnimations, { timeout: 1000 });
+      } else {
+        // Fallback for browsers that don't support requestIdleCallback
+        setTimeout(initAnimations, 100);
+      }
     },
     { scope: skillsRef }
   );
