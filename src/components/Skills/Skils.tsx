@@ -336,13 +336,14 @@ export const Skills: React.FC = () => {
                 <div className="relative z-10 flex flex-col items-center">
                   <div className="relative mb-1 sm:mb-2">
                     <img
-                      src={`https://skillicons.dev/icons?i=${skill.icon}&theme=dark`}
+                      src={`https://skillicons.dev/icons?i=${skill.id}`}
                       alt={`${skill.name} icon`}
                       className="skill-icon h-8 w-8 transition-transform duration-300 sm:h-10 sm:w-10"
                       loading="lazy"
                       decoding="async"
-                      crossOrigin="anonymous"
                       onError={(e) => {
+
+                        
                         // Fallback to a simple text representation if image fails
                         const target = e.target as HTMLImageElement;
                         target.style.display = 'none';
