@@ -495,7 +495,7 @@ export function Hero() {
 
             {/* Download CV */}
             <a
-              href="/src/assets/MaikolZapata2025.pdf"
+              href="/MaikolZapata2025.pdf"
               target="_blank"
               rel="noopener noreferrer"
               download
