@@ -7,7 +7,6 @@ import { Hero } from './components/Hero/Hero';
 import WaterEffect from './components/Watter-Effect';
 import StickyMiniSidebar from './components/StickyMiniSidebar';
 import { Skills } from './components/Skills/Skils';
-import { Works } from './components/Works/Works';
 import { MagicScroll } from './components/MagicScroll';
 
 // Registrar ScrollTrigger plugin
@@ -49,50 +48,7 @@ export default function App() {
             <LanguageSwitcher />
             <Hero />
             <Skills />
-            <MagicScroll items={[
-              {
-                id: 1,
-                title: 'Proyecto 1',
-                description: 'Descripción del primer proyecto',
-                color: 'from-purple-500 to-pink-500',
-                icon: '🚀',
-              },
-              {
-                id: 2,
-                title: 'Proyecto 2',
-                description: 'Descripción del segundo proyecto',
-                color: 'from-blue-500 to-cyan-500',
-                icon: '⚡',
-              },
-              {
-                id: 3,
-                title: 'Proyecto 3',
-                description: 'Descripción del tercer proyecto',
-                color: 'from-green-500 to-emerald-500',
-                icon: '🎨',
-              },
-              {
-                id: 4,
-                title: 'Proyecto 4',
-                description: 'Descripción del cuarto proyecto',
-                color: 'from-orange-500 to-red-500',
-                icon: '🔥',
-              },
-              {
-                id: 5,
-                title: 'Proyecto 5',
-                description: 'Descripción del quinto proyecto',
-                color: 'from-indigo-500 to-purple-500',
-                icon: '✨',
-              },
-              {
-                id: 6,
-                title: 'Proyecto 6',
-                description: 'Descripción del sexto proyecto',
-                color: 'from-yellow-500 to-amber-500',
-                icon: '🌟',
-              },
-            ]} />
+            <MagicScroll />
           </>
         )}
       </div>
