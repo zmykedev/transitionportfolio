@@ -22,84 +22,117 @@ export const MagicScroll = () => {
     // Simple ScrollTrigger - show clouds appearing from below
     scrollTriggerRef.current = ScrollTrigger.create({
       trigger: container,
-      start: 'top 80%',
-      end: 'bottom 20%',
+      start: 'top 10%',
+      end: 'bottom bottom',
       scrub: false,
+      once: true,
       onEnter: () => {
         // Create timeline for sequential animation
         const tl = gsap.timeline();
         
-        // Step 1: Clouds appear from below
+        // Step 1: Clouds appear from left
         tl.fromTo('.cloud', 
-          { y: 200, opacity: 0 },
+          { x: -300, opacity: 0.1 },
           { 
-            y: 0, 
-                opacity: 1,
-            duration: 0.6, 
+            x: 0, 
+            opacity: 1,
+            duration: .7, 
             ease: "power2.out",
-            stagger: 0.3
           }
         )
         .fromTo(
             '.airplane',
             {
               x: 1200,
-              y: -490,
+              y: 0,
               opacity: 1,
-              rotation: 200,
-              scale: 4,
+              rotation: 220,
+              scale: 10,
             },
             {
-              x: -200,
-              y: 500,
+              x: -20,
+              y: 0,
               opacity: 1,
               scale: 2,
-              duration: .9,
+              duration: 2.5,
               ease: 'power2.inOut',
             },
             '-=0.2'
           )
-        // Step 3: Clouds disappear
+
+          // Animate the banner
+        .fromTo('.airplane-banner',
+          {
+            opacity: 0,
+            scale: 0,
+            x: -300,
+            y: 0,
+            rotate: 0,
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            x: -50,
+            y: -90,
+            rotate: 140,
+            duration: 0.5,
+            ease: "back.out(1.7)"
+          }, "-=4.5"
+        )
+
+          tl.to('.airplane', {
+            x: -1000,        // nueva posición X
+            y: 0,        // nueva posición Y
+            rotation: 220, // nueva rotación
+            scale: 1,      // nuevo tamaño
+            duration: 1,
+            ease: 'power2.inOut',
+          })
+            
+         
+        
+        
+        // Step 3: Clouds disappear to the left
         .to('.cloud', 
           { 
-            y: -200, 
+            x: -300, 
             opacity: 0, 
-            duration: 2, 
+            duration: .2, 
             ease: "power2.in",
             stagger: 0.1
           }, "-=0.5"
         )
         // Step 4: Cards appear behind where clouds were
         .fromTo('.cards-container',
-          { opacity: 0, scale: 0.8 },
+          { opacity: 0, scale: 1 },
           { 
             opacity: 1, 
             scale: 1, 
-            duration: 1, 
+            duration: .1, 
             ease: "back.out(1.7)"
-          }, "-=0.3"
+          }, "-=0.1"
+        )
+        // Step 5: Each card grows from center
+        .fromTo('.magic-item',
+          { 
+            opacity: 0, 
+            scale: 0,
+            width: "100px",
+            height: "100px",
+            transformOrigin: "center center"
+          },
+          { 
+            opacity: 1, 
+            scale: 1,
+            width: "400px",
+            height: "240px",
+            duration: 0.050, 
+            ease: "back.out(1.7)",
+            stagger: 0.0980
+          }, "-=0.5"
         );
-         // Animate each card with different size and add gap
-         tl.to('.cards-container .grid', {
-             gap: "50px",
-             duration: 0.5,
-             ease: "power2.out"
-           }, "-=0.3")
-         .to('.magic-item', {
-             width: (i) => {
-               const widths = ['500px', '500px', '500px', '500px'];
-               return widths[i % widths.length];
-             },
-             height: (i) => {
-             const heights = ['300px', '300px', '300px', '300px'];
-               return heights[i % heights.length];
-             },
-             duration: .2,
-             ease: "power2.out",
-             stagger: 0.2
-           }, "-=0.1");
-          
-  
+       
+   
         
       },
       onLeave: () => {
@@ -108,7 +141,7 @@ export const MagicScroll = () => {
         gsap.to('.cards-container .grid', { gap: "24px", duration: 0.3 });
         gsap.to('.magic-item', { width: "auto", height: "auto", duration: 0.3 });
         gsap.to('.airplane', { x: -300, opacity: 0, duration: 0.5 });
-        gsap.to('.cloud', { y: 200, opacity: 0, duration: 0.5, stagger: 0.1 });
+        gsap.to('.cloud', { x: -300, opacity: 0, duration: 0.5, stagger: 0.1 });
       }
     });
 
@@ -128,19 +161,33 @@ export const MagicScroll = () => {
       description: 'Gestor de libros completo con sistema de gestión de contenido y administración', 
       color: 'from-blue-500 to-cyan-500',
       icon: '📚',
-      tech: 'React, Node.js, MongoDB',
-      deployLink: 'https://cmpc-deploy.vercel.app',
-      repoLink: 'https://github.com/tu-usuario/cmpc'
+      tech: '@nestjs, @google-cloud, @react, @antdesign, @tailwindcss',
+      deployLink: 'https://cmpc-books.netlify.app/',
+      repoLink: 'https://github.com/zmykedev/cmpc-fullstack',
+      readmeContent: [
+        '## Installation',
+        '```bash',
+        'pnpm install',
+        'pnpm run start:dev',
+        '```'
+      ]
     },
     { 
       id: 2, 
-      title: 'Editor de Imágenes', 
+      title: 'ImageCreator', 
       description: 'Editor de imágenes avanzado sin necesidad de prompts, con IA integrada', 
       color: 'from-purple-500 to-pink-500',
       icon: '🎨',
-      tech: 'React, AI, Canvas API',
-      deployLink: 'https://image-editor-deploy.vercel.app',
-      repoLink: 'https://github.com/tu-usuario/image-editor'
+      tech: '@nestjs, @google/genai, @google-cloud, @react, @tailwindcss',
+      deployLink: null,
+      repoLink: 'https://github.com/zmykedev/nestjs',
+      readmeContent: [
+        '## Installation',
+        '```bash',
+        'pnpm install',
+        'pnpm run dev',
+        '```'
+      ]
     },
     { 
       id: 3, 
@@ -148,19 +195,33 @@ export const MagicScroll = () => {
       description: 'Aplicación de turismo con guías locales y recomendaciones personalizadas', 
       color: 'from-green-500 to-emerald-500',
       icon: '🗺️',
-      tech: 'React Native, Maps API',
-      deployLink: 'https://tourist-go-deploy.vercel.app',
-      repoLink: 'https://github.com/tu-usuario/tourist-go'
+      tech: '@golang, @postgres, @react, @tailwindcss, @motion',
+      deployLink: 'https://tourist-golang.netlify.app/',
+      repoLink: 'https://github.com/zmykedev/golang-backend',
+      readmeContent: [
+        '## Installation',
+        '```bash',
+        'go mod download',
+        'go run main.go',
+        '```'
+      ]
     },
     { 
       id: 4, 
-      title: 'Portfolio', 
-      description: 'Portfolio personal con animaciones avanzadas y efectos visuales', 
+      title: 'portfolio', 
+      description: 'Portfolio personal con animaciones avanzadas y efectos visuales utiles para la experiencia del usuario', 
       color: 'from-orange-500 to-red-500',
       icon: '💼',
-      tech: 'React, GSAP, Tailwind',
-      deployLink: 'https://portfolio-deploy.vercel.app',
-      repoLink: 'https://github.com/tu-usuario/portfolio'
+      tech: '@react, @gsap, @tailwindcss, @clsx, @i18next',
+      deployLink: null,
+      repoLink: 'https://github.com/zmykedev/transitionportfolio',
+      readmeContent: [
+        '## Installation',
+        '```bash',
+        'pnpm install',
+        'pnpm run dev',
+        '```'
+      ]
     }
   ];
 
@@ -191,14 +252,16 @@ export const MagicScroll = () => {
             <div className="flex flex-col h-full justify-center items-center">
               {/* Primera fila */}
               <div className="flex justify-center items-center mb-8  h-[300px]">
-                <div className="cloud text-[400px] first">☁️</div>
-                <div className="cloud text-[400px]">☁️</div>
+                <div className="cloud text-[300px]" style={{ opacity: 0 }}>☁️</div>
+                <div className="cloud text-[300px]" style={{ opacity: 0 }}>☁️</div>
               </div>
               {/* Segunda fila */}
               <div className="flex justify-center items-center h-[300px]">
-                <div className="cloud text-[400px]">☁️</div>
-                <div className="cloud text-[400px]">☁️</div>
+                <div className="cloud text-[300px]" style={{ opacity: 0 }}>☁️</div>
+                <div className="cloud text-[300px]" style={{ opacity: 0 }}>☁️</div>
               </div>
+              <div className="cloud text-[300px] absolute left-[650px] bottom-[400px] transform -translate-x-1/2 translate-y-1/2" style={{ opacity: 0 }}>☁️</div>
+
             </div></div>
         
           {/* Airplane */}
@@ -208,20 +271,22 @@ export const MagicScroll = () => {
               <span className="text-6xl drop-shadow-lg filter">
                 ✈️
               </span>
-              {/* Airplane trail */}
-              <div className="absolute h-0.5 w-8 bg-gradient-to-r from-blue-400/60 to-transparent" style={{ transform: 'translate(-2rem, -50%)' }}></div>
-              <div className="absolute h-0.5 w-6 bg-gradient-to-r from-blue-300/40 to-transparent" style={{ transform: 'translate(-3rem, -50%)' }}></div>
-              <div className="absolute h-0.5 w-4 bg-gradient-to-r from-blue-200/20 to-transparent" style={{ transform: 'translate(-4rem, -50%)' }}></div>
+         
               {/* Airplane glow */}
               <div className="absolute inset-0 text-6xl opacity-50 blur-sm">
                 ✈️
+              </div>
+              
+              {/* Banner "PROYECTOS" */}
+              <div className="airplane-banner absolute top-[164px] right-[2px] transform -translate-x-1/2 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg shadow-lg border-2 border-white/20">
+                <div className="text-sm font-bold ">PROYECTOS</div>
               </div>
             </div>
         </div>
 
           {/* Cards */}
           <div className="cards-container absolute inset-0 flex justify-center items-center" style={{ opacity: 0 }}>
-            <div className="grid grid-cols-2 gap-[200px]">
+            <div className="grid grid-cols-2 gap-[20px]">
               {magicItems.slice(0, 4).map((item, index) => (
             <div
               key={item.id}
@@ -232,18 +297,15 @@ export const MagicScroll = () => {
                       linear-gradient(135deg, rgba(17, 24, 39, 0.8) 0%, rgba(31, 41, 55, 0.6) 50%, rgba(17, 24, 39, 0.8) 100%),
                       radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.1) 0%, transparent 50%),
                       radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.1) 0%, transparent 50%)
-                    `
+                    `, 
+                    width: '400px',
+                    height: '240px'
                   }}
                 >
                   {/* Animated Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-all duration-700`}></div>
                   
-                  {/* Floating Particles Effect */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse" style={{ top: '20%', left: '10%', animationDelay: '0s' }}></div>
-                    <div className="absolute w-1 h-1 bg-white/30 rounded-full animate-pulse" style={{ top: '60%', right: '15%', animationDelay: '1s' }}></div>
-                    <div className="absolute w-1.5 h-1.5 bg-white/15 rounded-full animate-pulse" style={{ bottom: '30%', left: '20%', animationDelay: '2s' }}></div>
-                  </div>
+   
 
                   {/* Glassmorphism Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-3xl"></div>
@@ -273,38 +335,42 @@ export const MagicScroll = () => {
 
                   {/* VS Code Sidebar */}
                   <div className="flex">
-                    <div className="w-12 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 gap-3">
+                    <div className="w-0 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 gap-3">
                      
                 </div>
                 
                     {/* VS Code Main Content */}
-                    <div className="flex-1 bg-gray-900">
+                    <div className="flex-1 bg-gray-900 relative z-10">
                       {/* File Tabs */}
-                      <div className="flex bg-gray-800 border-b border-gray-700">
+                      <div className="flex bg-gray-800 border-b border-gray-700 relative z-20">
                         <button 
                           onClick={() => setActiveTab({...activeTab, [item.id]: 'main'})}
                           className={`px-4 py-2 border-r border-gray-700 text-sm font-mono transition-colors duration-200 ${
-                            activeTab[item.id] === 'main' || !activeTab[item.id] 
+                            activeTab[item.id] === 'main' || !activeTab[item.id]
                               ? 'bg-gray-900 text-gray-300' 
                               : 'text-gray-500 hover:text-gray-300'
                           }`}
                         >
                           {item.title.toLowerCase()}.js
                         </button>
-                        <button 
-                          onClick={() => setActiveTab({...activeTab, [item.id]: 'package'})}
-                          className={`px-4 py-2 border-r border-gray-700 text-sm font-mono transition-colors duration-200 ${
+                        <div 
+                          onClick={() => {
+                            console.log('Clicking package.json for item:', item.id);
+                            setActiveTab({...activeTab, [item.id]: 'package'});
+                          }}
+                          className={`px-4 py-2 border-r border-gray-700 text-sm font-mono transition-colors duration-200 cursor-pointer ${
                             activeTab[item.id] === 'package' 
                               ? 'bg-gray-900 text-gray-300' 
                               : 'text-gray-500 hover:text-gray-300'
                           }`}
+                          style={{ zIndex: 30, position: 'relative' }}
                         >
                           package.json
-                        </button>
+                        </div>
                         <button 
                           onClick={() => setActiveTab({...activeTab, [item.id]: 'readme'})}
                           className={`px-4 py-2 text-sm font-mono transition-colors duration-200 ${
-                            activeTab[item.id] === 'readme' 
+                            activeTab[item.id] === 'readme'
                               ? 'bg-gray-900 text-gray-300' 
                               : 'text-gray-500 hover:text-gray-300'
                           }`}
@@ -314,10 +380,10 @@ export const MagicScroll = () => {
                       </div>
 
                       {/* Code Editor Area */}
-                      <div className="p-2 font-mono text-sm">
+                      <div className=" font-mono text-sm">
                         {/* Line Numbers */}
                         <div className="flex">
-                          <div className="w-8 text-gray-600 text-right pr-2 select-none">
+                          <div className="w-8 text-gray-600 text-center pr-2 select-none">
                             {activeTab[item.id] === 'package' ? (
                               <>
                                 <div>1</div>
@@ -327,14 +393,6 @@ export const MagicScroll = () => {
                                 <div>5</div>
                                 <div>6</div>
                                 <div>7</div>
-                                <div>8</div>
-                                <div>9</div>
-                                <div>10</div>
-                                <div>11</div>
-                                <div>12</div>
-                                <div>13</div>
-                                <div>14</div>
-                                <div>15</div>
                               </>
                             ) : activeTab[item.id] === 'readme' ? (
                               <>
@@ -345,9 +403,7 @@ export const MagicScroll = () => {
                                 <div>5</div>
                                 <div>6</div>
                                 <div>7</div>
-                                <div>8</div>
-                                <div>9</div>
-                                <div>10</div>
+                              
                               </>
                             ) : (
                               <>
@@ -358,25 +414,16 @@ export const MagicScroll = () => {
                                 <div>5</div>
                                 <div>6</div>
                                 <div>7</div>
-                                <div>8</div>
-                                <div>9</div>
                               </>
                             )}
-                          </div>
-                          
+              </div>
+
                           {/* Code Content */}
                           <div className="flex-1 text-gray-300">
+                            {console.log('Active tab for item', item.id, ':', activeTab[item.id])}
                             {activeTab[item.id] === 'package' ? (
                               <>
                                 <div><span className="text-gray-500">{'{'}</span></div>
-                                <div className="pl-2"><span className="text-green-400">"name"</span><span className="text-gray-500">:</span> <span className="text-green-400">"{item.title.toLowerCase()}"</span><span className="text-gray-500">,</span></div>
-                                <div className="pl-2"><span className="text-green-400">"version"</span><span className="text-gray-500">:</span> <span className="text-green-400">"1.0.0"</span><span className="text-gray-500">,</span></div>
-                                <div className="pl-2"><span className="text-green-400">"description"</span><span className="text-gray-500">:</span> <span className="text-green-400">"{item.description}"</span><span className="text-gray-500">,</span></div>
-                                <div className="pl-2"><span className="text-green-400">"main"</span><span className="text-gray-500">:</span> <span className="text-green-400">"index.js"</span><span className="text-gray-500">,</span></div>
-                                <div className="pl-2"><span className="text-green-400">"scripts"</span><span className="text-gray-500">:</span> <span className="text-gray-500">{'{'}</span></div>
-                                <div className="pl-4"><span className="text-green-400">"start"</span><span className="text-gray-500">:</span> <span className="text-green-400">"react-scripts start"</span><span className="text-gray-500">,</span></div>
-                                <div className="pl-4"><span className="text-green-400">"build"</span><span className="text-gray-500">:</span> <span className="text-green-400">"react-scripts build"</span></div>
-                                <div className="pl-2"><span className="text-gray-500">{'}'}</span><span className="text-gray-500">,</span></div>
                                 <div className="pl-2"><span className="text-green-400">"dependencies"</span><span className="text-gray-500">:</span> <span className="text-gray-500">{'{'}</span></div>
                                 {item.tech.split(', ').map((tech, techIndex) => (
                                   <div key={techIndex} className="pl-4">
@@ -384,29 +431,26 @@ export const MagicScroll = () => {
                                     {techIndex < item.tech.split(', ').length - 1 && <span className="text-gray-500">,</span>}
                                   </div>
                                 ))}
-                                <div className="pl-2"><span className="text-gray-500">{'}'}</span></div>
-                                <div><span className="text-gray-500">{'}'}</span></div>
                               </>
                             ) : activeTab[item.id] === 'readme' ? (
                               <>
-                                <div><span className="text-blue-400"># {item.title}</span></div>
-                                <div></div>
-                                <div><span className="text-white">{item.description}</span></div>
-                                <div></div>
-                                <div><span className="text-blue-400">## Tecnologías</span></div>
-                                <div></div>
-                                {item.tech.split(', ').map((tech, techIndex) => (
-                                  <div key={techIndex} className="pl-2">
-                                    <span className="text-gray-500">-</span> <span className="text-yellow-300">{tech}</span>
+                                {item.readmeContent.map((line, lineIndex) => (
+                                  <div key={lineIndex}>
+                                    {line.startsWith('##') ? (
+                                      <span className="text-blue-400">{line}</span>
+                                    ) : line.startsWith('-') ? (
+                                      <div className="pl-2">
+                                        <span className="text-gray-500">-</span> <span className="text-yellow-300">{line.substring(1)}</span>
+                                      </div>
+                                    ) : line.startsWith('```') ? (
+                                      <span className="text-gray-500">{line}</span>
+                                    ) : line === '' ? (
+                                      <div></div>
+                                    ) : (
+                                      <span className="text-white">{line}</span>
+                                    )}
                                   </div>
                                 ))}
-                                <div></div>
-                                <div><span className="text-blue-400">## Instalación</span></div>
-                                <div></div>
-                                <div><span className="text-gray-500">```bash</span></div>
-                                <div><span className="text-white">npm install</span></div>
-                                <div><span className="text-white">npm start</span></div>
-                                <div><span className="text-gray-500">```</span></div>
                               </>
                             ) : (
                               <>
@@ -415,10 +459,6 @@ export const MagicScroll = () => {
                                 <div className="pl-8"><span className="text-gray-500">&lt;</span><span className="text-red-400">div</span> <span className="text-yellow-300">className</span><span className="text-gray-500">=</span><span className="text-green-400">"project"</span><span className="text-gray-500">&gt;</span></div>
                                 <div className="pl-12"><span className="text-gray-500">&lt;</span><span className="text-red-400">h1</span><span className="text-gray-500">&gt;</span><span className="text-white">{item.title}</span><span className="text-gray-500">&lt;/</span><span className="text-red-400">h1</span><span className="text-gray-500">&gt;</span></div>
                                 <div className="pl-12"><span className="text-gray-500">&lt;</span><span className="text-red-400">p</span><span className="text-gray-500">&gt;</span><span className="text-white">{item.description}</span><span className="text-gray-500">&lt;/</span><span className="text-red-400">p</span><span className="text-gray-500">&gt;</span></div>
-                                <div className="pl-8"><span className="text-gray-500">&lt;/</span><span className="text-red-400">div</span><span className="text-gray-500">&gt;</span></div>
-                                <div className="pl-4"><span className="text-gray-500">);</span></div>
-                                <div><span className="text-gray-500">{'}'}</span><span className="text-gray-500">;</span></div>
-                                <div></div>
                               </>
                             )}
                           </div>
