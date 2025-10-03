@@ -131,6 +131,19 @@ export const translations = {
       subtitle: 'Tecnologías con las que trabajo para construir experiencias digitales increíbles',
       bottomText: 'Siempre aprendiendo y explorando nuevas tecnologías',
     },
+
+    // Section 4 - Works Timeline
+    works: {
+      title: 'Mi Trabajo',
+      subtitle: 'Una línea de tiempo de mis proyectos más destacados, mostrando mi evolución como desarrollador',
+      bottomText: 'Más proyectos próximamente! Siempre explorando nuevas tecnologías y construyendo soluciones innovadoras.',
+      viewProject: 'Ver Proyecto',
+      status: {
+        completed: 'Completado',
+        inProgress: 'En Progreso',
+        planned: 'Planificado'
+      }
+    },
   },
 
   en: {
@@ -265,6 +278,19 @@ export const translations = {
       subtitle: 'Technologies I work with to build amazing digital experiences',
       bottomText: 'Always learning and exploring new technologies',
     },
+
+    // Section 4 - Works Timeline
+    works: {
+      title: 'My Work',
+      subtitle: 'A timeline of my most notable projects, showcasing my evolution as a developer',
+      bottomText: 'More projects coming soon! Always exploring new technologies and building innovative solutions.',
+      viewProject: 'View Project',
+      status: {
+        completed: 'Completed',
+        inProgress: 'In Progress',
+        planned: 'Planned'
+      }
+    },
   },
 
   pt: {
@@ -398,6 +424,19 @@ export const translations = {
       title: 'Skills & Tecnologias',
       subtitle: 'Tecnologias com as quais trabalho para criar experiências digitais incríveis',
       bottomText: 'Sempre aprendendo e explorando novas tecnologias',
+    },
+
+    // Section 4 - Works Timeline
+    works: {
+      title: 'Meu Trabalho',
+      subtitle: 'Uma linha do tempo dos meus projetos mais notáveis, mostrando minha evolução como desenvolvedor',
+      bottomText: 'Mais projetos em breve! Sempre explorando novas tecnologias e construindo soluções inovadoras.',
+      viewProject: 'Ver Projeto',
+      status: {
+        completed: 'Concluído',
+        inProgress: 'Em Progresso',
+        planned: 'Planejado'
+      }
     },
   },
 
@@ -549,6 +588,19 @@ export const translations = {
       title: 'Compétences & Technologies',
       subtitle: 'Technologies avec lesquelles je travaille pour créer des expériences digitales incroyables',
       bottomText: "Toujours en train d'apprendre et d'explorer de nouvelles technologies",
+    },
+
+    // Section 4 - Works Timeline
+    works: {
+      title: 'Mon Travail',
+      subtitle: 'Une chronologie de mes projets les plus remarquables, montrant mon évolution en tant que développeur',
+      bottomText: 'Plus de projets à venir! Toujours en train d\'explorer de nouvelles technologies et de construire des solutions innovantes.',
+      viewProject: 'Voir Projet',
+      status: {
+        completed: 'Terminé',
+        inProgress: 'En Cours',
+        planned: 'Planifié'
+      }
     },
   },
 };
