@@ -420,7 +420,6 @@ export const MagicScroll = () => {
 
                           {/* Code Content */}
                           <div className="flex-1 text-gray-300">
-                            {console.log('Active tab for item', item.id, ':', activeTab[item.id])}
                             {activeTab[item.id] === 'package' ? (
                               <>
                                 <div><span className="text-gray-500">{'{'}</span></div>
@@ -479,7 +478,7 @@ export const MagicScroll = () => {
                         <div className="flex items-center gap-2">
                           {/* Live Server Icon */}
                           <a 
-                            href={item.deployLink}
+                            href={item.deployLink || undefined}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="p-1 hover:bg-blue-700 rounded transition-colors duration-200"
